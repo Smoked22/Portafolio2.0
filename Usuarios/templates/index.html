@@ -40,7 +40,15 @@
       <form method="POST" class="login" action="">
 				
 				{% csrf_token %}
-				{{ form.as_ul }}
+				<div>
+          <td>{{ form.username.label_tag }}</td>
+          <td>{{ form.username }}</td>
+        </div>
+        <div>
+          <td>{{ form.password.label_tag }}</td>
+          <br>
+          <td>{{ form.password }}</td>
+        </div>
 				{% if messages %}
 				<ul class="messages">
 				    {% for message in messages %}
