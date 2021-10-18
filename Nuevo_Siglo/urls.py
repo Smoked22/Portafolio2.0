@@ -22,6 +22,9 @@ from django.contrib.auth.views import LoginView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('Usuarios.urls')),
+    path('Bodega/', include('Bodega.urls')),
+    path('Cocina/', include('Cocina.urls')),
+    path('Finanzas/', include('Finanzas.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
