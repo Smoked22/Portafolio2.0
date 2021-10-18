@@ -13,7 +13,6 @@ from django.contrib.auth.decorators import login_required
 def home(request):
     return render(request, './home.html')
 
-
 def acceder(request):
     #comprobar si es una peticion "POST"
     if request.method == 'POST':
@@ -32,3 +31,4 @@ def acceder(request):
 
     form = AuthenticationForm()
     return render(request, "./index.html", {"form": form})
+
