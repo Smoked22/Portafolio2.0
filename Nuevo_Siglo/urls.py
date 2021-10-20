@@ -33,3 +33,4 @@ admin.site.index_title = 'Modulo de administración'
 admin.site.site_title = 'Siglo XXI'
 
 #hola perro dani te paso por el pico
+#Hola perro dani yo igual te paso por el pico
