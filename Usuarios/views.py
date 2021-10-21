@@ -7,12 +7,23 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from Finanzas import urls
+from .models import Ingrediente,Cliente, Carta, GuiaDesp, Suministro
 
 #from .forms import formLog
 
 @login_required
 def home(request):
     return render(request, './home.html')
+
+@login_required
+def listarProductos(request):
+    #Consulta y realiza una instancia a una lista de ingredientes
+    ingredientes = Ingrediente.objects.all()
+    #Diccionario
+    data = {
+        'ingredientes' : ingredientes
+    }
+    return render(request, './productosListado.html',data)
 
 #def home_finanzas(request):
 #    return render(request, './home_finanzas.html')
@@ -36,10 +47,11 @@ def acceder(request):
                 if usuario.groups.filter(name='Administrador').exists():
                     return redirect ("home")
                 elif usuario.groups.filter(name='Finanzas').exists():
-                        return redirect ("homefinanzas")
+                    return redirect ("homefinanzas")
         else:
             messages.add_message(request, level=messages.ERROR, message="Los datos son incorrectos")
 
     form = AuthenticationForm()
     return render(request, "./index.html", {"form": form})
+
 

@@ -8,17 +8,6 @@
 from django.db import models
 
 
-class AdministradorUsuario(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    rut = models.CharField(unique=True, max_length=16, blank=True, null=True)
-    nombre_de_usuario = models.CharField(max_length=25, blank=True, null=True)
-    password = models.CharField(max_length=40, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'administrador_usuario'
-
-
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150, blank=True, null=True)
 
@@ -93,16 +82,29 @@ class Boleta(models.Model):
     fecha = models.DateField()
     hora = models.DateField()
     monto = models.CharField(max_length=10)
+    tipo_pago = models.CharField(max_length=30)
+    orden_id_orden = models.ForeignKey('Orden', models.DO_NOTHING, db_column='orden_id_orden')
 
     class Meta:
         managed = False
         db_table = 'boleta'
 
 
+class Carta(models.Model):
+    id_carta = models.CharField(primary_key=True, max_length=10)
+    ca_nombre = models.CharField(max_length=35)
+    ca_desc = models.CharField(max_length=80)
+    precio = models.CharField(max_length=10)
+
+    class Meta:
+        managed = False
+        db_table = 'carta'
+
+
 class Ciudad(models.Model):
     id_ciudad = models.CharField(primary_key=True, max_length=5)
     nom_ciudad = models.CharField(max_length=40)
-    comuna_id_comuna = models.ForeignKey('Comuna', models.DO_NOTHING, db_column='comuna_id_comuna', blank=True, null=True)
+    region_id_region = models.ForeignKey('Region', models.DO_NOTHING, db_column='region_id_region')
 
     class Meta:
         managed = False
@@ -124,19 +126,34 @@ class Cliente(models.Model):
 class Comuna(models.Model):
     id_comuna = models.CharField(primary_key=True, max_length=5)
     nom_comuna = models.CharField(max_length=40)
-    region_id_region = models.ForeignKey('Region', models.DO_NOTHING, db_column='region_id_region', blank=True, null=True)
+    ciudad_id_ciudad = models.ForeignKey(Ciudad, models.DO_NOTHING, db_column='ciudad_id_ciudad')
 
     class Meta:
         managed = False
         db_table = 'comuna'
 
 
+class DetalleGuia(models.Model):
+    comentario = models.CharField(max_length=400)
+    guia_desp_id_envio = models.OneToOneField('GuiaDesp', models.DO_NOTHING, db_column='guia_desp_id_envio', primary_key=True)
+    ingrediente_id_ingrediente = models.ForeignKey('Ingrediente', models.DO_NOTHING, db_column='ingrediente_id_ingrediente')
+    gd_desc = models.CharField(max_length=80, blank=True, null=True)
+    cantidad = models.CharField(max_length=20)
+    u_medida = models.CharField(max_length=30)
+    precio = models.CharField(max_length=30)
+
+    class Meta:
+        managed = False
+        db_table = 'detalle_guia'
+        unique_together = (('guia_desp_id_envio', 'ingrediente_id_ingrediente'),)
+
+
 class DetalleOrden(models.Model):
     comentarios = models.CharField(max_length=80, blank=True, null=True)
     cantidad = models.BigIntegerField()
     estado_orden = models.CharField(max_length=25)
-    orden_id_orden = models.ForeignKey('Orden', models.DO_NOTHING, db_column='orden_id_orden', blank=True, null=True)
-    menu_item_id_menuitem = models.ForeignKey('MenuItem', models.DO_NOTHING, db_column='menu_item_id_menuitem', blank=True, null=True)
+    orden_id_orden = models.ForeignKey('Orden', models.DO_NOTHING, db_column='orden_id_orden')
+    carta_id_carta = models.ForeignKey(Carta, models.DO_NOTHING, db_column='carta_id_carta')
 
     class Meta:
         managed = False
@@ -145,24 +162,13 @@ class DetalleOrden(models.Model):
 
 class DetalleReceta(models.Model):
     instruccion = models.CharField(max_length=400)
-    receta_id_receta = models.ForeignKey('Receta', models.DO_NOTHING, db_column='receta_id_receta', blank=True, null=True)
-    ingrediente_id_ingrediente = models.ForeignKey('Ingrediente', models.DO_NOTHING, db_column='ingrediente_id_ingrediente', blank=True, null=True)
+    ingrediente_id_ingrediente = models.OneToOneField('Ingrediente', models.DO_NOTHING, db_column='ingrediente_id_ingrediente', primary_key=True)
+    receta_id_receta = models.ForeignKey('Receta', models.DO_NOTHING, db_column='receta_id_receta')
 
     class Meta:
         managed = False
         db_table = 'detalle_receta'
-
-
-class DetalleReserva(models.Model):
-    cant_mesas = models.BigIntegerField()
-    estado_reserva = models.CharField(max_length=10)
-    mesa_id_mesa = models.ForeignKey('Mesa', models.DO_NOTHING, db_column='mesa_id_mesa', blank=True, null=True)
-    reserva_id_reserva = models.ForeignKey('Reserva', models.DO_NOTHING, db_column='reserva_id_reserva', blank=True, null=True)
-    cant_personas = models.BigIntegerField()
-
-    class Meta:
-        managed = False
-        db_table = 'detalle_reserva'
+        unique_together = (('ingrediente_id_ingrediente', 'receta_id_receta'),)
 
 
 class DjangoAdminLog(models.Model):
@@ -212,7 +218,7 @@ class DjangoSession(models.Model):
 
 class Empleado(models.Model):
     e_rut = models.BigIntegerField(primary_key=True)
-    dv = models.CharField(max_length=1)
+    e_dv = models.CharField(max_length=1)
     prim_nom = models.CharField(max_length=30)
     seg_nom = models.CharField(max_length=25, blank=True, null=True)
     prim_apell = models.CharField(max_length=30)
@@ -221,69 +227,38 @@ class Empleado(models.Model):
     telefono = models.BigIntegerField(blank=True, null=True)
     fec_nac = models.CharField(max_length=30)
     salario = models.BigIntegerField()
-    rol_empleado_id_rol = models.ForeignKey('RolEmpleado', models.DO_NOTHING, db_column='rol_empleado_id_rol')
     correo = models.CharField(max_length=80, blank=True, null=True)
+    rol_empleado_id_rol = models.ForeignKey('RolEmpleado', models.DO_NOTHING, db_column='rol_empleado_id_rol')
 
     class Meta:
         managed = False
         db_table = 'empleado'
 
 
-class GuiaDespacho(models.Model):
+class GuiaDesp(models.Model):
     id_envio = models.CharField(primary_key=True, max_length=16)
-    tammanio = models.CharField(max_length=15)
-    gd_desc = models.CharField(max_length=80, blank=True, null=True)
-    cantidad = models.CharField(max_length=20)
-    u_medida = models.CharField(max_length=30)
-    precio = models.CharField(max_length=30)
     monto_neto = models.CharField(max_length=20)
     iva = models.BigIntegerField()
     total = models.CharField(max_length=12)
-    suministro_id_sumplemento = models.ForeignKey('Suministro', models.DO_NOTHING, db_column='suministro_id_sumplemento', blank=True, null=True)
     fec_envio = models.CharField(max_length=16)
+    suministro_id_suministro = models.ForeignKey('Suministro', models.DO_NOTHING, db_column='suministro_id_suministro')
 
     class Meta:
         managed = False
-        db_table = 'guia_despacho'
+        db_table = 'guia_desp'
 
 
 class Ingrediente(models.Model):
     id_ingrediente = models.CharField(primary_key=True, max_length=8)
     nom_ingrediente = models.CharField(max_length=40)
-    i_desc = models.CharField(max_length=60)
+    desc_ingrediente = models.CharField(max_length=60)
     stock = models.BigIntegerField()
     unidad_de_medida = models.CharField(max_length=20)
-    guia_despacho_id_envio = models.ForeignKey(GuiaDespacho, models.DO_NOTHING, db_column='guia_despacho_id_envio', blank=True, null=True)
     fec_caduc = models.CharField(max_length=20)
 
     class Meta:
         managed = False
         db_table = 'ingrediente'
-
-
-class Menu(models.Model):
-    id_menu = models.CharField(primary_key=True, max_length=6)
-    tipo_menu = models.CharField(max_length=30)
-    desde = models.DateField()
-    hasta = models.DateField()
-
-    class Meta:
-        managed = False
-        db_table = 'menu'
-
-
-class MenuItem(models.Model):
-    id_menuitem = models.CharField(primary_key=True, max_length=10)
-    mi_nombre = models.CharField(max_length=35)
-    mi_desc = models.CharField(max_length=80)
-    precio = models.CharField(max_length=10)
-    tamannio = models.CharField(max_length=20)
-    menu_id_menu = models.ForeignKey(Menu, models.DO_NOTHING, db_column='menu_id_menu', blank=True, null=True)
-    receta_id_receta = models.ForeignKey('Receta', models.DO_NOTHING, db_column='receta_id_receta', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'menu_item'
 
 
 class Mesa(models.Model):
@@ -301,8 +276,7 @@ class Orden(models.Model):
     id_orden = models.CharField(primary_key=True, max_length=16)
     fecha = models.CharField(max_length=16)
     hora = models.CharField(max_length=16)
-    mesa_id_mesa = models.ForeignKey(Mesa, models.DO_NOTHING, db_column='mesa_id_mesa', blank=True, null=True)
-    boleta_id_boleta = models.ForeignKey(Boleta, models.DO_NOTHING, db_column='boleta_id_boleta')
+    mesa_id_mesa = models.ForeignKey(Mesa, models.DO_NOTHING, db_column='mesa_id_mesa')
 
     class Meta:
         managed = False
@@ -317,8 +291,8 @@ class Proveedor(models.Model):
     p_correo = models.CharField(max_length=80)
     p_telefono = models.CharField(max_length=12)
     direccion = models.CharField(max_length=60)
-    ciudad_id_ciudad = models.ForeignKey(Ciudad, models.DO_NOTHING, db_column='ciudad_id_ciudad', blank=True, null=True)
     razon_social = models.CharField(max_length=40)
+    comuna_id_comuna = models.ForeignKey(Comuna, models.DO_NOTHING, db_column='comuna_id_comuna')
 
     class Meta:
         managed = False
@@ -328,8 +302,9 @@ class Proveedor(models.Model):
 class Receta(models.Model):
     id_receta = models.CharField(primary_key=True, max_length=6)
     nom_receta = models.CharField(max_length=20)
+    desc_receta = models.CharField(max_length=80)
     porcion = models.CharField(max_length=25)
-    r_desc = models.CharField(max_length=80)
+    carta_id_carta = models.ForeignKey(Carta, models.DO_NOTHING, db_column='carta_id_carta')
 
     class Meta:
         managed = False
@@ -347,11 +322,14 @@ class Region(models.Model):
 
 class Reserva(models.Model):
     id_reserva = models.CharField(primary_key=True, max_length=8)
-    fec_reserv_hecha = models.DateField()
-    fec_reser = models.DateField()
-    empleado_e_rut = models.ForeignKey(Empleado, models.DO_NOTHING, db_column='empleado_e_rut', blank=True, null=True)
+    fec_reserva_hecha = models.DateField()
+    fec_reserva = models.DateField()
+    empleado_e_rut = models.ForeignKey(Empleado, models.DO_NOTHING, db_column='empleado_e_rut')
     cliente_c_rut = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='cliente_c_rut')
-    origen_reserv = models.CharField(max_length=15)
+    origen_reserva = models.CharField(max_length=15)
+    mesa_id_mesa = models.ForeignKey(Mesa, models.DO_NOTHING, db_column='mesa_id_mesa')
+    estado_reserva = models.CharField(max_length=10)
+    cant_personas = models.BigIntegerField()
 
     class Meta:
         managed = False
@@ -372,21 +350,8 @@ class Suministro(models.Model):
     tamannio = models.CharField(max_length=25)
     nombre = models.CharField(max_length=40)
     s_desc = models.CharField(max_length=80, blank=True, null=True)
-    proveedor_rut_social = models.ForeignKey(Proveedor, models.DO_NOTHING, db_column='proveedor_rut_social', blank=True, null=True)
+    proveedor_rut_social = models.ForeignKey(Proveedor, models.DO_NOTHING, db_column='proveedor_rut_social')
 
     class Meta:
         managed = False
         db_table = 'suministro'
-
-
-class Transaccion(models.Model):
-    id_transaccion = models.CharField(primary_key=True, max_length=20)
-    fecha = models.DateField()
-    hora = models.DateField()
-    tipo_pago = models.CharField(max_length=30)
-    monto = models.CharField(max_length=12)
-    boleta_id_boleta = models.ForeignKey(Boleta, models.DO_NOTHING, db_column='boleta_id_boleta', blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'transaccion'
