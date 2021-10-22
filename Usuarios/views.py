@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from Finanzas import urls
 from .models import Ingrediente,Cliente, Carta, GuiaDesp, Suministro
+from .forms import IngredienteForm
 
 #from .forms import formLog
 
@@ -27,7 +28,18 @@ def listarProductos(request):
 
 @login_required
 def crearProducto(request):
-    return render(request, './CrearProducto.html')
+    data = {
+        'form': IngredienteForm()
+    }
+    if request.method  == 'POST':
+        formulario = IngredienteForm(data=request.POST) 
+        if formulario.is_valid():
+            formulario.save()
+            data["mensaje"] = "Ingrediente Guardado"
+        else:
+            data["form"] = formulario
+
+    return render(request, './CrearProducto.html',data)
 
 #def home_finanzas(request):
 #    return render(request, './home_finanzas.html')

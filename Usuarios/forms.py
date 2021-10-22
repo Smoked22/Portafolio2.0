@@ -1,8 +1,14 @@
 from django import forms
 from django.forms import fields
-from .models import Usuario
+from .models import Ingrediente
 from django.contrib.auth import authenticate
 
+class IngredienteForm(forms.ModelForm):
+
+    class Meta:
+        model= Ingrediente
+        fields='__all__'
+        
 
 
 # creating a form 
