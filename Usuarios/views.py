@@ -25,6 +25,10 @@ def listarProductos(request):
     }
     return render(request, './productosListado.html',data)
 
+@login_required
+def crearProducto(request):
+    return render(request, './CrearProducto.html')
+
 #def home_finanzas(request):
 #    return render(request, './home_finanzas.html')
 

@@ -5,57 +5,61 @@
 {% block contenido %}
 
 <div>
-  <div class="row">
-    <div class="col-12">
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Ingredientes</h3>
-
-          <div class="card-tools">
-            <div class="input-group input-group-sm" style="width: 150px;">
-              <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-default">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Listado de ingredientes</h3>
             </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Descripción</th>
+                      <th>Stock</th>
+                      <th>Unidad de medida</th>
+                      <th>Fecha de caducidad</th>
+                  </tr>
+                </thead>
+                {% for i in ingredientes %}
+                <tbody>
+                  <tr>
+                    <td>{{ i.id_ingrediente }}</td>
+                    <td>{{ i.nom_ingrediente}}</td>
+                    <td>{{ i.desc_ingrediente}}</td>
+                    <td>{{ i.stock}}</td>
+                    <td>{{ i.unidad_de_medida}}</td>
+                    <td>{{ i.fec_caduc}}</td>
+                  </tr>
+                </tbody>
+                {% endfor %}
+                <tfoot>
+                  <tr>
+                      <th>ID</th>
+                      <th>Nombre</th>
+                      <th>Descripción</th>
+                      <th>Stock</th>
+                      <th>Unidad de medida</th>
+                      <th>Fecha de caducidad</th>
+                  </tr>
+              </table>
+            </div>
+            <!-- /.card-body -->
           </div>
+          <!-- /.card -->
         </div>
-        <!-- /.card-header -->
-        <div class="card-body table-responsive p-0">
-          <table class="table table-hover text-nowrap">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Descripción</th>
-                <th>Stock</th>
-                <th>Unidad de medida</th>
-                <th>Fecha de caducidad</th>
-              </tr>
-            </thead>
-            {% for i in ingredientes %}
-            <tbody>
-              <tr>
-                <td>{{ i.id_ingrediente }}</td>
-                <td>{{ i.nom_ingrediente}}</td>
-                <td>{{ i.desc_ingrediente}}</td>
-                <td>{{ i.stock}}</td>
-                <td>{{ i.unidad_de_medida}}</td>
-                <td>{{ i.fec_caduc}}</td>
-              </tr>
-            </tbody>
-            {% endfor %}
-          </table>
-        </div>
-        <!-- /.card-body -->
+        <!-- /.col -->
       </div>
-      <!-- /.card -->
+      <!-- /.row -->
     </div>
-  </div>
-
+    <!-- /.container-fluid -->
+  </section>
 </div>
 
 
