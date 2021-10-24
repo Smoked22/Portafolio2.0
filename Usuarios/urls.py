@@ -8,11 +8,7 @@ from django.conf.urls import include, url
 
 
 urlpatterns = [
-   path('home/', home, name="home"),
-   path('home/ingrediente/listarIngrediente', listarProductos, name="listarProductos"),
-   path('home/ingrediente/crearIngrediente/', crearProductos, name="crearProductos"),
-   path('home/ingrediente/modificarIngrediente/<id>', modificarProductos, name="modificarProductos"),
-   path('home/ingrediente/', ingredientespage, name="ingredientespage"),
+  
    path('', acceder, name="inicio"),
    path('Finanzas/', include('Finanzas.urls')),
    path('/', include('Finanzas.urls')),

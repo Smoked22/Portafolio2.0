@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'Cliente',
     'Reserva',
+    'Administrador',
 ]
 
 MIDDLEWARE = [
@@ -92,7 +93,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '127.0.0.1:1521/orcl',
-        'USER': 'PORTAFOLIO',
+        'USER': 'RESTAURANTE21',
         'PASSWORD': '1234',
         'TEST': {
             'USER': 'default_test',
