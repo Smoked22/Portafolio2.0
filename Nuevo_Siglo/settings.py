@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'Bodega',
     'Cocina',
     'crispy_forms',
+    'Cliente',
+    'Reserva',
 ]
 
 MIDDLEWARE = [
@@ -90,7 +92,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '127.0.0.1:1521/orcl',
-        'USER': 'RESTAURANTE21',
+        'USER': 'PORTAFOLIO',
         'PASSWORD': '1234',
         'TEST': {
             'USER': 'default_test',
