@@ -1,7 +1,7 @@
 from os import name
 from django.contrib import admin
 from django.urls import path
-from .views import home, acceder, listarProductos, crearProducto
+from .views import home, acceder, listarProductos, crearProductos, ingredientespage, modificarProductos
 from Finanzas import views as fi
 from django.conf.urls import url
 #from django.contrib.auth.decorators import login_required
@@ -9,8 +9,10 @@ from django.conf.urls import url
 
 urlpatterns = [
    path('home/', home, name="home"),
-   path('home/listarProductos/', listarProductos, name="listarProductos"),
-   path('home/crearProducto/', crearProducto, name="crearProducto"),
+   path('home/ingrediente/listarIngrediente', listarProductos, name="listarProductos"),
+   path('home/ingrediente/crearIngrediente/', crearProductos, name="crearProductos"),
+   path('home/ingrediente/modificarIngrediente/<id>', modificarProductos, name="modificarProductos"),
+   path('home/ingrediente/', ingredientespage, name="ingredientespage"),
    path('', acceder, name="inicio"),
    path('home/finanzas/',fi.home_finanzas, name="homefinanzas"),
    

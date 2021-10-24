@@ -25,6 +25,7 @@
                       <th>Stock</th>
                       <th>Unidad de medida</th>
                       <th>Fecha de caducidad</th>
+                      <th>Editar</th>
                   </tr>
                 </thead>
                 {% for i in ingredientes %}
@@ -36,6 +37,9 @@
                     <td>{{ i.stock}}</td>
                     <td>{{ i.unidad_de_medida}}</td>
                     <td>{{ i.fec_caduc}}</td>
+                    <td>
+                        <a href="{% url 'modificarProductos' i.id_ingrediente %}">Editar</a>
+                    </td>
                   </tr>
                 </tbody>
                 {% endfor %}
