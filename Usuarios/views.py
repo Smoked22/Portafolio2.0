@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, redirect, get_object_or_404
 from django.template import RequestContext
 from django.http import HttpResponseRedirect
 from django.contrib import messages
@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from Finanzas import urls
-from .models import Ingrediente,Cliente, Carta, GuiaDesp, Suministro
+from .models import Ingrediente , Cliente, Carta, GuiaDesp, Suministro
 from .forms import IngredienteForm
 
 #from .forms import formLog
@@ -15,6 +15,30 @@ from .forms import IngredienteForm
 @login_required
 def home(request):
     return render(request, './home.html')
+
+
+@login_required
+def ingredientespage(request):
+    return render(request, './ingrediente.html')
+
+@login_required
+def modificarProductos(request, id):
+
+    ingrediente = get_object_or_404(Ingrediente, id_ingrediente=id)
+
+    data = {
+        'form': IngredienteForm(instance=ingrediente)
+    }
+
+    if request.method == 'POST':
+        formulario = IngredienteForm(data=request.POST, instance=ingrediente)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(to="listarProductos")
+        data["form"] = formulario
+
+
+    return render(request, './modificarIngrediente.html', data)
 
 @login_required
 def listarProductos(request):
@@ -27,7 +51,8 @@ def listarProductos(request):
     return render(request, './productosListado.html',data)
 
 @login_required
-def crearProducto(request):
+def crearProductos(request):
+    form_class = IngredienteForm
     data = {
         'form': IngredienteForm()
     }
