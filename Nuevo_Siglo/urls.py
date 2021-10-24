@@ -25,6 +25,8 @@ urlpatterns = [
     path('Bodega/', include('Bodega.urls')),
     path('Cocina/', include('Cocina.urls')),
     path('Finanzas/', include('Finanzas.urls')),
+    path('Cliente/', include('Cliente.urls')),
+    path('Reserva/', include('Reserva.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
