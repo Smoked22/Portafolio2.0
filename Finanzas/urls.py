@@ -7,5 +7,5 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-   path('home/finanza', home_finanzas, name="homefinanzas"),
+   path('home/', home_finanzas, name="homefinanzas"),
 ]
