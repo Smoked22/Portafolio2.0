@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'Administrador',
 ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware', # Gestiona las sesiones de usuarios en cada solicitud.

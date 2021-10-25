@@ -6,3 +6,4 @@ class UsuariosConfig(AppConfig):
     name = 'Usuarios'
     #para cambiar el nombre del administrador de usuario de django
     #verbose_name = 'Restaurante'
+    #comentario
