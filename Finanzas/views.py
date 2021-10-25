@@ -6,3 +6,7 @@ from django.shortcuts import redirect, render
 @login_required
 def home_finanzas(request):
     return render(request, './home_finanzas.html')
+
+@login_required
+def boletas(request):
+    return render(request, './registro_boletas.html')
