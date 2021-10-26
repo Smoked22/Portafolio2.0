@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIGLO XXI | Inicio</title>
   
+  <link rel="stylesheet" href="{% static '../plugins/ekko-lightbox/ekko-lightbox.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
@@ -43,7 +44,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="{% url 'home'%}" class="nav-link">Inicio</a>
+        <a href="{% url 'homeReserva'%}" class="nav-link">Inicio</a>
       </li>
     </ul>
 
@@ -187,7 +188,7 @@
            
           </li>
           <li class="nav-item">
-            <a href="{% url 'homeCliente'%}" class="nav-link">
+            <a href="{% url 'reservas'%}" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Reserva
@@ -288,6 +289,28 @@
 <script src="{% static '/js/demo.js'%}"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{% static '/js/pages/dashboard.js'%}"></script>
+
+<script src="{% static '/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static '/plugins/filterizr/jquery.filterizr.min.js' %}"></script>
+<script src="{% static '/plugins/ekko-lightbox/ekko-lightbox.min.js' %}"></script>
+
+<script>
+    $(function () {
+      $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+        event.preventDefault();
+        $(this).ekkoLightbox({
+          alwaysShowClose: true
+        });
+      });
+  
+      $('.filter-container').filterizr({gutterPixels: 3});
+      $('.btn[data-filter]').on('click', function() {
+        $('.btn[data-filter]').removeClass('active');
+        $(this).addClass('active');
+      });
+    })
+</script>
+
 </body>
 {% load static %}
 </html>

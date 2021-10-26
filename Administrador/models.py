@@ -1,12 +1,4 @@
-# This is an auto-generated Django model module.
-# You'll have to do the following manually to clean this up:
-#   * Rearrange models' order
-#   * Make sure each model has one field with primary_key=True
-#   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
-#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-# Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150, blank=True, null=True)
@@ -79,8 +71,8 @@ class AuthUserUserPermissions(models.Model):
 
 class Boleta(models.Model):
     id_boleta = models.CharField(primary_key=True, max_length=20)
-    fecha = models.DateField()
-    hora = models.DateField()
+    fecha = models.CharField(max_length=21)
+    hora = models.CharField(max_length=21)
     monto = models.CharField(max_length=10)
     tipo_pago = models.CharField(max_length=30)
     orden_id_orden = models.ForeignKey('Orden', models.DO_NOTHING, db_column='orden_id_orden')
@@ -274,8 +266,8 @@ class Mesa(models.Model):
 
 class Orden(models.Model):
     id_orden = models.CharField(primary_key=True, max_length=16)
-    fecha = models.CharField(max_length=16)
-    hora = models.CharField(max_length=16)
+    fecha = models.CharField(max_length=21)
+    hora = models.CharField(max_length=21)
     mesa_id_mesa = models.ForeignKey(Mesa, models.DO_NOTHING, db_column='mesa_id_mesa')
 
     class Meta:
@@ -355,4 +347,3 @@ class Suministro(models.Model):
     class Meta:
         managed = False
         db_table = 'suministro'
-
