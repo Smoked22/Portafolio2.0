@@ -4,9 +4,24 @@
 
 {% block contenido %}
 
-<div>
-    <p>acdsdsd</p>
-    <p>aasdasdc</p>
-    <p>aasdasdc</p>
+<div class="col-sm-6">
+    <h2 class="m-0">Boletas</h2>
 </div>
+<div class="card-body">
+    <table id="example1" class="table table-bordered table-striped">
+        <tr>
+            <th>Id boleta</th>
+            <th>Monto</th>
+            <th>Metodo de pago</th>
+        </tr>
+        {% for p in boletas %}
+            <tr>
+                <td>{{ p.0}}</td>
+                <td>{{ p.3}}</td>
+                <td>{{ p.4}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
 {% endblock %}
