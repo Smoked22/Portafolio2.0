@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from Finanzas import urls
-#from .models import Ingrediente , Cliente, Carta, GuiaDesp, Suministro
+from .models import Ingrediente , Cliente, Carta, GuiaDesp, Suministro
 from .forms import IngredienteForm
 
 #from .forms import formLog
