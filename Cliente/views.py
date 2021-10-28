@@ -4,3 +4,6 @@ from django.shortcuts import render
 
 def Cliente(request):
     return render(request, './home_cliente.html')
+
+def ClienteEnMesa(request):
+    return render(request, './clienteenmesa.html')
