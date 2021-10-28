@@ -27,3 +27,17 @@ def listado_boleta():
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+#
+def total_boleta():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_BOLETAS", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+
+    return lista
