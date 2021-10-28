@@ -7,6 +7,7 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-   path('home/', home, name="home"),
+   path('home/', home, name="home_bodega"),
    #path('', acceder, name="inicio"),
+  
 ]
