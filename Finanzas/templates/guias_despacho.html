@@ -1,0 +1,27 @@
+{% extends 'base_finanzas.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+<div class="col-sm-6">
+    <h2 class="m-0">Guias despacho</h2>
+</div>
+<div class="card-body">
+    <table id="example1" class="table table-bordered table-striped">
+        <tr>
+            <th>Id Despacho</th>
+            <th>kk</th>
+            <th>asdasds</th>
+        </tr>
+        {% for p in boletas %}
+            <tr>
+                <td>{{ p.0}}</td>
+                <td>{{ p.3}}</td>
+                <td>{{ p.4}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

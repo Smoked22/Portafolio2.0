@@ -1,0 +1,36 @@
+{% extends 'base_finanzas.html' %}
+
+{% load static %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+
+
+<div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Editar Ingrediente</h3>
+    </div>
+    <form action="" method="POST">
+        <div class="card-body">
+            <div class="form-group">
+
+              {% csrf_token %}
+              <label for="">Nombre</label>
+              <input type="text" name="nombre">
+              <br>
+              <label for="">fecha</label>
+              <input type="text" name="nombre">
+              <br>
+              <label for="">kk</label>
+              <input type="text" name="nombre">
+              <br>
+
+            </div>
+        <div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Crear Ingrediente</button>
+      </div>
+    </form>
+    {{mensaje}}
+</div>
+{% endblock %}

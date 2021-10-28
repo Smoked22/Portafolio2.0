@@ -89,6 +89,8 @@ def acceder(request):
                     return redirect ("home")
                 elif usuario.groups.filter(name='Finanzas').exists():
                     return redirect ("homefinanzas")
+                elif usuario.groups.filter(name='Bodega').exists():
+                    return redirect ("home_bodega")
         else:
             messages.add_message(request, level=messages.ERROR, message="Los datos son incorrectos")
 
