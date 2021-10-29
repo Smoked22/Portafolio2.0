@@ -8,28 +8,40 @@
 
 <div class="card card-primary">
     <div class="card-header">
-      <h3 class="card-title">Editar Ingrediente</h3>
+      <h3 class="card-title">Ingresar Boleta</h3>
     </div>
     <form action="" method="POST">
         <div class="card-body">
             <div class="form-group">
 
               {% csrf_token %}
-              <label for="">Nombre</label>
-              <input type="text" name="nombre">
+              <label for="">Id Boleta</label>
+              <input type="text" name="id_boleta" class="form-control" required>
               <br>
-              <label for="">fecha</label>
-              <input type="text" name="nombre">
+              <label for="">Fecha</label>
+              <input type="text" name="fecha" class="form-control" required>
               <br>
-              <label for="">kk</label>
-              <input type="text" name="nombre">
+              <label for="">Hora</label>
+              <input type="text" name="hora" class="form-control" required>
               <br>
-
+              <label for="">Monto</label>
+              <input type="text" name="monto" class="form-control" required>
+              <br>
+              <label for="">Tipo de Pago</label>
+              <br>
+              <select class="select-css" name="tipo_pago" required>
+                  <option>Seleccionar una opcion</option>
+                  <option>Efectivo</option>
+                  <option>Transferencia</option> 
+              </select>
+              <br>
+              <label for="">Identificador de la orden</label>
+              <input type="text" name="id_orden" class="form-control" required>
+              <br>
+              <input class="btn btn-primary " type="submit" value="Ingresar Boleta">
             </div>
         <div>
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Crear Ingrediente</button>
-      </div>
+
     </form>
     {{mensaje}}
 </div>
