@@ -34,8 +34,8 @@ def listado_boleta():
 def agegar_boleta(request):
     data = {
     }
-    print(listado_boleta())
-    ingresar_boleta('40','24-09-2021','14:20','12000','Transferencia','13')
+    #print(listado_boleta())
+    #ingresar_boleta('40','24-09-2021','14:20','12000','Transferencia','13')
     #si es un metodo "POST" entra en el if
     if request.method == 'POST':
         id_boleta = request.POST.get('id_boleta')
@@ -46,6 +46,7 @@ def agegar_boleta(request):
         id_orden = request.POST.get('id_orden')  
 
         #problema con el procedimiento almacenado, al momento de enviar los datos se queda cargando la pagina y ahi queda :C
+        #se cancela, si esta funcionando la wea, anoche tenai sueño el django y no queria funcionar
         salida = ingresar_boleta(id_boleta, fecha, hora, monto, tipo_pago, id_orden)
         if salida == 1:
             data['mensaje'] = 'agregado correctamente'
@@ -59,7 +60,7 @@ def ingresar_boleta(id_boleta, fecha, hora, monto, tipo_pago, id_orden):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_BOLETA',[id_boleta,fecha, hora, monto, tipo_pago,id_orden, salida])
+    cursor.callproc('SP_AGREGAR_BOLETA2',[id_boleta,fecha, hora, monto, tipo_pago,id_orden, salida])
     return salida.getvalue()
 
 #Funcion para renderizar la pagina "registro_proveedores.html"
