@@ -17,6 +17,7 @@ def home(request):
 def ingredientes(request):
     data = {
         'ingredientes':listado_ingredienter()
+         
     }
     
     return render(request, './registro_ingrediente.html', data)
@@ -32,6 +33,27 @@ def listado_ingredienter():
     for fila in out_cur:
         lista.append(fila)
     return lista
+# LISTADOCATEGORIA
+def listar_categoria():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_CATEGORIASR", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 
+
+
+
+def agregar_ingrediente(request):
+    
+    data = {
+        'categorias' :listar_categoria()
+    }
+    return render(request, './agregar_ingrediente.html' , data)
 
