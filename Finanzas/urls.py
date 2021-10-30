@@ -9,4 +9,7 @@ from django.conf.urls import url
 urlpatterns = [
    path('home/', home_finanzas, name="homefinanzas"),
    path('boletas/', boletas, name="boletas_finanzas"),
+   path('proveedores/', proveedores, name="proveedores_finanzas"),
+   path('guias_despacho/', guia_despacho, name="guias_desp_finanzas"),
+   path('agregar_boleta/', agegar_boleta, name="agregar_boleta_finanzas"),
 ]

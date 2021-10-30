@@ -1,0 +1,31 @@
+{% extends 'base_finanzas.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+<div class="col-sm-6">
+    <h2 class="m-0">Proveedores</h2>
+</div>
+<div class="card-body">
+    <table id="example1" class="table table-bordered table-striped">
+        <tr>
+            <th>Razon Social</th>
+            <th>Telefono</th>
+            <th>Direccion</th>
+            <th>Correo Electronico</th>
+            <th>Rut Social</th>
+        </tr>
+        {% for p in proveedores %}
+            <tr>
+                <td>{{ p.7}}</td>
+                <td>{{ p.5}}</td>
+                <td>{{ p.6}}</td>
+                <td>{{ p.4}}</td>
+                <td>{{ p.0}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

@@ -11,17 +11,26 @@
     <table id="example1" class="table table-bordered table-striped">
         <tr>
             <th>Id boleta</th>
+            <th>Fecha de Emision</th>
+            <th>Hora de emision</th>
             <th>Monto</th>
             <th>Metodo de pago</th>
         </tr>
         {% for p in boletas %}
             <tr>
                 <td>{{ p.0}}</td>
+                <td>{{ p.1}}</td>
+                <td>{{ p.2}}</td>
                 <td>{{ p.3}}</td>
                 <td>{{ p.4}}</td>
             </tr>
         {% endfor %}
+        
     </table>
+    <div class="card-footer clearfix">
+        <a href="{% url 'agregar_boleta_finanzas'%}" class="btn btn-sm btn-info float-right">Ingresar Boleta</a>
+        <!--a href="javascript:void(0)" class="btn btn-sm btn-secondary float-right">View All Orders</a-->
+      </div>
 </div>
 
 {% endblock %}

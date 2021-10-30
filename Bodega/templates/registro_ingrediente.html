@@ -1,0 +1,28 @@
+{% extends 'base_bodega.html' %}
+
+{% load static %}
+
+{% block contenido %}
+<div class="card-body">
+  <table id="example1" class="table table-bordered table-striped">
+      <tr>
+          <th>id</th>
+          <th>nombre</th>
+          <th>filtro</th>
+          <th>stock</th>
+          
+      </tr>
+      {% for p in ingredientes %}
+          <tr>
+              <td>{{ p.0}}</td>
+              <td>{{ p.1}}</td>
+              <td>{{ p.2}}</td>
+              <td>{{ p.3}}</td>
+              
+          </tr>
+      {% endfor %}
+  </table>
+</div>
+    
+{% endblock %}
+
