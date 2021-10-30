@@ -1,0 +1,64 @@
+{% extends 'base_reserva.html' %}
+
+{% load static %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+
+<div>
+ <!-- Main content -->
+ <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Listado de ingredientes</h3>
+            </div>
+            
+            <!-- /.card-header -->
+            <div class="card-body">
+                <form method="get">
+                    {{miFiltro.form | crispy }}
+                    <button type="submit" class="btn btn-primary">Buscar Reserva</button>
+                </div>
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                  <tr>
+                      <th>RUT</th>
+                      <th>DV</th>
+                      <th>Nombre</th>
+                      <th>Telefono</th>
+                      <th>Correo</th>
+                  </tr>
+                </thead>
+                {% for cliente in miFiltro.qs %}
+                <tbody>
+                  <tr>
+                    <td>{{ cliente.c_rut }}</td>
+                    <td>{{ cliente.dv}}</td>
+                    <td>{{ cliente.nombre }}</td>
+                    <td>{{ cliente.telefono}}</td>
+                    <td>{{ cliente.correo}}</td>
+                    <td>
+                        <a href="{% url 'modificarCliente' cliente.c_rut %}">Editar</a>
+                    </td>
+                  </tr>
+                </tbody>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+          <!-- /.card -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+</div>
+
+
+{% endblock %}

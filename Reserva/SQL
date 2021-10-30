@@ -1,0 +1,44 @@
+CREATE OR REPLACE PROCEDURE sp_listar_reservas(reservas out SYS_REFCURSOR)
+IS
+BEGIN  
+    OPEN Reserva for SELECT * FROM core_reserva;
+END;
+
+CREATE OR REPLACE PROCEDURE sp_agregar_reserva(
+
+    v_id_reserva        NVARCHAR2,
+    v_fec_reserva_hecha NVARCHAR2,
+    v_fec_reserva       NVARCHAR2,
+    v_cliente_c_rut     NUMBER,
+    v_origen_reserva    NVARCHAR2,
+    v_mesa_id_mesa      NVARCHAR2,
+    v_estado_reserva    NVARCHAR2,
+    v_cant_personas     INTEGER,
+    v_salida            out number
+)IS
+BEGIN
+    INSERT INTO reserva(id_reserva,
+                        fec_reserva_hecha,
+                        fec_reserva,
+                        cliente_c_rut,
+                        origen_reserva,
+                        mesa_id_mesa,
+                        estado_reserva,
+                        cant_personas
+                        )
+    VALUES (v_id_reserva,
+                        v_fec_reserva_hecha,
+                        v_fec_reserva,
+                        v_cliente_c_rut,
+                        v_origen_reserva,
+                        v_mesa_id_mesa,
+                        v_estado_reserva,
+                        v_cant_personas
+                        );
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;                     
+END;

@@ -251,6 +251,9 @@ class Ingrediente(models.Model):
     class Meta:
         managed = False
         db_table = 'ingrediente'
+    
+    def __str__(self):
+        return self.nom_ingrediente
 
 
 class Mesa(models.Model):

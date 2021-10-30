@@ -1,8 +1,9 @@
-{% extends 'base_generica.html' %}
+{% extends 'base_reserva.html' %}
 
 {% load static %}
 
 {% block contenido %}
+{% load crispy_forms_tags %}
 
 
 <!-- Small boxes (Stat box) -->
@@ -11,14 +12,14 @@
       <!-- small box -->
       <div class="small-box bg-success">
         <div class="inner">
-          <h3>Agregar</h3>
+          <h3>Nuevo</h3>
 
-          <p>Ingredientes</p>
+          <p>Cliente</p>
         </div>
         <div class="icon">
           <i class="ion ion-stats-bars"></i>
         </div>
-        <a href="{% url 'crearProductos'%}" class="small-box-footer">Ir<i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{% url 'crearCliente'%}" class="small-box-footer">Agregar<i class="fas fa-arrow-circle-right"></i></a>
     </div>
       
     </div>
@@ -28,29 +29,28 @@
       <!-- small box -->
       <div class="small-box bg-info">
         <div class="inner">
-          <h3>Listado</h3>
+          <h3>Buscar</h3>
 
-          <p>Ingredientes</p>
+          <p>Cliente</p>
         </div>
         <div class="icon">
           <i class="ion ion-bag"></i>
         </div>
-        <a href="{% url 'listarProductos'%}" class="small-box-footer"> Ir <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{% url 'listarClientes'%}" class="small-box-footer"> Buscar <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
-    <!-- ./col -->
     <div class="col-lg-3 col-6">
       <!-- small box -->
       <div class="small-box bg-warning">
         <div class="inner">
           <h3>Modificar</h3>
 
-          <p>Ingredientes</p>
+          <p>Cliente</p>
         </div>
         <div class="icon">
           <i class="ion ion-person-add"></i>
         </div>
-        <a href="" class="small-box-footer"> Ir <i class="fas fa-arrow-circle-right"></i></a>
+        <a href="{% url 'listarClientesModificar'%}" class="small-box-footer"> Ir <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
     <!-- ./col -->
@@ -60,7 +60,7 @@
         <div class="inner">
           <h3>Eliminar</h3>
 
-          <p>Ingredientes</p>
+          <p>Cliente</p>
         </div>
         <div class="icon">
           <i class="ion ion-pie-graph"></i>
@@ -69,6 +69,9 @@
       </div>
     </div>
     <!-- ./col -->
+   
+    <!-- ./col -->
   </div>
+
+
 {% endblock %}
-  

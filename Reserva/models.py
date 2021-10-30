@@ -121,6 +121,9 @@ class Cliente(models.Model):
     class Meta:
         managed = False
         db_table = 'cliente'
+    
+    def __int__(self):
+        return self.c_rut
 
 
 class Comuna(models.Model):
@@ -259,6 +262,9 @@ class Ingrediente(models.Model):
     class Meta:
         managed = False
         db_table = 'ingrediente'
+    
+    def __str__(self):
+        return self.nom_ingrediente
 
 
 class Mesa(models.Model):
@@ -270,6 +276,9 @@ class Mesa(models.Model):
     class Meta:
         managed = False
         db_table = 'mesa'
+    
+    def __str__(self):
+        return self.id_mesa
 
 
 class Orden(models.Model):

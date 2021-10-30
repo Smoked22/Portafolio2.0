@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'Cliente',
     'Reserva',
     'Administrador',
+    'django_filters',
+    'tempus_dominus',
 ]
 
 
