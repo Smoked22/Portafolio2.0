@@ -11,7 +11,7 @@ urlpatterns = [
    path('home/', home, name="home_bodega"),
    path('home/ingredientes/', ingredientes, name="registro_ingrediente"),
    path('home/agregar_ingrediente/', agregar_ingrediente, name="agregar_producto_listado"),
-
+   
    #path('', acceder, name="inicio"),
   
 ]
