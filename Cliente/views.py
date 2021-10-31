@@ -10,3 +10,6 @@ def ClienteEnMesa(request):
 
 def ReservaMesa(request):
     return render(request, './reservarMesa.html')
+
+def CancelarReserva(request):
+    return render(request, './cancelarReserva.html')
