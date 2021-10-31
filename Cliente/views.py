@@ -7,3 +7,6 @@ def Cliente(request):
 
 def ClienteEnMesa(request):
     return render(request, './clienteenmesa.html')
+
+def ReservaMesa(request):
+    return render(request, './reservarMesa.html')
