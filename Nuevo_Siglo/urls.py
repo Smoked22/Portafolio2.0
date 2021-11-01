@@ -29,6 +29,7 @@ urlpatterns = [
     path('Reserva/', include('Reserva.urls')),
     path('Administrador/', include('Administrador.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
+    path("select2/", include("django_select2.urls")),
 ]
 
 admin.site.site_header = 'Administrador de Restaurante'

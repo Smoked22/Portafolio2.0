@@ -1,0 +1,73 @@
+{% extends 'base_reserva.html' %}
+{% load static %}
+{% block contenido %}
+<div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Modificar Reserva</h3>
+    </div>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+      <div class="card-body">
+    
+        {% for r in reserva %}
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Fecha y hora de reserva</label>
+            <input value="{{r.0}}" name="fecha_reserva" class="form-control" id="exampleInputEmail1" placeholder="Ingresa un ID">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Rut empleado</label>
+        <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
+            {% for e in empleados %}
+            <option value="{{e.0}}">{{e.0}}</option>
+            {% endfor %}
+        </select>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Rut Cliente</label>
+            <input value="{{r.4}}" name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa un ID">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">ID mesa</label>
+        <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
+            {% for m in mesas %}
+            <option value="{{m.0}}">{{m.0}}</option>
+            {% endfor %}
+        </select>
+        </div>
+
+        <div class="form-group">
+                <label for="exampleInputEmail1">
+                Origen Reserva
+                </label>
+            <select name="origen" class="custom-select rounded-0" id="exampleSelectBorder">
+                <option value="Presencial">
+                Presencial
+                </option> 
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Estado Reserva</label>
+            <input value="{{r.7}}" name="estado"class="form-control" id="exampleInputEmail1" placeholder="Ingresa un ID">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Cantidad de Personas</label>
+            <input value="{{r.8}}" name="cantP" class="form-control" id="exampleInputEmail1" placeholder="Ingresa un ID">
+        </div>
+
+      </div>
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+      {% endfor %}
+    </form>
+    {{mensaje}}
+</div>
+{% endblock %}

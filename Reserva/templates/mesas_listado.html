@@ -42,13 +42,14 @@
       <div name="{{m.2}}x" class="small-box bg-success filterDiv {{m.2}}x">
         <div class="inner">
           <h3>{{m.0}}</h3>
-          <p></p>
+          <p> Mesa</p>
         </div>
         <div class="icon">
           <i class="ion ion-stats-bars"></i>
         </div>
-        <a href="#" class="small-box-footer">
-          <i id="{{m.2}}" class="fas fa-arrow-circle-right"></i></a>
+        <a href="#" id="{{m.2}}" class="small-box-footer">
+          <i class="fas fa-arrow-circle-right {{m.2}}t"> </i>
+        </a>
       </div>
     </div>
 {% endfor %}
@@ -103,15 +104,9 @@
   for(var i = 0; i < elements.length; i++){
     elements[i].classList.toggle('bg-danger');
   }
-  }
 
-  window.onload = function reset2() {
-  var elements = document.getElementsById('1x'); 
-  for(var i = 0; i < elements.length; i++){
-    elements[i].classList.toggle('bg-danger');
-  }
-  }
 
+}
 
 }
   </script>

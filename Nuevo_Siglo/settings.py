@@ -53,8 +53,8 @@ INSTALLED_APPS = [
     'Cliente',
     'Reserva',
     'Administrador',
-    'django_filters',
-    'tempus_dominus',
+    'django_select2',
+
 ]
 
 
@@ -96,7 +96,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '127.0.0.1:1521/orcl',
-        'USER': 'rodrigontas',
+        'USER': 'RESTAURANTE21',
         'PASSWORD': '1234',
         'TEST': {
             'USER': 'default_test',
@@ -105,6 +105,24 @@ DATABASES = {
         }
     }
 }
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
+        'LOCATION': '127.0.0.1:11211',
+    },   
+    # … default cache config and others
+    'select2': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/2',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+# Tell select2 which cache configuration to use:
+SELECT2_CACHE_BACKEND = 'select2'
 
 
 
@@ -125,6 +143,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
 
 
 # Internationalization

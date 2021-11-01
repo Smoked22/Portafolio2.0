@@ -3,6 +3,7 @@ from django.forms import fields
 from .models import Reserva, Cliente
 from django.contrib.auth import authenticate
 from crispy_forms.helper import FormHelper
+from django_select2 import forms as s2forms
 
 class ReservaForm(forms.ModelForm):
     class Meta:
@@ -16,3 +17,5 @@ class ClienteForm(forms.ModelForm):
         model= Cliente
         fields=('__all__')
         helper = FormHelper()
+
+

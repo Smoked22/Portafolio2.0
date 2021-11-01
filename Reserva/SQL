@@ -1,14 +1,54 @@
+--CREAR PROCEDIMIENTO LISTADO RESERVAS
 CREATE OR REPLACE PROCEDURE sp_listar_reservas(reservas out SYS_REFCURSOR)
 IS
 BEGIN  
-    OPEN Reserva for SELECT * FROM core_reserva;
+    OPEN reservas for SELECT * FROM Reserva;
 END;
 
+--PROCEDIMEINTO BUSCAR RESERVA
+CREATE OR REPLACE PROCEDURE sp_buscar_reserva(
+
+    reservass out SYS_REFCURSOR,
+    v_id_reserva  NVARCHAR2
+     
+)IS
+BEGIN  
+    OPEN reservass for SELECT * FROM Reserva WHERE id_reserva = v_id_reserva;
+END;
+
+--PROCEDIMIENTO ELIMINAR RESERVA
+CREATE OR REPLACE PROCEDURE sp_eliminar_reserva(
+
+    v_id_reserva  NVARCHAR2,
+    v_salida      out number
+     
+)IS
+BEGIN  
+    DELETE FROM Reserva WHERE id_reserva = v_id_reserva;
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;  
+END;
+
+--SECUENCIA ID ORDEN
+CREATE SEQUENCE sec_reserva
+    START WITH 100  
+    INCREMENT BY 1
+    MAXVALUE 9999
+    MINVALUE 1;
+--Realizamos un select para iciar la secuencia con el "nextval"
+SELECT sec_reserva.nextval from dual;
+
+
+
+--PROCEDIMIENTO CREAR RESERVA
 CREATE OR REPLACE PROCEDURE sp_agregar_reserva(
 
-    v_id_reserva        NVARCHAR2,
-    v_fec_reserva_hecha NVARCHAR2,
     v_fec_reserva       NVARCHAR2,
+    v_empleado_e_rut    INTEGER,
     v_cliente_c_rut     NUMBER,
     v_origen_reserva    NVARCHAR2,
     v_mesa_id_mesa      NVARCHAR2,
@@ -20,21 +60,93 @@ BEGIN
     INSERT INTO reserva(id_reserva,
                         fec_reserva_hecha,
                         fec_reserva,
+                        empleado_e_rut,
                         cliente_c_rut,
                         origen_reserva,
                         mesa_id_mesa,
                         estado_reserva,
                         cant_personas
                         )
-    VALUES (v_id_reserva,
-                        v_fec_reserva_hecha,
+    VALUES (sec_reserva.nextval,
+                        TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
                         v_fec_reserva,
+                        v_empleado_e_rut,
                         v_cliente_c_rut,
                         v_origen_reserva,
                         v_mesa_id_mesa,
                         v_estado_reserva,
                         v_cant_personas
                         );
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;                     
+END;
+
+
+
+--CREAR PROCEDIMIENTO LISTADO MESAS
+CREATE OR REPLACE PROCEDURE sp_listar_mesas(mesas out SYS_REFCURSOR)
+IS
+BEGIN  
+    OPEN mesas for SELECT * FROM Mesa;
+    COMMIT;
+END;
+
+--CREAR PROCEDIMIENTO LISTADO MESAS DISPONIBLES
+CREATE OR REPLACE PROCEDURE sp_listar_mesas_disponibles(mesas out SYS_REFCURSOR)
+IS
+BEGIN  
+    OPEN mesas for SELECT * FROM Mesa WHERE estareservada=0;
+END;
+
+
+--CREAR PROCEDIMIENTO LISTADO MESAS
+CREATE OR REPLACE PROCEDURE sp_listar_empleados(empleados out SYS_REFCURSOR)
+IS
+BEGIN  
+    OPEN empleados for SELECT * FROM EMPLEADO;
+END;
+
+
+--CREAR PROCEDIMIENTO LISTADO CLIENTES
+CREATE OR REPLACE PROCEDURE sp_buscar_reserva_por_rutCli(
+        rutcli out SYS_REFCURSOR,
+        v_rut_cli  NVARCHAR2
+)IS
+BEGIN  
+    OPEN rutcli for SELECT * FROM RESERVA WHERE cliente_c_rut = v_rut_cli;
+END;
+
+
+
+--PROCEDIMIENTO Modificar RESERVA
+CREATE OR REPLACE PROCEDURE sp_modificar_reserva(
+    v_id_reserva        NVARCHAR2,
+    v_fec_reserva       NVARCHAR2,
+    v_empleado_e_rut    INTEGER,
+    v_cliente_c_rut     NUMBER,
+    v_origen_reserva    NVARCHAR2,
+    v_mesa_id_mesa      NVARCHAR2,
+    v_estado_reserva    NVARCHAR2,
+    v_cant_personas     INTEGER,
+    v_salida            out number
+)IS
+BEGIN
+    UPDATE reserva SET  id_reserva  = v_id_reserva,
+                        fec_reserva_hecha = TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+                        fec_reserva = v_fec_reserva,
+                        empleado_e_rut = v_empleado_e_rut,
+                        cliente_c_rut = v_cliente_c_rut,
+                        origen_reserva = v_origen_reserva,
+                        mesa_id_mesa = v_mesa_id_mesa,
+                        estado_reserva =  v_estado_reserva,
+                        cant_personas = v_cant_personas
+                        
+                        WHERE id_reserva = v_id_reserva;
+   
     COMMIT;
     v_salida:=1;
 
