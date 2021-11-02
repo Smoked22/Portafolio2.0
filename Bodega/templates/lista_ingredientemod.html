@@ -1,0 +1,116 @@
+{% extends 'base_bodega.html' %}
+{% load static %}
+{% block contenido %}
+
+
+<div>
+    <!-- Main content -->
+    <div class="card card-primary">
+       <div class="card-header">
+         <h3 class="card-title">Buscar Reserva</h3>
+       </div>
+       <!-- /.card-header -->
+       <!-- form start -->
+       <form>
+           <!-- SELECT2 EXAMPLE -->
+           <div class="card card-default">
+               <div class="card-body">
+                 <div class="row">
+                   <div class="col-md-6">
+                     <div class="form-group">
+                       <label>Rut Cliente</label>
+                       <select class="form-control select2" style="width: 100%;">
+                         {% for r in categorias %}
+                         <option value="{{r.0}}">{{r.0}}</option>
+                         <a class="btn btn-block btn-warning" href="{% url 'buscar_ingrediente_lista' r.0 %}">Modificar</a>
+                         {% endfor %}   
+                       </select>
+                     </div>     
+                   </div>
+                 </div>
+                
+               </div>
+             </div>
+            
+       </form>
+     </div>
+   
+   
+    
+    <section class="content">
+       <div class="container-fluid">
+         <div class="row">
+           <div class="col-12">
+             <div class="card">
+               <div class="card-header">
+                 <h3 class="card-title">Listado de Reservas</h3>
+               </div>
+               <!-- /.card-header -->
+               <div class="card-body">
+                 <table id="example1" class="table table-bordered table-striped">
+                   <thead>
+                     <tr>
+                      <th>id</th>
+                      <th>nombre</th>
+                      <th>filtro</th>
+                      <th>stock</th>
+                      <th>unidad medida</th>
+                      <th>fecha caducidad</th>
+                     </tr>
+                   </thead>
+                   {% for r in categorias %}
+                   <tbody>
+                     <tr>
+                       <td>{{ r.0 }}</td>
+                       <td>{{ r.1 }}</td>
+                       <td>{{ r.2 }}</td>
+                       <td>{{ r.3 }}</td>
+                       <td>{{ r.4 }}</td>
+                       <td>{{ r.5 }}</td>
+                       <td><a class="btn btn-block btn-warning" href="{% url 'reserva_modificar' r.0 %}">Modificar</a></td>
+                       <td><a class="btn btn-block btn-danger" href="{% url 'reserva_eliminar' r.0 %}">Eliminar</a></td>
+                     </tr>
+                   </tbody>
+                   {% endfor %}                 
+                 </table>
+               </div>
+               <!-- /.card-body -->
+             </div>
+             <!-- /.card -->
+           </div>
+           <!-- /.col -->
+         </div>
+         <!-- /.row -->
+       </div>
+       <!-- /.container-fluid -->
+     </section>
+   </div>
+   
+   <!-- Bootstrap 4 -->
+   <script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+   <!-- jQuery -->
+   <script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+   <!-- Select2 -->
+   <script src="{% static './plugins/select2/js/select2.full.min.js' %}"></script>
+   <!-- AdminLTE App -->
+   <script src="{% static './js/adminlte.min.js' %}"></script>
+   <!-- AdminLTE for demo purposes -->
+   <script src="{% static './js/demo.js' %}"></script>
+   <!-- jQuery -->
+   <script src="{% static './plugins/jquery/jquery.min.js'%}"></script>
+   <!-- jQuery UI 1.11.4 -->
+   <script src="{% static './plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+   
+   <script>
+     $(function () {
+       //Initialize Select2 Elements
+       $('.select2').select2()
+   
+       //Initialize Select2 Elements
+       $('.select2bs4').select2({
+         theme: 'bootstrap4'
+       }) 
+     })
+   </script>
+
+{% endblock %}

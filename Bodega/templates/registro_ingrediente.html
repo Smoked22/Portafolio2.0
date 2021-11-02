@@ -10,6 +10,8 @@
           <th>nombre</th>
           <th>filtro</th>
           <th>stock</th>
+          <th>unidad medida</th>
+          <th>fecha caducidad</th>
           
       </tr>
       {% for p in ingredientes %}
@@ -18,6 +20,8 @@
               <td>{{ p.1}}</td>
               <td>{{ p.2}}</td>
               <td>{{ p.3}}</td>
+              <td>{{ p.4}}</td>
+              <td>{{ p.5}}</td>
               
           </tr>
       {% endfor %}
