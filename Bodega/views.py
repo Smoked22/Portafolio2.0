@@ -23,17 +23,7 @@ def ingredientes(request):
 
     return render(request, './registro_ingrediente.html', data)
 
-def listado_ingredienter():
-    django_cursor = connection.cursor()
-    cursor = django_cursor.connection.cursor()
-    out_cur = django_cursor.connection.cursor()
 
-    cursor.callproc("SP_LISTAR_INGREDIENTER", [out_cur])
-
-    lista = []
-    for fila in out_cur:
-        lista.append(fila)
-    return lista
 # LISTADOCATEGORIA
 def listar_categoria():
     django_cursor = connection.cursor()
@@ -73,6 +63,160 @@ def agregar_ingrediente(request):
     return render(request, './agregar_ingrediente.html' , data)
 
 
+# LISTAR LOS INGREDIENTES PARA MODFICAR
+def modificar_ingrediente(request):
+    
+    data = {
+        'categorias' :listar_categoria()
+    }
+
+    return render(request, './lista_ingredientemod.html' , data)
+
+
+def ingresar_modificar_ingrediente(ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOCK, UNIDAD_DE_MEDIDA, FEC_CADUC):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_MODIFICAR_INGREDIENTER',[ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOCK, UNIDAD_DE_MEDIDA, FEC_CADUC, salida])
+    return salida.getvalue()
+
+
+def proveedor(request):
+    data = {
+        'proveedor':listar_proveedor()
+    }
+
+    return render(request, './listar_proveedores.html', data)
+
+
+def suministro(request):
+    data = {
+        'suministro':listar_suministro() 
+    }
+    return render(request, './listar_suministros.html', data)
+
+
+def eliminar_reserva( id ):
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_INGREDIENTER',[id , salida ])
+    return salida.getvalue()
+
+def reserva_eliminar(request, id):
+
+    data = {
+        'categorias' :listar_categoria()
+        
+     
+    }
+   
+    salida = eliminar_reserva(id)
+
+    if salida == 1:
+        data['mensaje'] = 'Borrado correctamente'
+        data['reservas'] = listadoReserva()
+    else:
+        data['mensaje'] = 'No se pudo borrar'
+        data['reservas'] = listadoReserva()
+
+    
+
+    return render(request, './lista_ingredientemod.html', data)    
+    
+def buscar_ingrediente(id):
+    django_cursor = connection.cursor()
+
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    #Llamada al cursor 
+    cursor.callproc("SP_BUSCAR_INGREDIENTER", [out_cur,id])
+
+    #llenamos la lista
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista 
+
+def buscar_ingrediente_lista(request, id):
+
+    listadoReserva = buscar_ingrediente(id)
+
+    data = {
+    'categorias' : listar_categoria 
+    # 'reservas' : listadoReserva
+     
+    }    
+
+    return render(request, './lista_ingredientemod.html', data)
+
+def modificar_ingrediente_rellenar(request):
+    data= {
+
+    'categorias' :listar_categoria()        
+    }
+    
+
+    if request.method == 'POST':
+        ID_INGREDIENTE = request.POST.get('id_productos') 
+        NOM_INGREDIENTE = request.POST.get('nombre_ingrediente') 
+        DESC_INGREDIENTE = request.POST.get('categoria') 
+        STOCK = request.POST.get('stock') 
+        UNIDAD_DE_MEDIDA = request.POST.get('un_medida') 
+        FEC_CADUC  = request.POST.get('fecha') 
+        salida = ingresar_modificar_ingrediente(ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOCK, UNIDAD_DE_MEDIDA, FEC_CADUC)
+        if salida == 1:
+            data['mensaje'] = 'Modificado correctamente'
+        else:
+            data['mensaje'] = 'no se ha Modificado'
+    return render(request, './modificar_ingrediente.html', data)
+
+# METODO PARA LISTAR LOS INGREDIENTES
+def listado_ingredienter():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_INGREDIENTER", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+# METODO PARA LISTADOSUMUNISTROS
+def listar_suministro():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_SUMINISTROR", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+# METODO PARA LISTADOPROVEEDORES
+def listar_proveedor():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_PROVEEDORR", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+# METODO PARA AGREGAR UN INGREDIENTE
 def ingresar_ingrediente(ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOCK, UNIDAD_DE_MEDIDA, FEC_CADUC):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
