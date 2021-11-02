@@ -6,14 +6,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIGLO XXI - Reservar Mesa</title>
   {% load static %}
+  <link rel="stylesheet" href="{% static '../plugins/ekko-lightbox/ekko-lightbox.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static '/plugins/fontawesome-free/css/all.min.css'%}">
-  <!-- icheck bootstrap -->
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'%}">
+  <!-- iCheck -->
   <link rel="stylesheet" href="{% static '/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static '/plugins/jqvmap/jqvmap.min.css'%}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static '/css/adminlte.min.css'%}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static '/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'%}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static '/plugins/summernote/summernote-bs4.min.css'%}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{% static './plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% static './plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static './plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static './css/adminlte.min.css'%}">
 </head>
 <body class="hold-transition login-page">
   <style>
@@ -33,42 +49,165 @@
       </style>
   </div>
   <!-- /.login-logo -->
-  <div class="card card-body">
-      <h1 class="m-0"><center>Reservar Mesa</center></h1>
-			
-      <form action="{% url 'homeCliente' %}" name="formulario" method="GET" class="form"><br>
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Crear Reserva</h3>
+    </div>
 
-        <label for="nombre" class="form-label">Nombre:</label>
-        <input type="text" id="Nombre" class="form-input" placeholder="Escriba su nombre" required><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+      <div class="card-body">
 
-        <label for="Rut" class="form-label">Rut:</label>
-        <input type="text" id="Rut" class="form-input" placeholder="20.123.456-7" required><br>
+        <div class="form-group">
+            <label>Fecha y hora de reserva</label>
+              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                  <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
+                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+              </div>
+        </div>
 
-        <label for="Correo" class="form-label">Correo electrónico:</label>
-        <input type="email" id="Correo" class="form-input" placeholder="Escriba su Email" required><br>
 
-        <label for="Numero" class="form-label">Teléfono:</label>
-        <input type="text" id="Numero" class="form-input" placeholder="9 1234 5615" required><br>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Rut empleado</label>
+        <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
+            {% for e in empleados %}
+            <option value="{{e.0}}">{{e.0}}</option>
+            {% endfor %}
+        </select>
+        </div>
 
-        <label for="Numero" class="form-label">Cantidad de personas:</label>
-        <input type="text" id="CantidadPersonas" class="form-input" placeholder="2" required><br>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Rut Cliente sin dígito verificador</label>
+            <input name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
+        </div>
 
-        <label for="FechaHora" class="form-label">Fecha y hora de reserva:</label>
-        <input type="datetime" id="FechaHora" class="form-input" placeholder="" required><br><br>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Mesa</label>
+        <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
+            {% for m in mesas %}
+            <option value="{{m.0}}">{{m.0}}</option>
+            {% endfor %}
+        </select>
+        </div>
 
-        <center><input type="submit" onclick="alert ('Reserva hecha con éxito')" class="btn btn-primary btn-block" value="Reservar"></center>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Cantidad de Personas</label>
+            <input name="cantP" class="form-control" id="exampleInputEmail1" placeholder="Ingresa la cantidad de personas a asistir">
+        </div>
         
+        
+
+      <div class="card-footer">
+        <center><button type="submit" class="btn btn-primary">Guardar</button></center>
+      </div>
     </form>
-  </div>
+    {{mensaje}}
 </div>
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="{% static '/plugins/jquery/jquery.min.js'%}"></script>
+<script src="{% static './plugins/jquery/jquery.min.js'%}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static './plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
 <!-- Bootstrap 4 -->
-<script src="{% static '/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- ChartJS -->
+<script src="{% static './plugins/chart.js/Chart.min.js'%}"></script>
+<!-- Sparkline -->
+<script src="{% static './plugins/sparklines/sparkline.js'%}"></script>
+<!-- JQVMap -->
+<script src="{% static './plugins/jqvmap/jquery.vmap.min.js'%}"></script>
+<script src="{% static './plugins/jqvmap/maps/jquery.vmap.usa.js'%}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static './plugins/jquery-knob/jquery.knob.min.js'%}"></script>
+<!-- daterangepicker -->
+<script src="{% static './plugins/moment/moment.min.js'%}"></script>
+<script src="{% static './plugins/daterangepicker/daterangepicker.js'%}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static './plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static './plugins/summernote/summernote-bs4.min.js'%}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static './plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'%}"></script>
 <!-- AdminLTE App -->
-<script src="{% static '/dist/js/adminlte.min.js'%}"></script>
+<script src="{% static './js/adminlte.js'%}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './js/demo.js'%}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{% static './js/pages/dashboard.js'%}"></script>
+
+<!-- jQuery -->
+<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static './plugins/select2/js/select2.full.min.js' %}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="{% static './plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js' %}"></script>
+<!-- InputMask -->
+<script src="{% static './plugins/moment/moment.min.js' %}"></script>
+<script src="{% static './plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+<!-- date-range-picker -->
+<script src="{% static './plugins/daterangepicker/daterangepicker.js' %}"></script>
+<!-- bootstrap color picker -->
+<script src="{% static './plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js' %}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static './plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+<!-- Bootstrap Switch -->
+<script src="{% static './plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
+<!-- BS-Stepper -->
+<script src="{% static './plugins/bs-stepper/js/bs-stepper.min.js' %}"></script>
+<!-- dropzonejs -->
+<script src="{% static './plugins/dropzone/min/dropzone.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static './dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './dist/js/demo.js' %}"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+
+    //Date and time picker
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+  })
+  // DropzoneJS Demo Code End
+</script>
 </body>
 {% load static %}
 </html>
