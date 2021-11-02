@@ -33,28 +33,60 @@
       </style>
   </div>
   <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <h1 class="m-0"><center>Cancelar Reserva</center></h1>
-			
-      <br> 
-
-      <button onclick="window.location.href='/Cliente/ReservarMesa'" class="btn btn-primary btn-block">sex</button><br>
-
-      <button onclick="window.location.href='/Cliente'" class="btn btn-primary btn-block">sex</button><br>
-
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Cancelar Reserva</h3>
     </div>
-    <!-- /.login-card-body -->
-  </div>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+      <div class="card-body">
+        
+        <div class="form-group">
+          <label for="exampleInputEmail1">Rut Cliente</label>
+          <input name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
+        </div>   
+
+        <div class="form-group">
+            <label>Fecha y hora de reserva</label>
+              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                  <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
+                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+              </div>
+        </div>
+
+      <div class="card-footer">
+        <center><button type="submit" class="btn btn-primary">Cancelar reserva</button></center>
+      </div>
+    </form>
+    {{mensaje}}
 </div>
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="{% static '/plugins/jquery/jquery.min.js'%}"></script>
+<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
 <!-- Bootstrap 4 -->
-<script src="{% static '/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
-<script src="{% static '/dist/js/adminlte.min.js'%}"></script>
+<script src="{% static './dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './dist/js/demo.js' %}"></script>
+<script>
+  $(function () {
+
+  //Date picker
+  $('#reservationdate').datetimepicker({
+        format: 'L'
+  });
+  //Date and time picker
+  $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+
+})
+</script>
 </body>
 {% load static %}
 </html>
+

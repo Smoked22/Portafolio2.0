@@ -33,42 +33,85 @@
       </style>
   </div>
   <!-- /.login-logo -->
-  <div class="card card-body">
-      <h1 class="m-0"><center>Reservar Mesa</center></h1>
-			
-      <form action="{% url 'homeCliente' %}" name="formulario" method="GET" class="form"><br>
+  <div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Crear Reserva</h3>
+    </div>
 
-        <label for="nombre" class="form-label">Nombre:</label>
-        <input type="text" id="Nombre" class="form-input" placeholder="Escriba su nombre" required><br>
+    <form action="" method="POST">
+        {% csrf_token %}
+      <div class="card-body">
 
-        <label for="Rut" class="form-label">Rut:</label>
-        <input type="text" id="Rut" class="form-input" placeholder="20.123.456-7" required><br>
+        <div class="form-group">
+            <label>Fecha y hora de reserva</label>
+              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
+                  <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
+                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                  </div>
+              </div>
+        </div>
 
-        <label for="Correo" class="form-label">Correo electrónico:</label>
-        <input type="email" id="Correo" class="form-input" placeholder="Escriba su Email" required><br>
 
-        <label for="Numero" class="form-label">Teléfono:</label>
-        <input type="text" id="Numero" class="form-input" placeholder="9 1234 5615" required><br>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Rut empleado</label>
+        <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
+            {% for e in empleados %}
+            <option value="{{e.0}}">{{e.0}}</option>
+            {% endfor %}
+        </select>
+        </div>
 
-        <label for="Numero" class="form-label">Cantidad de personas:</label>
-        <input type="text" id="CantidadPersonas" class="form-input" placeholder="2" required><br>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Rut Cliente sin dígito verificador</label>
+            <input name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
+        </div>
 
-        <label for="FechaHora" class="form-label">Fecha y hora de reserva:</label>
-        <input type="datetime" id="FechaHora" class="form-input" placeholder="" required><br><br>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Mesa</label>
+        <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
+            {% for m in mesas %}
+            <option value="{{m.0}}">{{m.0}}</option>
+            {% endfor %}
+        </select>
+        </div>
 
-        <center><input type="submit" onclick="alert ('Reserva hecha con éxito')" class="btn btn-primary btn-block" value="Reservar"></center>
+        <div class="form-group">
+            <label for="exampleInputEmail1">Cantidad de Personas</label>
+            <input name="cantP" class="form-control" id="exampleInputEmail1" placeholder="Ingresa la cantidad de personas a asistir">
+        </div>
         
+        
+
+      <div class="card-footer">
+        <center><button type="submit" class="btn btn-primary">Guardar</button></center>
+      </div>
     </form>
-  </div>
+    {{mensaje}}
 </div>
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="{% static '/plugins/jquery/jquery.min.js'%}"></script>
+<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
 <!-- Bootstrap 4 -->
-<script src="{% static '/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
-<script src="{% static '/dist/js/adminlte.min.js'%}"></script>
+<script src="{% static './dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './dist/js/demo.js' %}"></script>
+<script>
+  $(function () {
+
+  //Date picker
+  $('#reservationdate').datetimepicker({
+        format: 'L'
+  });
+  //Date and time picker
+  $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+
+})
+</script>
 </body>
 {% load static %}
 </html>
