@@ -8,7 +8,9 @@ from django.conf.urls import include, url
 
 
 urlpatterns = [
-   path('home/', home, name="home"),
+   path('home/', home_admin, name="home_admin"),
+   path('home/empleados', empleados, name="empleados"),
+   path('home/detalle_empleado/<id>', detalle_empleado, name="detalle_empleado"),
    path('home/ingrediente/listarIngrediente', listarProductos, name="listarProductos"),
    path('home/ingrediente/crearIngrediente/', crearProductos, name="crearProductos"),
    path('home/ingrediente/modificarIngrediente/<id>', modificarProductos, name="modificarProductos"),

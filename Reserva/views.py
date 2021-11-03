@@ -51,7 +51,7 @@ def listado_mesas():
     out_cur = django_cursor.connection.cursor()
 
     #Llamada al cursor 
-    cursor.callproc("SP_LISTAR_MESAS", [out_cur])
+    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES_AHORA", [out_cur])
 
     #llenamos la lista
     lista= []
@@ -78,7 +78,6 @@ def listado_empleados():
 
 def listado_mesas_disponibles():
     django_cursor = connection.cursor()
-
     #Cursor que llama
     cursor = django_cursor.connection.cursor()
     #Cursor que recibe
@@ -128,6 +127,23 @@ def buscar_reserva(id):
         lista.append(fila)
     return lista 
 
+def buscar_mesa(id):
+    django_cursor = connection.cursor()
+
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    #Llamada al cursor 
+    cursor.callproc("SP_BUSCAR_MESA", [out_cur,id])
+
+    #llenamos la lista
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista 
+
 
 def reserva_modificar(request,id):
 
@@ -166,14 +182,17 @@ def reserva_crear(request):
 
     if request.method== 'POST':
         fecha_reserva = request.POST.get('fecha_reserva')
+        hora_reserva = request.POST.get('hora_reserva')
+        espacio = ' '
+        fecha_hora = str(fecha_reserva)+espacio+str(hora_reserva)
         rut_emp = request.POST.get('empleado')
         rut_cli = request.POST.get('cliente')
-        origen = request.POST.get('origen')
+        origen = 'Presencial'
         id_mesa = request.POST.get('id_mesa')
         estado = request.POST.get('estado')
         cant = request.POST.get('cantP')
 
-        salida = crear_reserva( fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant)
+        salida = crear_reserva( fecha_hora, rut_emp, rut_cli, origen, id_mesa, estado, cant)
 
         if salida == 1:
             data['mensaje'] = 'agregador correctamente'
@@ -228,18 +247,27 @@ def reserva_eliminar(request, id):
 
     return render(request, './reserva_listado.html', data)
 
-def reserva_buscar(request, id):
-
-    listadoReserva = listado_reservas_por_RUT(id)
+def reserva_buscar(request):
 
     data = {
         'mesas' : listado_mesas_disponibles(),
         'empleados' : listado_empleados(),
-        'reservas' : listadoReserva
-     
-    }    
+    }
+
+    if request.method== 'POST':
+        id = request.POST.get('rutCli')
+        listadoReserva = listado_reservas_por_RUT(id)
+
+        data['mensaje'] = 'agregador correctamente'
+        data['reservas'] = listadoReserva
+    else:
+        data['mensaje'] = 'no se pudo guardar'
+        data['reservas'] = listado_Reservas()
 
     return render(request, './reserva_listado.html', data) 
+
+
+
 
 #Listado reservas cursor
 def listado_Reservas():
@@ -261,7 +289,42 @@ def listado_Reservas():
 #Vista listado reserva
 def reserva_listado(request):
     data = {
-        'reservas' : listado_Reservas()
+        'reservas' : listado_Reservas(),
+        'base' : listado_Reservas()
     }
+
+    if request.method== 'POST':
+        id = request.POST.get('rutcli')
+        listadofiltro = listado_reservas_por_RUT(id)
+        data['reservas'] = listadofiltro
+
     return render(request,'./reserva_listado.html',data)
+
+
+def horario_mesa(request, id):
+    data = {
+        'horarios' :    listado_Horario(id),
+        'mesa' :buscar_mesa(id)
+    }
+
+    return render(request,'./mesa_horario.html',data)
+
+def listado_Horario(id):
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_HORARIO", [out_cur, id])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista 
+
+
+
+
+
 

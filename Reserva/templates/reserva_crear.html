@@ -11,13 +11,32 @@
       <div class="card-body">
 
         <div class="form-group">
-            <label>Fecha y hora de reserva</label>
-              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                  <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
+            <label>Fecha Reserva</label>
+              <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                  <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                  <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                       <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                   </div>
               </div>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">
+                Hora Reserva
+            </label>
+        <select name="hora_reserva" class="custom-select rounded-0" id="exampleSelectBorder">
+            <option value="13:00"> 13:00 </option>
+            <option value="14:00"> 14:00 </option>
+            <option value="15:00"> 15:00 </option>
+            <option value="16:00"> 16:00 </option>
+            <option value="17:00"> 17:00 </option>
+            <option value="18:00"> 18:00 </option>
+            <option value="19:00"> 19:00 </option>
+            <option value="20:00"> 20:00 </option>
+            <option value="21:00"> 21:00 </option>
+            <option value="22:00"> 22:00 </option>
+            <option value="23:00"> 23:00 </option>
+        </select>
         </div>
 
 
@@ -45,36 +64,38 @@
         </div>
 
         <div class="form-group">
-                <label for="exampleInputEmail1">
-                Origen Reserva
-                </label>
-            <select name="origen" class="custom-select rounded-0" id="exampleSelectBorder">
-                <option value="Presencial">
-                Presencial
-                </option> 
-            </select>
-        </div>
-
-        <div class="form-group">
             <label for="exampleInputEmail1">
             Estado Reserva
             </label>
         <select name="estado" class="custom-select rounded-0" id="exampleSelectBorder">
-            <option value="Reserva">
-                Reserva 
-            </option>
-            <option value="Reserva">
-                Ocupando
-            </option> 
-            <option value="Reserva">
-                Finalizado
-            </option>  
+            <option value="Reserva">Reserva </option>
+            <option value="Reserva">Ocupando</option> 
+            <option value="Reserva">Finalizado</option>  
         </select>
-    </div>
+        </div>
 
         <div class="form-group">
-            <label for="exampleInputEmail1">Cantidad de Personas</label>
-            <input name="cantP" class="form-control" id="exampleInputEmail1" placeholder="Ingresa la cantidad de personas a asistir">
+            <label for="exampleInputEmail1">
+                Cantidad de personas
+            </label>
+        <select name="cantP" class="custom-select rounded-0" id="exampleSelectBorder">
+            <option value="1"> 1 </option>
+            <option value="2"> 2 </option>
+            <option value="3"> 3 </option>
+            <option value="4"> 4 </option>
+            <option value="5"> 5 </option>
+            <option value="6"> 6 </option>
+            <option value="7"> 7 </option>
+            <option value="8"> 8 </option>
+            <option value="9"> 9 </option>
+            <option value="10"> 10 </option>
+            <option value="11"> 11 </option>
+            <option value="12"> 12 </option>
+            <option value="13"> 13 </option>
+            <option value="14"> 14 </option>
+            <option value="15"> 15 </option>
+            <option value="16"> 16 </option>
+        </select>
         </div>
         
         
@@ -99,7 +120,7 @@
   
     //Date picker
     $('#reservationdate').datetimepicker({
-          format: 'L'
+        format: 'DD/MM/YYYY'
     });
     //Date and time picker
     $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });

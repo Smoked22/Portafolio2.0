@@ -16,25 +16,26 @@
     overflow: hidden;
   }
   
-  .btn:hover {
-    background-color: #ddd;
-  }
+
+</style>
   
-  .btn.active {
-    background-color: #666;
-    color: white;
-  }
-  </style>
-  <body>
-  
-  <h2>Mesas</h2>
+  <h1>Mesas</h1>
+  <h5></h5>
   
   
-  <div id="myBtnContainer">
-    <button class="btn" onclick="filterSelection('all')">Todas</button>
-    <button class="btn" onclick="filterSelection('0x')"> Libres</button>
-    <button class="btn" onclick="filterSelection('1x')"> Reservadas</button>
-  </div>
+  <table class="table table-bordered">
+    <tr>
+      <td>
+        <div id="myBtnContainer" class="btn-group">
+          <button type="button" class="btn btn-block btn-outline-primary" onclick="filterSelection('all')">Todas</button>
+          <a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+          <button type="button" class="btn btn-block btn-outline-success" onclick="filterSelection('0x')"> Libres</button>
+          <a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+          <button type="button" class="btn btn-block btn-outline-danger" onclick="filterSelection('1x')"> Reservadas</button>
+        </div>
+      </td>
+    </tr>
+  </table>
  
 <div class="row">
 {% for m in mesas %}   
@@ -47,7 +48,7 @@
         <div class="icon">
           <i class="ion ion-stats-bars"></i>
         </div>
-        <a href="#" id="{{m.2}}" class="small-box-footer">
+        <a href="{% url 'horario_mesa' m.0 %}" id="{{m.2}}" class="small-box-footer">
           <i class="fas fa-arrow-circle-right {{m.2}}t"> </i>
         </a>
       </div>
