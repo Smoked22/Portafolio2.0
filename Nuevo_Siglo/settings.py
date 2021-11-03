@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'Reserva',
     'Administrador',
     'django_select2',
-
+    'django_redis',
+    'django_filters',
 ]
 
 
