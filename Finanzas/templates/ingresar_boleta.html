@@ -16,27 +16,27 @@
 
               {% csrf_token %}
               <label for="">Id Boleta</label>
-              <input type="text" name="id_boleta" class="form-control" required>
+              <input type="text" name="id_boleta" class="form-control" >
               <br>
               <label for="">Fecha</label>
-              <input type="text" name="fecha" class="form-control" required>
+              <input type="date" name="fecha" class="form-control" >
               <br>
               <label for="">Hora</label>
-              <input type="text" name="hora" class="form-control" required>
+              <input type="time" name="hora" class="form-control" >
               <br>
               <label for="">Monto</label>
-              <input type="text" name="monto" class="form-control" required>
+              <input type="text" name="monto" class="form-control" >
               <br>
               <label for="">Tipo de Pago</label>
               <br>
-              <select class="select-css" name="tipo_pago" required>
+              <select class="select-css" name="tipo_pago" >
                   <option>Seleccionar una opcion</option>
                   <option>Efectivo</option>
                   <option>Transferencia</option> 
               </select>
               <br>
               <label for="">Identificador de la orden</label>
-              <input type="text" name="id_orden" class="form-control" required>
+              <input type="text" name="id_orden" class="form-control" >
               <br>
               <input class="btn btn-primary " type="submit" value="Ingresar Boleta">
             </div>
