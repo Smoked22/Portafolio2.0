@@ -415,7 +415,7 @@ end;
 ---------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------Procedimiento almacenado "MODIFICAR INGREDIENTE"-------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------
-create or replace NONEDITIONABLE PROCEDURE sp_modificar_ingredienter(
+create or replace PROCEDURE sp_modificar_ingredienter(
 
     r_categoria_id          number,
     r_nombre_ingrediente    varchar2,
