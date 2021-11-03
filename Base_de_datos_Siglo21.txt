@@ -1,0 +1,276 @@
+--SCRIPT BBDD S21
+--GRUPO 1 
+--CHILE CAMPEON
+
+CREATE TABLE boleta (
+    id_boleta      NVARCHAR2(20) NOT NULL,
+    fecha          NVARCHAR2(21) NOT NULL,
+    hora           NVARCHAR2(21) NOT NULL,
+    monto          NVARCHAR2(10) NOT NULL,
+    tipo_pago      NVARCHAR2(30) NOT NULL,
+    orden_id_orden NVARCHAR2(16) NOT NULL
+);
+
+CREATE UNIQUE INDEX boleta__idx ON
+    boleta (
+        orden_id_orden
+    ASC );
+
+ALTER TABLE boleta ADD CONSTRAINT boleta_pk PRIMARY KEY ( id_boleta );
+
+CREATE TABLE carta (
+    id_carta  NVARCHAR2(10) NOT NULL,
+    ca_nombre VARCHAR2(35) NOT NULL,
+    ca_desc   VARCHAR2(80) NOT NULL,
+    precio    NVARCHAR2(10) NOT NULL
+);
+
+ALTER TABLE carta ADD CONSTRAINT carta_pk PRIMARY KEY ( id_carta );
+
+CREATE TABLE ciudad (
+    id_ciudad        NVARCHAR2(5) NOT NULL,
+    nom_ciudad       NVARCHAR2(40) NOT NULL,
+    region_id_region NVARCHAR2(4) NOT NULL
+);
+
+ALTER TABLE ciudad ADD CONSTRAINT ciudad_pk PRIMARY KEY ( id_ciudad );
+
+CREATE TABLE cliente (
+    c_rut    NUMBER(8) NOT NULL,
+    dv       CHAR(1) NOT NULL,
+    nombre   VARCHAR2(50) NOT NULL,
+    telefono INTEGER,
+    correo   NVARCHAR2(50)
+);
+
+ALTER TABLE cliente ADD CONSTRAINT cliente_pk PRIMARY KEY ( c_rut );
+
+CREATE TABLE comuna (
+    id_comuna        NVARCHAR2(5) NOT NULL,
+    nom_comuna       NVARCHAR2(40) NOT NULL,
+    ciudad_id_ciudad NVARCHAR2(5) NOT NULL
+);
+
+ALTER TABLE comuna ADD CONSTRAINT comuna_pk PRIMARY KEY ( id_comuna );
+
+CREATE TABLE detalle_guia (
+    comentario                 NVARCHAR2(400) NOT NULL,
+    guia_desp_id_envio         NVARCHAR2(16) NOT NULL,
+    ingrediente_id_ingrediente NVARCHAR2(8) NOT NULL,
+    gd_desc                    NVARCHAR2(80),
+    cantidad                   NVARCHAR2(20) NOT NULL,
+    u_medida                   NVARCHAR2(30) NOT NULL,
+    precio                     NVARCHAR2(30) NOT NULL
+);
+
+ALTER TABLE detalle_guia ADD CONSTRAINT detalle_guia_pk PRIMARY KEY ( guia_desp_id_envio,
+                                                                      ingrediente_id_ingrediente );
+
+CREATE TABLE detalle_orden (
+    comentarios    NVARCHAR2(80),
+    cantidad       INTEGER NOT NULL,
+    estado_orden   NVARCHAR2(25) NOT NULL,
+    orden_id_orden NVARCHAR2(16) NOT NULL,
+    carta_id_carta NVARCHAR2(10) NOT NULL
+);
+
+CREATE TABLE detalle_receta (
+    instruccion                NVARCHAR2(400) NOT NULL,
+    ingrediente_id_ingrediente NVARCHAR2(8) NOT NULL,
+    receta_id_receta           NVARCHAR2(6) NOT NULL
+);
+
+ALTER TABLE detalle_receta ADD CONSTRAINT detalle_receta_pk PRIMARY KEY ( ingrediente_id_ingrediente,
+                                                                          receta_id_receta );
+
+CREATE TABLE empleado (
+    e_rut               INTEGER NOT NULL,
+    e_dv                CHAR(1) NOT NULL,
+    prim_nom            VARCHAR2(30) NOT NULL,
+    seg_nom             VARCHAR2(25),
+    prim_apell          VARCHAR2(30) NOT NULL,
+    sec_apell           VARCHAR2(25) NOT NULL,
+    genero              VARCHAR2(25) NOT NULL,
+    telefono            INTEGER,
+    fec_nac             NVARCHAR2(30) NOT NULL,
+    salario             INTEGER NOT NULL,
+    correo              NVARCHAR2(80),
+    rol_empleado_id_rol NVARCHAR2(3) NOT NULL
+);
+
+ALTER TABLE empleado ADD CONSTRAINT empleado_pk PRIMARY KEY ( e_rut );
+
+CREATE TABLE guia_desp (
+    id_envio                 NVARCHAR2(16) NOT NULL,
+    monto_neto               NVARCHAR2(20) NOT NULL,
+    iva                      INTEGER NOT NULL,
+    total                    NVARCHAR2(12) NOT NULL,
+    fec_envio                NVARCHAR2(16) NOT NULL,
+    suministro_id_suministro NVARCHAR2(12) NOT NULL
+);
+
+ALTER TABLE guia_desp ADD CONSTRAINT guia_desp_pk PRIMARY KEY ( id_envio );
+
+CREATE TABLE ingrediente (
+    id_ingrediente   NVARCHAR2(8) NOT NULL,
+    nom_ingrediente  NVARCHAR2(40) NOT NULL,
+    desc_ingrediente NVARCHAR2(60) NOT NULL,
+    stock            INTEGER NOT NULL,
+    unidad_de_medida NVARCHAR2(20) NOT NULL,
+    fec_caduc        NVARCHAR2(20) NOT NULL
+);
+
+ALTER TABLE ingrediente ADD CONSTRAINT ingrediente_pk PRIMARY KEY ( id_ingrediente );
+
+CREATE TABLE mesa (
+    id_mesa       NVARCHAR2(5) NOT NULL,
+    capacidad     INTEGER NOT NULL,
+    estareservada NUMBER NOT NULL,
+    tieneorden    NUMBER NOT NULL
+);
+
+ALTER TABLE mesa ADD CONSTRAINT mesa_pk PRIMARY KEY ( id_mesa );
+
+CREATE TABLE orden (
+    id_orden     NVARCHAR2(16) NOT NULL,
+    fecha        NVARCHAR2(21) NOT NULL,
+    hora         NVARCHAR2(21) NOT NULL,
+    mesa_id_mesa NVARCHAR2(5) NOT NULL
+);
+
+ALTER TABLE orden ADD CONSTRAINT orden_pk PRIMARY KEY ( id_orden );
+
+CREATE TABLE proveedor (
+    rut_social       NVARCHAR2(18) NOT NULL,
+    giro             NVARCHAR2(30),
+    p_nombre         NVARCHAR2(45) NOT NULL,
+    descripcion      NVARCHAR2(80) NOT NULL,
+    p_correo         NVARCHAR2(80) NOT NULL,
+    p_telefono       NVARCHAR2(12) NOT NULL,
+    direccion        NVARCHAR2(60) NOT NULL,
+    razon_social     NVARCHAR2(40) NOT NULL,
+    comuna_id_comuna NVARCHAR2(5) NOT NULL
+);
+
+ALTER TABLE proveedor ADD CONSTRAINT proveedor_pk PRIMARY KEY ( rut_social );
+
+CREATE TABLE receta (
+    id_receta      NVARCHAR2(6) NOT NULL,
+    nom_receta     NVARCHAR2(20) NOT NULL,
+    desc_receta    NVARCHAR2(80) NOT NULL,
+    porcion        NVARCHAR2(25) NOT NULL,
+    carta_id_carta NVARCHAR2(10) NOT NULL
+);
+
+ALTER TABLE receta ADD CONSTRAINT receta_pk PRIMARY KEY ( id_receta );
+
+CREATE TABLE region (
+    id_region  NVARCHAR2(4) NOT NULL,
+    nom_region NVARCHAR2(40) NOT NULL
+);
+
+ALTER TABLE region ADD CONSTRAINT region_pk PRIMARY KEY ( id_region );
+
+CREATE TABLE reserva (
+    id_reserva        NVARCHAR2(8) NOT NULL,
+    fec_reserva_hecha NVARCHAR2(30) NOT NULL,
+    fec_reserva       NVARCHAR2(30)E NOT NULL,
+    empleado_e_rut    INTEGER NOT NULL,
+    cliente_c_rut     NUMBER(8) NOT NULL,
+    origen_reserva    NVARCHAR2(15) NOT NULL,
+    mesa_id_mesa      NVARCHAR2(5) NOT NULL,
+    estado_reserva    NVARCHAR2(10) NOT NULL,
+    cant_personas     INTEGER NOT NULL
+);
+
+ALTER TABLE reserva ADD CONSTRAINT reserva_pk PRIMARY KEY ( id_reserva );
+
+CREATE TABLE rol_empleado (
+    id_rol   NVARCHAR2(3) NOT NULL,
+    rol_desc VARCHAR2(50) NOT NULL
+);
+
+ALTER TABLE rol_empleado ADD CONSTRAINT rol_empleado_pk PRIMARY KEY ( id_rol );
+
+CREATE TABLE suministro (
+    id_suministro        NVARCHAR2(12) NOT NULL,
+    tamannio             NVARCHAR2(25) NOT NULL,
+    nombre               NVARCHAR2(40) NOT NULL,
+    s_desc               NVARCHAR2(80),
+    proveedor_rut_social NVARCHAR2(18) NOT NULL
+);
+
+ALTER TABLE suministro ADD CONSTRAINT suministro_pk PRIMARY KEY ( id_suministro );
+
+ALTER TABLE boleta
+    ADD CONSTRAINT boleta_orden_fk FOREIGN KEY ( orden_id_orden )
+        REFERENCES orden ( id_orden );
+
+ALTER TABLE ciudad
+    ADD CONSTRAINT ciudad_region_fk FOREIGN KEY ( region_id_region )
+        REFERENCES region ( id_region );
+
+ALTER TABLE comuna
+    ADD CONSTRAINT comuna_ciudad_fk FOREIGN KEY ( ciudad_id_ciudad )
+        REFERENCES ciudad ( id_ciudad );
+
+ALTER TABLE detalle_guia
+    ADD CONSTRAINT detalle_guia_guia_desp_fk FOREIGN KEY ( guia_desp_id_envio )
+        REFERENCES guia_desp ( id_envio );
+
+ALTER TABLE detalle_guia
+    ADD CONSTRAINT detalle_guia_ingrediente_fk FOREIGN KEY ( ingrediente_id_ingrediente )
+        REFERENCES ingrediente ( id_ingrediente );
+
+ALTER TABLE detalle_orden
+    ADD CONSTRAINT detalle_orden_carta_fk FOREIGN KEY ( carta_id_carta )
+        REFERENCES carta ( id_carta );
+
+ALTER TABLE detalle_orden
+    ADD CONSTRAINT detalle_orden_orden_fk FOREIGN KEY ( orden_id_orden )
+        REFERENCES orden ( id_orden );
+
+ALTER TABLE detalle_receta
+    ADD CONSTRAINT detalle_receta_ingrediente_fk FOREIGN KEY ( ingrediente_id_ingrediente )
+        REFERENCES ingrediente ( id_ingrediente );
+
+ALTER TABLE detalle_receta
+    ADD CONSTRAINT detalle_receta_receta_fk FOREIGN KEY ( receta_id_receta )
+        REFERENCES receta ( id_receta );
+
+ALTER TABLE empleado
+    ADD CONSTRAINT empleado_rol_empleado_fk FOREIGN KEY ( rol_empleado_id_rol )
+        REFERENCES rol_empleado ( id_rol );
+
+ALTER TABLE guia_desp
+    ADD CONSTRAINT guia_desp_suministro_fk FOREIGN KEY ( suministro_id_suministro )
+        REFERENCES suministro ( id_suministro );
+
+ALTER TABLE orden
+    ADD CONSTRAINT orden_mesa_fk FOREIGN KEY ( mesa_id_mesa )
+        REFERENCES mesa ( id_mesa );
+
+ALTER TABLE proveedor
+    ADD CONSTRAINT proveedor_comuna_fk FOREIGN KEY ( comuna_id_comuna )
+        REFERENCES comuna ( id_comuna );
+
+ALTER TABLE receta
+    ADD CONSTRAINT receta_carta_fk FOREIGN KEY ( carta_id_carta )
+        REFERENCES carta ( id_carta );
+
+ALTER TABLE reserva
+    ADD CONSTRAINT reserva_cliente_fk FOREIGN KEY ( cliente_c_rut )
+        REFERENCES cliente ( c_rut );
+
+ALTER TABLE reserva
+    ADD CONSTRAINT reserva_empleado_fk FOREIGN KEY ( empleado_e_rut )
+        REFERENCES empleado ( e_rut );
+
+ALTER TABLE reserva
+    ADD CONSTRAINT reserva_mesa_fk FOREIGN KEY ( mesa_id_mesa )
+        REFERENCES mesa ( id_mesa );
+
+ALTER TABLE suministro
+    ADD CONSTRAINT suministro_proveedor_fk FOREIGN KEY ( proveedor_rut_social )
+        REFERENCES proveedor ( rut_social );
+
