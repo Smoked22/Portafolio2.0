@@ -1,0 +1,412 @@
+--INSERTS
+
+--SECUENCIA ID REGION
+CREATE SEQUENCE sec_region
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 99
+    MINVALUE 1;
+SELECT sec_region.nextval from dual;
+
+--INSERT REGIONES
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.currval, 'ARICA-PARINACOTA' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'TARAPACA' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'ANTOFAGASTA' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'ATACAMA' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'COQUIMBO' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'VALPARAISO' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'METROPOLITANA' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'OHIGGINS' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'MAULE' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'ÑUBLE' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'BIO BIO' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'ARAUCANIA' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'LOS RIOS' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'LOS LAGOS' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'AYSEN' );
+INSERT INTO region(id_region, nom_region) VALUES (sec_region.nextval, 'MAGALLANES Y ANTARTICA CHILENA');
+
+--SECUENCIA ID CIUDAD
+CREATE SEQUENCE sec_ciudad
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 9999
+    MINVALUE 1;
+    
+SELECT sec_ciudad.nextval from dual;
+
+--INSERT CIUDAD
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.currval, 'ARICA',1);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'IQUIQUE',2);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'ANTOFAGASTA',3);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'COPIAPO',4);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'LA SERENA',5);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'VALPARAISO',6);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'SANTIAGO',7);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'RANCAGUA',8);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'TALCA',9);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'CONCEPCION',10);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'TEMUCO',11);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'VALDIVIA',12);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'PUERTO MONTT',13);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'COYHAIQUE',14);
+INSERT INTO ciudad(id_ciudad, nom_ciudad, region_id_region) VALUES (sec_ciudad.nextval, 'PUNTA ARENAS',15);
+
+--SECUENCIA ID COMUNA
+CREATE SEQUENCE sec_comuna
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 999
+    MINVALUE 1;
+SELECT sec_comuna.nextval from dual;
+
+--INSERT COMUNA
+--ARICA Y PARINACOTA
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.currval,'ARICA',1);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'CAMARONES',1);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'GENERAL LAGOS',1);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PUTRE',1);
+--TARAPACA
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'CAMIÑA',2);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'COLCHANE',2);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'HUARA',2);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PICA',2);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'POZO ALMONTE',2);
+--ANTOFAGASTA
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'ANTOFAGASTA',3);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'CALAMA',3);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'TOCOPILLA',3);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'MEJILLONES',3);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'MARIA ELENA',3);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'TAL TAL',3);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'SIERRA GORDA',3);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'SAN PEDRO DE ATACAMA',3);
+--COQUIMBO 
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LA SERENA',4);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'ELQUI',4);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LA HIGUERA',4);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'ILLAPEL',4);
+--VALPARAISO 
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'VALPARAISO',6);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'CASABLANCA',6);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'QUINTEROS',6);
+--METROPOLITANA
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'COLINA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LAMPA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'TIL TIL',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PIRQUE',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'SAN JOSÉ DE MAIPO',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'CERRILLOS',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'CERRO NAVIA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'CONCHALI',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'EL BOSQUE',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'ESTACION CENTRAL',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'HUECHURABA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'INDEPENDENCIA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LA CISTERNA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LA GRANJA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LA FLORIDA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LA PINTANA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LA REINA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LAS CONDES',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LO BARNECHEA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LO ESPEJO',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LO PRADO',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'MACUL',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'MAIPU',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'ÑUÑOA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PEDRO AGUIRRRE CERDA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PEÑALOLEN',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PROVIDENCIA',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PUDAHUEL',7);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'QUILICURA',7);   
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'QUINTA NORMAL',7);   
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'RECOLETA',7);   
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'RENCA',7); 
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'SAN MIGUEL',7);   
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'SAN JOAQUIN',7);   
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'SAN RAMON',7);   
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'SANTIAGO',7);   
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'VITACURA',7);   
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PADRE HURTADO',7); 
+--RANCAGUA
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'RANCAGUA',8);
+--TALCA
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'TALCA',9);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'LINARES',9);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'SAN JAVIER',9);
+--CONCEPCION 
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'TALCAHUANO',10);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'CONCEPCION',10);
+--TEMUCO
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'TEMUCO',11);
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'PADRE LAS CASAS',11);
+--VALDIVIA
+INSERT INTO comuna(id_comuna, nom_comuna, ciudad_id_ciudad) VALUES (sec_comuna.nextval,'VALDIVIA',12);
+
+
+--INSERT PROVEEDOR 
+INSERT INTO proveedor(rut_social,giro,p_nombre,descripcion,p_correo,p_telefono,direccion,razon_social ,comuna_id_comuna) VALUES ('10912345-2','COMERCIAL','COCA COLA','Venta de bebidas gaseosas','cocacola@cola.coca','976544445','Las casas 124','COCA COLA',7);
+INSERT INTO proveedor(rut_social,giro,p_nombre,descripcion,p_correo,p_telefono,direccion,razon_social ,comuna_id_comuna) VALUES ('23912347-7','COMERCIAL','PEPSI','Venta de bebidas gaseosas','bepsicola@pepsi.com','976542425','Calle Falsa 123','PEPSI',7);
+INSERT INTO proveedor(rut_social,giro,p_nombre,descripcion,p_correo,p_telefono,direccion,razon_social ,comuna_id_comuna) VALUES ('14342345-8','COMERCIAL','COCINA COSAS','Articulos para retaurantes','articulos@contacto.com','97651115','Las estrellas 7531','ARTICULOS S.A.',7);
+INSERT INTO proveedor(rut_social,giro,p_nombre,descripcion,p_correo,p_telefono,direccion,razon_social ,comuna_id_comuna) VALUES ('17553347-3','COMERCIAL','ALIMENTOS DOÑA TITA','Todo tipo de alimentos','cocacola@cola.coca','98765325','Plantas 124','TITA INC',7);
+INSERT INTO proveedor(rut_social,giro,p_nombre,descripcion,p_correo,p_telefono,direccion,razon_social ,comuna_id_comuna) VALUES ('87652345-4','COMERCIAL','VERDULERIA EL BISTEC','Frutas, verduras y repuesto de llantas','verdu@leria.com','974891422','Rosas 352','FRUTAS Y VERDURAS LAC S.A.',6);
+INSERT INTO proveedor(rut_social,giro,p_nombre,descripcion,p_correo,p_telefono,direccion,razon_social ,comuna_id_comuna) VALUES ('12312347-1','COMERCIAL','KIOSKO SI HAY PAN','Kiosko de barrio con pan','juenita@gmail.com','976549945','Pow patrol 344','KIOSKITO INC',6);
+
+--SECUENCIA ID SUMINISTROS
+CREATE SEQUENCE sec_suministros
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 999
+    MINVALUE 1;
+
+SELECT sec_suministros.nextval from dual;
+--INSERT  SUMINISTROS
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.currval,'1L','COCA COLA ZERO','COCA COLA SIN AZUCAR 1L','10912345-2');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'2L','COCA COLA ZERO','COCA COLA SIN AZUCAR 2L','10912345-2');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'500ml','COCA COLA ZERO','COCA COLA SIN AZUCAR 500ml','10912345-2');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','TOMATE','FRUTA DE TEMPORADA','87652345-4');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','PERA','FRUTA DE TEMPORADA','87652345-4');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','MANZANA','FRUTA DE TEMPORADA','87652345-4');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','NARANJA','FRUTA DE TEMPORADA','87652345-4');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','PLATANO','FRUTA DE TEMPORADA','87652345-4');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','REPOLLO','VERDURA PARA ENSALDA','12312347-1');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','APIO','VERDURA PARA ENSALDA','12312347-1');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','PEPINO','VERDURA PARA ENSALDA','12312347-1');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','CEBOLLA','VERDURA PARA ENSALDA','12312347-1');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','PIMENTON','VERDURA PARA ENSALDA','12312347-1');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','ZANAHORIA','VERDURA PARA ENSALDA','12312347-1');
+INSERT INTO suministro(id_suministro,tamannio,nombre,s_desc,proveedor_rut_social) VALUES (sec_suministros.nextval,'1un','PAPA','VERDURA PARA ENSALDA','12312347-1');
+
+
+--SECUENCIA INGREDIENTE
+CREATE SEQUENCE sec_ingrediente
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 999
+    MINVALUE 1;
+SELECT sec_ingrediente.nextval from dual;
+
+--INSERT INGREDIENTE
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.currval,'ARROZ','INGREDIENTE DE COCINA',dbms_random.value(1,180),'KG','13-9-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'FIDEOS','INGREDIENTE DE COCINA',dbms_random.value(1,180),'KG','13-9-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'QUINOA','INGREDIENTE DE COCINA',dbms_random.value(1,180),'KG','14-8-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'CORBATAS','INGREDIENTE DE COCINA',dbms_random.value(1,180),'KG','13-2-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'LENTEJAS','INGREDIENTE DE COCINA',dbms_random.value(1,180),'KG','5-1-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'GARBANZOS','INGREDIENTE DE COCINA',dbms_random.value(1,180),'KG','5-1-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'POROTOS','INGREDIENTE DE COCINA',dbms_random.value(1,180),'KG','5-1-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'SALMÓN','PESCADOS Y MARISCOS',dbms_random.value(1,180),'KG','5-1-2021');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'ATÚN','PESCADOS Y MARISCOS',dbms_random.value(1,180),'KG','5-1-2021');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'CONGRIO','PESCADOS Y MARISCOS',dbms_random.value(1,180),'KG','5-1-2021');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'CAMARONES','PESCADOS Y MARISCOS',dbms_random.value(1,180),'KG','5-1-2021');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'PAPAS','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-1-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'NARANJA','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-1-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'PERA','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-1-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'MANZANA','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','2-1-2022');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'APIO','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-1-2022');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'REPOLLO','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','1-1-2022');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'CEBOLLA','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','7-1-2022');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'PIMIENTO ROJO','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-1-2023');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'PIMIENTO AMARILLO','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-1-2022');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'PIMIENTO VERDE','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-1-2022');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'ZANAHORIA','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','1-1-2021');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'PEPINO','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-12-2021');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'CEBOLLIN','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','9-3-2022');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'DURAZNO','FRUTA Y VERDURA',dbms_random.value(1,180),'KG','5-7-2022');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'ACEITE','CONDIMENTO Y SALSA',dbms_random.value(1,180),'LTS','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'ACEITE DE OLIVA','CONDIMENTO Y SALSA',dbms_random.value(1,180),'LTS','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'SAL','CONDIMENTO Y SALSA',dbms_random.value(1,180),'KG','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'SAL DE MAR','CONDIMENTO Y SALSA',dbms_random.value(1,180),'KG','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'OREGANO','CONDIMENTO Y SALSA',dbms_random.value(1,180),'KG','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'COMINO','CONDIMENTO Y SALSA',dbms_random.value(1,180),'KG','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'ALIÑO COMPLETO','CONDIMENTO Y SALSA',dbms_random.value(1,180),'GRS','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'SALSA DE TOMATE','CONDIMENTO Y SALSA',dbms_random.value(1,180),'KG','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'SALSA ALFREDO','CONDIMENTO Y SALSA',dbms_random.value(1,180),'KG','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'LAUREL','CONDIMENTO Y SALSA',dbms_random.value(1,180),'GRS','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'ALBHACA','CONDIMENTO Y SALSA',dbms_random.value(1,180),'KG','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'PIMIENTA','CONDIMENTO Y SALSA',dbms_random.value(1,180),'GRS','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'MERKÉN','CONDIMENTO Y SALSA',dbms_random.value(1,180),'GRS','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'AJÍ','CONDIMENTO Y SALSA',dbms_random.value(1,180),'KG','1-3-2024');
+INSERT INTO ingrediente(id_ingrediente, nom_ingrediente, desc_ingrediente, stock, unidad_de_medida, fec_caduc) VALUES (sec_ingrediente.nextval,'SALSA BBQ','CONDIMENTO Y SALSA',dbms_random.value(1,180),'GRS','1-3-2024');
+
+--SECUENCIA CARTA
+CREATE SEQUENCE sec_carta
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 299
+    MINVALUE 1;
+SELECT sec_carta.nextval from dual;
+
+--INSERT CARTA
+--ARROZ
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.currval,'ARROZ CON PATATA','ARROZ CON PATATAS FRITAS','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'ARROZ CON NARANJA','ARROZ CON TROZOS DE NARANJA','$4.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'ARROZ CON MANZANA','ARROZ CON TROZOS DE MANZANA','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'ARROZ CON CARNE','ARROZ CON CARNE DE VACUNO AL HORNO','$6.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'ARROZ CON POLLO','ARROZ CON CARNE DE POLLO AL HORNO','$7.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'ARROZ CON PESCADO','ARROZ CON ATÚN A LA PLANCHA','$8.500');
+--QUINOA
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'QUINOA CON PATATA','QUINOA CON PATATAS FRITAS','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'QUINOA CON NARANJA','QUINOA CON TROZOS DE NARANJA','$4.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'QUINOA CON MANZANA','QUINOA CON TROZOS DE MANZANA','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'QUINOA CON CARNE','QUINOA CON CARNE DE VACUNO AL HORNO','$6.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'QUINOA CON POLLO','QUINOA CON CARNE DE POLLO AL HORNO','$7.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'QUINOA CON PESCADO','QUINOA CON ATÚN A LA PLANCHA','$8.500');
+--LENTEJAS
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'LENTEJAS','LENTEJAS CON ARROZ EN SOPA','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'LENTEJAS CON VERDURAS','LENTEJAS CON ARROZ EN SOPA CON VERDURAS','$4.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'LENTEJAS CON CARNE','LENTEJAS CON ARROZ EN SOPA CON CARNE','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'LENTEJAS CON POLLO','LENTEJAS CON ARROZ EN SOPA CON POLLO','$6.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'LENTEJAS CON CHORIZO','LENTEJAS CON ARROZ EN SOPA CON CHORIZO','$7.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'LENTEJAS CON PESCADO','LENTEJAS CON ARROZ EN SOPA CON PESCADO','$8.500');
+--GARBANZOS
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'GARBANZOS','GARBANZOS CON ARROZ EN SOPA','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'GARBANZOS CON VERDURAS','GARBANZOS CON ARROZ EN SOPA CON VERDURAS','$4.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'GARBANZOS CON CARNE','GARBANZOS CON ARROZ EN SOPA CON CARNE','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'GARBANZOS CON POLLO','GARBANZOS CON ARROZ EN SOPA CON POLLO','$6.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'GARBANZOS CON CHORIZO','GARBANZOS CON ARROZ EN SOPA CON CHORIZO','$7.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'GARBANZOS CON PESCADO','GARBANZOS CON ARROZ EN SOPA CON PESCADO','$8.500');
+--POROTOS
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'POROTOS','POROTOS CON ARROZ EN SOPA','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'POROTOS CON VERDURAS','POROTOS CON ARROZ EN SOPA CON VERDURAS','$4.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'POROTOS CON CARNE','POROTOS CON ARROZ EN SOPA CON CARNE','$3.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'POROTOS CON POLLO','POROTOS CON ARROZ EN SOPA CON POLLO','$6.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'POROTOS CON CHORIZO','POROTOS CON ARROZ EN SOPA CON CHORIZO','$7.500');
+INSERT INTO carta(id_carta,ca_nombre,ca_desc,precio) VALUES (sec_carta.nextval,'POROTOS CON PESCADO','POROTOS CON ARROZ EN SOPA CON PESCADO','$8.500');
+
+--SECUENCIA ID RUT
+CREATE SEQUENCE sec_rut
+    START WITH 16000000
+    INCREMENT BY 73169
+    MAXVALUE 22000000
+    MINVALUE 6000000;
+SELECT sec_rut.nextval from dual;
+
+--INSERT ROL EMPLEADO
+INSERT INTO rol_empleado (id_rol, rol_desc) VALUES (1,'ADMINISTRADOR');
+INSERT INTO rol_empleado (id_rol, rol_desc) VALUES (2,'BODEGA');
+INSERT INTO rol_empleado (id_rol, rol_desc) VALUES (3,'FINANZAS');
+INSERT INTO rol_empleado (id_rol, rol_desc) VALUES (4,'COCINA');
+INSERT INTO rol_empleado (id_rol, rol_desc) VALUES (5,'CLIENTE');
+
+--INSERT EMPLEADO
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'JONATHAN','CECILIO','HERNANDEZ','VIDAL','FEMENINO',dbms_random.value(123456789,999999999),'26-09-1999',dbms_random.value(100000,1000000),'JONATANTAN@GMAIL.COM',3); 
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'DANIEL','IGNACIO','HERNANDEZ','PINTO','FEMENINO',dbms_random.value(123456789,999999999),'26-09-1999',dbms_random.value(100000,1000000),'DANDAN@GMAIL.COM',1);
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'DANTE','YUI','VASQUEZ','SANCHEZ','FEMENINO',dbms_random.value(123456789,999999999),'26-09-1999',dbms_random.value(100000,1000000),'DANTDANT@GMAIL.COM',5); 
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'RODRIGO','ADAM','LEON','VIDAL','FEMENINO',dbms_random.value(123456789,999999999),'26-09-1999',dbms_random.value(100000,1000000),'RODRIGOELMENDIGO@GMAIL.COM',2); 
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'SEBASTIAN','EVA','SILVA','BOSEJOUR','FEMENINO',dbms_random.value(123456789,999999999),'26-09-1999',dbms_random.value(100000,1000000),'SEBS@GMAIL.COM',4); 
+--VERSION MINIS
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'JON','CECILIO','NANDEZ','VIDAL','MACULINO',dbms_random.value(123456789,999999999),'2-09-1999',dbms_random.value(100000,1000000),'JONANTAN@GMAIL.COM',3); 
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'DAN','IGNACIO','NANDEZ','PINTO','MACULINO',dbms_random.value(123456789,999999999),'8-09-1999',dbms_random.value(100000,1000000),'DADAN@GMAIL.COM',1);
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'DAN','YUI','VASQUEZ','CHEZ','MACULINO',dbms_random.value(123456789,999999999),'28-09-1999',dbms_random.value(100000,1000000),'DANTNT@GMAIL.COM',5); 
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'ROD','ADAM','LEON','IDAL','MACULINO',dbms_random.value(123456789,999999999),'29-09-1999',dbms_random.value(100000,1000000),'RODGOELMENDIGO@GMAIL.COM',2); 
+INSERT INTO empleado(e_rut,e_dv,prim_nom, seg_nom,prim_apell,sec_apell, genero,telefono, fec_nac,salario,correo, rol_empleado_id_rol) VALUES(sec_rut.nextval,TO_CHAR(TRUNC(dbms_random.value(1,9))),'SEB','EVA','SILVA','JOUR','MACULINO',dbms_random.value(123456789,999999999),'6-09-1999',dbms_random.value(100000,1000000),'SBS@GMAIL.COM',4); 
+
+--SECUENCIA GUIA_DESPACHO
+CREATE SEQUENCE sec_envio
+    START WITH 1000
+    INCREMENT BY 1
+    MAXVALUE 100000
+    MINVALUE 1;
+SELECT sec_envio.nextval from dual;
+
+--INSERT GUIA_DESCP
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.currval,'$123000',19000,'19045043','2-04-2021','3');
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.nextval,'$23000',19000,'1906043','3-04-2021','2');
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.nextval,'$123000',13000,'1906543','20-04-2021','5');
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.nextval,'$126000',1900,'19065043','21-04-2021','6');
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.nextval,'$1287600',190,'19065043','23-04-2021','7');
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.nextval,'$1237',1300,'1905043','23-06-2021','7');
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.nextval,'$127865',12000,'1065043','23-04-2021','13');
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.nextval,'$18765',16000,'1965043','21-04-2021','1');
+INSERT INTO guia_desp(id_envio, monto_neto,iva, total, fec_envio,suministro_id_suministro) VALUES (sec_envio.nextval,'$12543',1000,'1906043','23-05-2021','6');
+
+--Secuencia para la id de "mesas"
+CREATE SEQUENCE sec_mesa
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 99
+    MINVALUE 1;
+--Realizamos un select para iciar la secuencia con el "nextval"
+SELECT sec_mesa.nextval from dual;
+--Para ver en que valor vamos se realiza un select con el "currval"
+SELECT sec_mesa.currval from dual;
+
+--Ingresamos datos en la tabla "mesa"
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.currval, 5,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 4,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 4,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 4,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 4,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 4,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 4,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 4,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 6,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 6,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 6,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 6,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 6,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 8,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 8,0,0);
+INSERT INTO mesa(id_mesa, capacidad, estareservada, tieneorden) values (sec_mesa.nextval, 8,0,0);
+
+--Secuencia para la id de "orden"
+CREATE SEQUENCE sec_orden
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 99
+    MINVALUE 1;
+--Realizamos un select para iciar la secuencia con el "nextval"
+SELECT sec_orden.nextval from dual;
+--Para ver en que valor vamos se realiza un select con el "currval"
+SELECT sec_orden.currval from dual;
+
+
+--Ingresamos datos en la tabla "orden"
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.currval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 1);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 2);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 3);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 4);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 5);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 6);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 7);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 8);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 9);
+INSERT INTO orden(id_orden, fecha, hora, mesa_id_mesa) VALUES(sec_orden.nextval, TO_CHAR(SYSDATE,'DD-MM-YYYY'), TO_CHAR(SYSDATE,'HH24:MI:SS'), 10);
+
+--Secuencia para la id de "boleta"
+CREATE SEQUENCE sec_boleta
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 99
+    MINVALUE 1;
+--Realizamos un select para iciar la secuencia con el "nextval"
+SELECT sec_boleta.nextval from dual;
+--Para ver en que valor vamos se realiza un select con el "currval"
+SELECT sec_boleta.currval from dual;
+
+--Ingresamos datos en la tabla "boleta"
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',1);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',2);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',3);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',4);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',5);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',6);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',7);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',8);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Efectivo',9);
+INSERT INTO boleta(id_boleta, fecha, hora, monto, tipo_pago, orden_id_orden) VALUES(sec_boleta.nextval, To_char(SYSDATE, 'DD-MM-YYYY'), To_char(SYSDATE, 'HH24:MI:SS'), round(dbms_random.value(5000,20000)), 'Transferencia',10);
+
+--Ingresamos datos en la tabla "Detalle_Orden"
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Sin sal',1,'SIN ATENDER','1','1');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Con sal',1,'SIN ATENDER','2','1');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Sin sal',2,'SIN ATENDER','1','2');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Sin sal',2,'SIN ATENDER','2','2');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Sin sal',2,'SIN ATENDER','1','2');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Azucar',1,'SIN ATENDER','3','4');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Sin sal',5,'SIN ATENDER','1','4');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Azucar',1,'SIN ATENDER','3','3');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Sin sal',3,'SIN ATENDER','1','3');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Picante',1,'SIN ATENDER','4','2');
+INSERT INTO DETALLE_ORDEN(COMENTARIOS,CANTIDAD,ESTADO_ORDEN,ORDEN_ID_ORDEN,CARTA_ID_CARTA) VALUES ('Sin organo',2,'SIN ATENDER','5','2');
+
