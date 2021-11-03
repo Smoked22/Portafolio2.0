@@ -5,35 +5,7 @@
 
 <div>
     <!-- Main content -->
-    <div class="card card-primary">
-       <div class="card-header">
-         <h3 class="card-title">Buscar Reserva</h3>
-       </div>
-       <!-- /.card-header -->
-       <!-- form start -->
-       <form>
-           <!-- SELECT2 EXAMPLE -->
-           <div class="card card-default">
-               <div class="card-body">
-                 <div class="row">
-                   <div class="col-md-6">
-                     <div class="form-group">
-                       <label>Rut Cliente</label>
-                       <select class="form-control select2" style="width: 100%;">
-                         {% for r in categorias %}
-                         <option value="{{r.0}}">{{r.0}}</option>
-                         <a class="btn btn-block btn-warning" href="{% url 'buscar_ingrediente_lista' r.0 %}">Modificar</a>
-                         {% endfor %}   
-                       </select>
-                     </div>     
-                   </div>
-                 </div>
-                
-               </div>
-             </div>
-            
-       </form>
-     </div>
+    
    
    
     
@@ -58,8 +30,9 @@
                       <th>fecha caducidad</th>
                      </tr>
                    </thead>
-                   {% for r in categorias %}
+                   
                    <tbody>
+                    {% for r in categorias %}
                      <tr>
                        <td>{{ r.0 }}</td>
                        <td>{{ r.1 }}</td>
@@ -67,11 +40,12 @@
                        <td>{{ r.3 }}</td>
                        <td>{{ r.4 }}</td>
                        <td>{{ r.5 }}</td>
-                       <td><a class="btn btn-block btn-warning" href="{% url 'reserva_modificar' r.0 %}">Modificar</a></td>
-                       <td><a class="btn btn-block btn-danger" href="{% url 'reserva_eliminar' r.0 %}">Eliminar</a></td>
+                       <td><a class="btn btn-block btn-warning" href="{% url 'modificar_ingrediente_rellenar' r.0 %}">Modificar</a></td>
+                       <td><a class="btn btn-block btn-danger" href="{% url 'ingrediente_eliminar' r.0 %}">Eliminar</a></td>
                      </tr>
+                     {% endfor %}  
                    </tbody>
-                   {% endfor %}                 
+                                  
                  </table>
                </div>
                <!-- /.card-body -->

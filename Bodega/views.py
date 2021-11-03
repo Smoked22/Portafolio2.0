@@ -96,7 +96,7 @@ def suministro(request):
     return render(request, './listar_suministros.html', data)
 
 
-def eliminar_reserva( id ):
+def eliminar_ingrediente( id ):
     django_cursor = connection.cursor()
     #Cursor que llama
     cursor = django_cursor.connection.cursor()
@@ -104,7 +104,7 @@ def eliminar_reserva( id ):
     cursor.callproc('SP_ELIMINAR_INGREDIENTER',[id , salida ])
     return salida.getvalue()
 
-def reserva_eliminar(request, id):
+def ingrediente_eliminar(request, id):
 
     data = {
         'categorias' :listar_categoria()
@@ -112,14 +112,14 @@ def reserva_eliminar(request, id):
      
     }
    
-    salida = eliminar_reserva(id)
+    salida = eliminar_ingrediente(id)
 
     if salida == 1:
         data['mensaje'] = 'Borrado correctamente'
-        data['reservas'] = listadoReserva()
+        data['categorias'] = listado_ingredienter()
     else:
         data['mensaje'] = 'No se pudo borrar'
-        data['reservas'] = listadoReserva()
+        data['categorias'] = listado_ingredienter()
 
     
 
@@ -154,7 +154,7 @@ def buscar_ingrediente_lista(request, id):
 
     return render(request, './lista_ingredientemod.html', data)
 
-def modificar_ingrediente_rellenar(request):
+def modificar_ingrediente_rellenar(request, id):
     data= {
 
     'categorias' :listar_categoria()        
