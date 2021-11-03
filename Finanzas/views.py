@@ -30,12 +30,15 @@ def listado_boleta():
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+
 #Funciona para renderizar la pagina "ingresar_boleta.html"
+@login_required
 def agegar_boleta(request):
     data = {
     }
     #print(listado_boleta())
-    #ingresar_boleta('40','24-09-2021','14:20','12000','Transferencia','13')
+    #ingresar_boleta('400','24-09-2021','14:20','12000','Transferencia','23')
     #si es un metodo "POST" entra en el if
     if request.method == 'POST':
         id_boleta = request.POST.get('id_boleta')
@@ -60,7 +63,7 @@ def ingresar_boleta(id_boleta, fecha, hora, monto, tipo_pago, id_orden):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_BOLETA2',[id_boleta,fecha, hora, monto, tipo_pago,id_orden, salida])
+    cursor.callproc('SP_AGREGAR_BOLETA2',[id_boleta, fecha, hora, monto, tipo_pago, id_orden, salida])
     return salida.getvalue()
 
 #Funcion para renderizar la pagina "registro_proveedores.html"
@@ -69,7 +72,7 @@ def proveedores(request):
     data = {
         'proveedores':listado_proveedor()
     }
-    print(listado_proveedor())
+    #print(listado_proveedor())
     return render(request, './registro_proveedores.html',data)
 
 #Creamos una funciona para llamar al procedimiento almacenado
@@ -86,14 +89,37 @@ def listado_proveedor():
 
     return lista
 
+#Funcion para renderizar la pagina "Producto_proveedores.html"
+def listado_produc_proveedor(request,id):
+    data ={
+        'producto':lista_productos(id),
+    }
+    return render(request, './productos_proveedores.html',data)
+
+#Procedimiento almacenado "Listar productos de proveedores"
+def lista_productos(rut):
+    django_cursor = connection.cursor()
+
+    cursor = django_cursor.connection.cursor()
+
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_PRODUCTOS_PROVEEDORES", [out_cur,rut])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
 #Funcion para renderizar la pagina "guias_despacho.html"
+@login_required
 def guia_despacho(request):
     data = {
         'guia_despacho':listado_guia_despacho
     }
     return render(request, './guias_despacho.html', data)
 
-#Funcion para renderizar la pagina "guias_despacho.html"
+#Procedimiento almacenado "Listar guias de despacho"
 def listado_guia_despacho():
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
@@ -105,4 +131,7 @@ def listado_guia_despacho():
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+
+
 #codigo prueba
