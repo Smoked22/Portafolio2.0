@@ -3,6 +3,20 @@
 {% load static %}
 
 {% block contenido %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function()
+    {
+        var boleta;
+        var totalboleta=0;
+        $('td:nth-child(4)').each(function()
+        {
+            boleta=$(this).html();
+            totalboleta+=parseInt(boleta);
+            $('#boletat').text('$'+totalboleta);
+        });
+    });
+</script>
 
 <div class="col-sm-6">
     <h2 class="m-0">Boletas</h2>
@@ -25,7 +39,10 @@
                 <td>{{ p.4}}</td>
             </tr>
         {% endfor %}
-        
+        <tr>
+            <td colspan="3" style="text-align: right;">Total Boletas</td>
+            <td id='boletat'></td>
+        </tr>
     </table>
     <div class="card-footer clearfix">
         <a href="{% url 'agregar_boleta_finanzas'%}" class="btn btn-sm btn-info float-right">Ingresar Boleta</a>
