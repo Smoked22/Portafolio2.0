@@ -15,6 +15,7 @@
             <th>Direccion</th>
             <th>Correo Electronico</th>
             <th>Rut Social</th>
+            <th>Productos Adquiridos</th>
         </tr>
         {% for p in proveedores %}
             <tr>
@@ -23,6 +24,7 @@
                 <td>{{ p.6}}</td>
                 <td>{{ p.4}}</td>
                 <td>{{ p.0}}</td>
+                <td><a class="btn btn-block btn-warning" href="{% url 'productos_proveedores' p.0 %}">Ver Productos</a></td>
             </tr>
         {% endfor %}
     </table>
