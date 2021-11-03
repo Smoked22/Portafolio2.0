@@ -1,0 +1,446 @@
+--Procedimientos Almacenados
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------Procedimiento almacenado "LISTAR BOLETAS"-------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace procedure sp_listar_boletas(boletas out SYS_REFCURSOR)
+is
+begin
+    open boletas for select * from boleta;
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------Procedimiento almacenado "LISTAR PROVEEDORES"---------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace procedure sp_listar_proveedores(proveedores out SYS_REFCURSOR)
+is
+begin
+    open proveedores for select * from proveedor;
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------Procedimiento almacenado "LISTAR RESERVAS"------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace procedure sp_agregar_boleta2(
+    v_id_boleta nvarchar2,
+    v_fecha nvarchar2,
+    v_hora nvarchar2,
+    v_monto nvarchar2,
+    v_tipo_pago nvarchar2,
+    v_id_orden nvarchar2,
+    v_salida out number
+)is
+begin
+    insert into boleta(ID_BOLETA, FECHA, HORA, MONTO, TIPO_PAGO, ORDEN_ID_ORDEN)
+    values(v_id_boleta, v_fecha, v_hora, v_monto, v_tipo_pago, v_id_orden);
+    commit;
+    v_salida:=1;
+    
+    exception
+    
+    when others then
+        v_salida:=0;
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------Procedimiento almacenado "Productos de Proveedores"---------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE sp_listar_productos_proveedores
+(
+productos out SYS_REFCURSOR,
+v_rut_proveedor nvarchar2
+)
+IS
+BEGIN  
+    OPEN productos for select * from suministro
+    where v_rut_proveedor = PROVEEDOR_RUT_SOCIAL;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------Procedimiento almacenado "Total boleta"---------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+CREATE OR REPLACE PROCEDURE sp_total_boleta
+(
+productos out SYS_REFCURSOR,
+v_rut_proveedor nvarchar2
+)
+IS
+BEGIN  
+    OPEN productos for select * from suministro
+    where v_rut_proveedor = PROVEEDOR_RUT_SOCIAL;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------Procedimiento almacenado "Listar guias de despacho"-----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace procedure sp_listar_guias_despacho(guia_despacho out SYS_REFCURSOR)
+is
+begin
+    open guia_despacho for select * from guia_desp;
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------PROCEDIMIENTOS ALMACENADOS MÁS ID CON SECUENCIA-------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------SECUENCIA ID ORDEN-----------------------
+CREATE SEQUENCE sec_reserva
+    START WITH 100
+    INCREMENT BY 1
+    MAXVALUE 9999
+    MINVALUE 1;
+-----------------------Realizamos un select para iciar la secuencia con el "nextval"-----------------------
+SELECT sec_reserva.nextval from dual;
+
+---------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------Procedimiento almacenado "AGREGAR RESERVA"-----------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_agregar_reserva(
+
+    v_fec_reserva       NVARCHAR2,
+    v_empleado_e_rut    INTEGER,
+    v_cliente_c_rut     NUMBER,
+    v_origen_reserva    NVARCHAR2,
+    v_mesa_id_mesa      NVARCHAR2,
+    v_estado_reserva    NVARCHAR2,
+    v_cant_personas     INTEGER,
+    v_salida            out number
+)IS
+BEGIN
+    INSERT INTO reserva(id_reserva,
+                        fec_reserva_hecha,
+                        fec_reserva,
+                        empleado_e_rut,
+                        cliente_c_rut,
+                        origen_reserva,
+                        mesa_id_mesa,
+                        estado_reserva,
+                        cant_personas
+                        )
+    VALUES (sec_reserva.nextval,
+                        TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+                        v_fec_reserva,
+                        v_empleado_e_rut,
+                        v_cliente_c_rut,
+                        v_origen_reserva,
+                        v_mesa_id_mesa,
+                        v_estado_reserva,
+                        v_cant_personas
+                        );
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "BUSCAR RESERVA"--------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_buscar_reserva(
+
+    reservass out SYS_REFCURSOR,
+    v_id_reserva  NVARCHAR2
+
+)IS
+BEGIN
+    OPEN reservass for SELECT * FROM Reserva WHERE id_reserva = v_id_reserva;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "BUSCAR RESERVA POR RUT"------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_buscar_reserva_por_rutcli(
+        rutcli out SYS_REFCURSOR,
+        v_rut_cli  NVARCHAR2
+)IS
+BEGIN
+    OPEN rutcli for SELECT * FROM RESERVA WHERE cliente_c_rut = v_rut_cli;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "ELIMINAR RESERVA'------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_eliminar_reserva(
+
+    v_id_reserva  NVARCHAR2,
+    v_salida      out number
+
+)IS
+BEGIN
+    DELETE FROM Reserva WHERE id_reserva = v_id_reserva;
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR CLIENTES"-------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_listar_clientes(clientes out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN clientes for SELECT * FROM CLIENTE;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR EMPLEADOS"------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_listar_empleados(empleados out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN empleados for SELECT * FROM EMPLEADO;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR HORARIO"--------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_listar_horario(
+   mesas out SYS_REFCURSOR,
+    v_id_mesa NVARCHAR2
+
+)IS
+BEGIN
+
+    UPDATE hora
+    SET h_estado = 'Libre';
+    COMMIT;
+
+    UPDATE hora
+    SET h_estado = 'Ocupada'
+    WHERE h_hora IN
+    (
+        SELECT hora.h_hora
+        FROM hora
+        INNER JOIN reserva
+        ON reserva.mesa_id_mesa = reserva.mesa_id_mesa
+            WHERE hora.h_hora = SUBSTR(reserva.fec_reserva,12,2)
+            AND SUBSTR(reserva.fec_reserva,1,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),1,2)
+            AND SUBSTR(reserva.fec_reserva,4,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),4,2)
+            AND SUBSTR(reserva.fec_reserva,7,4) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),7,4)
+            AND reserva.mesa_id_mesa = v_id_mesa
+    );
+    COMMIT;
+    OPEN mesas for SELECT * FROM HORA;
+    COMMIT;
+
+END; 
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR MESAS"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_listar_mesas(mesas out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN mesas for SELECT * FROM Mesa;
+    COMMIT;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR MESAS DISP"-----------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_listar_mesas_disponibles(mesas out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN mesas for SELECT * FROM Mesa WHERE estareservada=0;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR RESERVAS"-------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_listar_reservas(reservas out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN reservas for SELECT * FROM Reserva;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "MODIFICAR RESERVA"-----------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_modificar_reserva(
+    v_id_reserva        NVARCHAR2,
+    v_fec_reserva       NVARCHAR2,
+    v_empleado_e_rut    INTEGER,
+    v_cliente_c_rut     NUMBER,
+    v_origen_reserva    NVARCHAR2,
+    v_mesa_id_mesa      NVARCHAR2,
+    v_estado_reserva    NVARCHAR2,
+    v_cant_personas     INTEGER,
+    v_salida            out number
+)IS
+BEGIN
+    UPDATE reserva SET  id_reserva  = v_id_reserva,
+                        fec_reserva_hecha = TO_CHAR(SYSDATE, 'YYYY-MM-DD'),
+                        fec_reserva = v_fec_reserva,
+                        empleado_e_rut = v_empleado_e_rut,
+                        cliente_c_rut = v_cliente_c_rut,
+                        origen_reserva = v_origen_reserva,
+                        mesa_id_mesa = v_mesa_id_mesa,
+                        estado_reserva =  v_estado_reserva,
+                        cant_personas = v_cant_personas
+
+                        WHERE id_reserva = v_id_reserva;
+
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "VER OCUPACION DEL EMPLEADO"--------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE ver_ocupacion(
+
+    v_fec_reserva NVARCHAR2,
+    v_salida out number
+)IS
+BEGIN
+    SELECT fec_reserva
+    INTO v_salida
+    FROM reserva
+    WHERE fec_reserva = v_fec_reserva;
+    v_salida :=1;
+    COMMIT;
+
+EXCEPTION
+   WHEN NO_DATA_FOUND THEN v_salida :=0;
+   COMMIT;
+
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "AGREGAR INGREDIENTE"---------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace procedure sp_agregar_productor(
+        r_categoria_id number,
+        r_nombre_ingrediente varchar2,
+        r_tipo_ingrediente varchar2,
+        r_stock number,
+        r_unidad_medida varchar2,
+        r_fecha varchar2,
+        r_salida out number
+)is
+begin
+insert into ingrediente(ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOCK, UNIDAD_DE_MEDIDA, FEC_CADUC)
+values(r_categoria_id, r_nombre_ingrediente, r_tipo_ingrediente, r_stock, r_unidad_medida, r_fecha);
+commit;
+        r_salida:=1;
+exception
+when others then
+        r_salida:=0;
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "BUSCAR INGREDIENTE"----------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_buscar_ingredienter(
+
+    ingredientess out SYS_REFCURSOR,
+    r_categoria_id  NVARCHAR2
+
+)IS
+BEGIN
+    OPEN ingredientess for SELECT * FROM ingrediente WHERE ID_INGREDIENTE = r_categoria_id;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "ELIMINAR INGREDIENTE"--------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_eliminar_ingredienter(
+
+    r_categoria_id  NVARCHAR2,
+    r_salida      out number
+
+)IS
+BEGIN
+    DELETE FROM ingrediente WHERE ID_INGREDIENTE = r_categoria_id;
+    COMMIT;
+    r_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        r_salida:=0;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR CATEGORIA"(COMBO BOX)-------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+create or replace procedure sp_listar_categoriasr(categoriasr out SYS_REFCURSOR)
+is
+
+begin
+open categoriasr for select * from ingrediente;
+
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR INGREDIENTES"---------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace procedure sp_listar_ingredienter(ingredienter out SYS_REFCURSOR)
+is
+
+begin
+open ingredienter for select * from ingrediente;
+
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR PROVEEDORES"----------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace procedure sp_listar_proveedorr(proveedorr out SYS_REFCURSOR)
+is
+
+begin
+open proveedorr for select * from proveedor;
+
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR SUMINISTRO"----------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace procedure sp_listar_suministror(suministror out SYS_REFCURSOR)
+is
+
+begin
+open suministror for select * from suministro;
+
+end;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "MODIFICAR INGREDIENTE"-------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_modificar_ingredienter(
+
+    r_categoria_id          number,
+    r_nombre_ingrediente    varchar2,
+    r_tipo_ingrediente      varchar2,
+    r_stock                 number,
+    r_unidad_medida         varchar2,
+    r_fecha                 varchar2,
+    r_salida                out number
+)IS
+BEGIN
+    UPDATE ingrediente SET  ID_INGREDIENTE = r_categoria_id,
+                            NOM_INGREDIENTE = r_nombre_ingrediente, 
+                            DESC_INGREDIENTE = r_tipo_ingrediente,
+                            STOCK = r_stock,
+                            UNIDAD_DE_MEDIDA = r_unidad_medida,
+                            FEC_CADUC = r_fecha
+
+
+                 WHERE ID_INGREDIENTE = r_categoria_id;
+
+    COMMIT;
+    r_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+    r_salida:=0;
+END;
+---------------------------------------------------------------------------------------------------------------------------------
