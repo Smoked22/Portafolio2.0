@@ -5,33 +5,31 @@
 
 <div>
  <!-- Main content -->
- <div class="card card-primary">
+    <div class="card card-primary">
     <div class="card-header">
       <h3 class="card-title">Buscar Reserva</h3>
     </div>
-    <!-- /.card-header -->
-    <!-- form start -->
-    <form>
+    <form action="" method="POST">
+        {% csrf_token %}
         <!-- SELECT2 EXAMPLE -->
-        <div class="card card-default">
+       
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <label>Rut Cliente</label>
-                    <select class="form-control select2" style="width: 100%;">
-                      {% for r in reservas %}
-                      <option value="{{r.4}}">{{r.4}}</option>
-                      <a class="btn btn-block btn-warning" href="{% url 'reserva_buscar' r.4 %}">Modificar</a>
+                    <select name="rutcli" class="form-control select2" style="width: 100%;">
+                      {% for r in base %}
+                      <option value="{{r.4}}">{{r.4}}</option>           
                       {% endfor %}   
                     </select>
-                  </div>     
-                </div>
+                   
+                  </div>         
+                </div>     
               </div>
-             
+              <button type="submit" class="btn btn-primary">Buscar</button> 
             </div>
-          </div>
-         
+        
     </form>
   </div>
 
@@ -43,7 +41,7 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Listado de Reservas</h3>
+                <h3 class="card-title">Listar Reservas</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">

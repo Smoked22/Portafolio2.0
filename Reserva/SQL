@@ -154,3 +154,67 @@ BEGIN
     WHEN others THEN
         v_salida:=0;                     
 END;
+
+ 
+CREATE OR REPLACE PROCEDURE sp_buscar_reserva_por_rutCli(
+        rutcli out SYS_REFCURSOR,
+        v_rut_cli  NVARCHAR2
+)IS
+BEGIN  
+    OPEN rutcli for SELECT * FROM RESERVA WHERE cliente_c_rut = v_rut_cli;
+END;
+
+
+
+--PROCEDIMIENTO LISTAR HORARIO
+CREATE OR REPLACE PROCEDURE sp_listar_horario(
+    mesas out SYS_REFCURSOR,
+    v_id_mesa NVARCHAR2
+    
+)IS
+BEGIN
+
+    UPDATE hora
+    SET h_estado = 'Libre';
+    COMMIT;
+    
+    UPDATE hora
+    SET h_estado = 'Ocupada'
+    WHERE h_hora IN
+    (
+        SELECT hora.h_hora
+        FROM hora
+        INNER JOIN reserva
+        ON reserva.mesa_id_mesa = reserva.mesa_id_mesa
+            WHERE hora.h_hora = SUBSTR(reserva.fec_reserva,12,2)
+            AND SUBSTR(reserva.fec_reserva,1,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),1,2)
+            AND SUBSTR(reserva.fec_reserva,4,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),4,2)
+            AND SUBSTR(reserva.fec_reserva,7,4) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),7,4)
+            AND reserva.mesa_id_mesa = v_id_mesa
+    );
+    COMMIT;
+    OPEN mesas for SELECT * FROM HORA;
+    COMMIT;
+                   
+END; 
+
+
+
+CREATE OR REPLACE PROCEDURE sp_listar_mesas_disponibles_ahora(mesas out SYS_REFCURSOR)
+IS
+BEGIN
+        UPDATE MESA
+        SET estareservada= '1'
+        WHERE id_mesa IN (
+                             SELECT reserva.mesa_id_mesa
+                             FROM mesa
+                             INNER JOIN reserva
+                             ON reserva.mesa_id_mesa = mesa.id_mesa
+                             WHERE SUBSTR(reserva.fec_reserva,1,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),1,2)
+                                   AND SUBSTR(reserva.fec_reserva,4,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),4,2)
+                                   AND SUBSTR(reserva.fec_reserva,7,4) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),7,4)
+                                   AND SUBSTR(fec_reserva,12,2) = SUBSTR(TO_CHAR(SYSDATE, 'HH24:MI:SS'),1,2)
+        
+        );
+        OPEN mesas for SELECT * FROM Mesa;
+END;   
