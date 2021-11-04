@@ -17,7 +17,12 @@ import cx_Oracle
 #Inicio Reservas
 @login_required
 def home(request):
-    return render(request, './home_reserva.html')
+    data = {
+        #Almacena la variable para listar mesas
+        'mesas' : listado_mesas()
+       
+    }
+    return render(request, './home_reserva.html',data)
 
 #Inicio Reservas
 @login_required

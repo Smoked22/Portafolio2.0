@@ -12,7 +12,10 @@ import cx_Oracle
 
 @login_required
 def home(request):
-    return render(request, './home_cocina.html')
+    data = {
+        'ordenes':listado_ordenes()
+    }
+    return render(request, './home_cocina.html',data)
 
 @login_required
 def receta(request):
