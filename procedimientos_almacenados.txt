@@ -563,10 +563,232 @@ END;
 ---------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------Procedimiento almacenado "LISTAR ORDEN"----------------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------
+
 create or replace NONEDITIONABLE PROCEDURE sp_listar_orden(ordenes out SYS_REFCURSOR)
 IS
 BEGIN
-    OPEN ordenes for SELECT * FROM orden;
+    OPEN ordenes for 
+    SELECT * 
+    FROM 
+    orden 
+    WHERE hora != 'x'
+  
+  
+    ;
 END;
 
 ---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "MODIFICAR ORDEN"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_modificar_ordenes(
+
+    v_id_orden                  NVARCHAR2,
+    v_estado                    NVARCHAR2,
+    v_plato                     NVARCHAR2,
+    v_salida                    out number
+    
+)IS
+BEGIN
+
+    IF v_estado = '0' 
+         THEN
+         UPDATE DETALLE_ORDEN 
+         SET ESTADO_ORDEN = 'Orden Tomada'
+         WHERE orden_id_orden = v_id_orden
+         AND carta_id_carta = v_plato;
+    END IF;
+
+    IF v_estado = '1' 
+         THEN
+         UPDATE DETALLE_ORDEN 
+         SET ESTADO_ORDEN = 'Orden por entregar'
+         WHERE orden_id_orden= v_id_orden
+         AND carta_id_carta = v_plato;
+         
+    END IF;
+                        
+    IF v_estado = '2'
+         THEN
+         UPDATE DETALLE_ORDEN 
+         SET ESTADO_ORDEN = 'Orden entregada'
+         WHERE orden_id_orden = v_id_orden
+         AND carta_id_carta = v_plato;
+    END IF;
+    
+    IF v_estado = '3' 
+         THEN
+         UPDATE DETALLE_ORDEN 
+         SET ESTADO_ORDEN = 'FINALIZADO'
+         WHERE orden_id_orden = v_id_orden
+         AND carta_id_carta = v_plato;
+    END IF;  
+    
+    IF v_estado = '4' 
+         THEN
+         UPDATE ORDEN
+         SET HORA = 'x'
+         WHERE id_orden = v_id_orden;
+    END IF;    
+    
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;                     
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR DETALLE_ORDEN 2"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_listar_detalle_orden_2(
+
+            ordenes out SYS_REFCURSOR,
+            v_id_orden NVARCHAR2
+)
+IS
+BEGIN
+    OPEN ordenes for 
+
+    SELECT *
+    FROM orden o
+    INNER JOIN detalle_orden do
+    ON o.id_orden = do.orden_id_orden
+    INNER JOIN carta c
+    ON do.carta_id_carta = c.id_carta
+    WHERE o.id_orden = v_id_orden;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR MESAS DISPONIBLE AHORA"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_listar_mesas_disponibles_ahora(mesas out SYS_REFCURSOR)
+IS
+BEGIN
+        UPDATE MESA
+        SET estareservada= '1'
+        WHERE id_mesa IN (
+                             SELECT reserva.mesa_id_mesa
+                             FROM mesa
+                             INNER JOIN reserva
+                             ON reserva.mesa_id_mesa = mesa.id_mesa
+                             WHERE SUBSTR(reserva.fec_reserva,1,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),1,2)
+                                   AND SUBSTR(reserva.fec_reserva,4,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),4,2)
+                                   AND SUBSTR(reserva.fec_reserva,7,4) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),7,4)
+                                   AND SUBSTR(fec_reserva,12,2) = SUBSTR(TO_CHAR(SYSDATE, 'HH24:MI:SS'),1,2)
+
+        );
+        COMMIT;
+
+        UPDATE MESA
+        SET estareservada= '0'
+        WHERE id_mesa NOT IN (
+                             SELECT reserva.mesa_id_mesa
+                             FROM mesa
+                             INNER JOIN reserva
+                             ON reserva.mesa_id_mesa = mesa.id_mesa
+                             WHERE SUBSTR(reserva.fec_reserva,1,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),1,2)
+                                   AND SUBSTR(reserva.fec_reserva,4,2) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),4,2)
+                                   AND SUBSTR(reserva.fec_reserva,7,4) = SUBSTR(TO_CHAR(SYSDATE, 'DD/MM/YYYY'),7,4)
+                                   AND SUBSTR(fec_reserva,12,2) = SUBSTR(TO_CHAR(SYSDATE, 'HH24:MI:SS'),1,2)
+
+        );
+
+        COMMIT;
+
+        OPEN mesas for SELECT * FROM Mesa;
+END;  
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "BUSCAR INFO RESERVAS"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_buscar_info_reservas(
+
+    mesa out SYS_REFCURSOR
+     
+)IS
+BEGIN  
+    OPEN mesa
+    FOR
+    SELECT
+            COUNT(r.id_reserva) as RESERVAS,
+            COUNT(DISTINCT(r.cliente_c_rut)) AS CLI_REGIS,
+            SUM(m.estareservada) as RESERVA_ACTUAL,
+            COUNT(DISTINCT(m.id_mesa)) AS MESAS_LIBRES
+
+
+    FROM RESERVA r
+    INNER JOIN MESA m
+    ON r.mesa_id_mesa = m.id_mesa
+    ;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "ELIMINAR CLIENTE"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_eliminar_cliente(
+
+    v_rut  NVARCHAR2,
+    v_salida      out number
+     
+)IS
+BEGIN  
+    DELETE FROM cliente WHERE c_rut = v_rut;
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;  
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR CARTA"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_listar_carta(cartas out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN cartas for SELECT * FROM carta;
+END;
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR CARTA DETALLE"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_listar_carta_detalle(cartas out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN cartas for 
+    SELECT * 
+    FROM carta c
+    INNER JOIN RECETA r
+    ON c.id_carta = r.carta_id_carta;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR CARTA DETALLE"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_modificar_cliente(
+
+    v_rut                  NVARCHAR2,
+    v_dv                   NVARCHAR2,
+    v_nombre                   NVARCHAR2,
+    v_telefono                INTEGER,
+    v_correo               NVARCHAR2,
+    v_salida               out number
+    
+)IS
+BEGIN
+    UPDATE cliente SET  c_rut = v_rut,
+                        dv = v_dv,
+                        nombre = v_nombre,
+                        telefono = v_telefono,
+                        correo = v_correo
+
+                        WHERE c_rut = v_rut;
+
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;                     
+END;
