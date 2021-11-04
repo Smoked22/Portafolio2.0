@@ -1,0 +1,28 @@
+{% extends 'base_cocina.html' %}
+
+{% load static %}
+
+{% block contenido %}
+<div class="card-body">
+  <table id="example1" class="table table-bordered table-striped">
+      <tr>
+          <th>id</th>
+          <th>fecha</th>
+          <th>hora</th>
+          <th>mesaid</th>
+          
+      </tr>
+      {% for o in orden %}
+          <tr>
+              <td>{{ o.0 }}</td>
+              <td>{{ o.1 }}</td>
+              <td>{{ o.2 }}</td>
+              <td>{{ o.3 }}</td>
+              <td>{{ o.4 }}</td>
+          </tr>
+      {% endfor %}
+  </table>
+</div>
+    
+{% endblock %}
+

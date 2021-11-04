@@ -17,6 +17,7 @@ from django.db import connection
 def home_admin(request):
     data = {
         'reservas' : reserva_info(),
+        'empleados' : empleados_info()
   
     }
     return render(request, './home_admin.html', data)
