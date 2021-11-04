@@ -31,23 +31,26 @@
                 <br>
                 <input class="form-control" name="nombre_ingrediente" type="text"  placeholder="nombre_ingrediente">
                 <br>
-                <select name="categoria" placeholder="numerosjej" class="form-control">
-                  
-                  <option value="">seleccion categoria</option> 
-                  {% for c in categorias %}
-                  <option value="{{ c.2 }}">{{ c.2 }}</option>
-                  {% endfor %}
+                <div class="form-group">
+                <select name="categoria" class="form-control custom-select">
+                  <option selected disabled>unidad de medida</option>
+                  <option>PESCADOS Y MARISCOS</option>
+                  <option>FRUTA Y VERDURA</option>
+                  <option>CONDIMENTO Y SALSA</option>
                 </select>
-                <br>
+              </div>
+                
                 <input class="form-control" name="stock" type="number" placeholder="stock">
                 <br>
-                <select name="un_medida" placeholder="numerosjej" class="form-control">
-                  <option value="">seleccion unidad de medida</option> 
-                  {% for k in categorias %}
-                  <option value="{{ k.4 }}">{{ k.4 }}</option>
-                  {% endfor %}
+
+                <div class="form-group">
+                <select name="un_medida" class="form-control custom-select">
+                  <option selected disabled>unidad de medida</option>
+                  <option>KG</option>
+                  <option>GRS</option>
+                  <option>LTS</option>
                 </select>
-                
+              </div>
                 
                 
                 <!-- <input class="form-control" type="text" placeholder="Default input"> -->

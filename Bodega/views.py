@@ -10,9 +10,9 @@ from django.db import connection
 import cx_Oracle
 # Create your views here.
 
-@login_required
-def home(request):
-    return render(request, './home_bodega.html')
+# @login_required
+# def home(request):
+#     return render(request, './home_bodega.html')
 
 @login_required
 def ingredientes(request):
@@ -23,7 +23,13 @@ def ingredientes(request):
 
     return render(request, './registro_ingrediente.html', data)
 
+def home(request):
+    data = {
+        'categorias' :listar_categoria()
+         
+    }
 
+    return render(request, './home_bodega.html', data)
 # LISTADOCATEGORIA
 def listar_categoria():
     django_cursor = connection.cursor()
