@@ -800,6 +800,17 @@ BEGIN
         v_salida:=0;                     
 END;
 /
+-----------------Buscar Mesa
+create or replace NONEDITIONABLE PROCEDURE sp_buscar_mesa(
+
+    mesa out SYS_REFCURSOR,
+    v_id_mesa  NVARCHAR2
+     
+)IS
+BEGIN  
+    OPEN mesa for SELECT * FROM MESA WHERE id_mesa = v_id_mesa;
+END;
+/
 
 CREATE TABLE hora (
     h_hora   NVARCHAR2(2) NOT NULL,
