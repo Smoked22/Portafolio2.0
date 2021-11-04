@@ -1,0 +1,103 @@
+{% extends 'base_cocina.html' %}
+{% load static %}
+{% block contenido %}
+
+<style>
+  .filterDiv {
+    display: none;
+  }
+  
+  .show {
+    display: block;
+  }
+  
+  .container {
+    margin-top: 20px;
+    overflow: hidden;
+  }
+  
+
+</style>
+<div class="card card-gray-dark">
+    <div class="card-header">
+      <h3 class="card-title">Crear Receta</h3>
+    </div>
+</div>
+<div class="row">
+{% for o in ordenes %}   
+    <div class="col-lg-3 col-6 filterDiv {{m.2}}x">
+      <div name="{{m.2}}x" class="small-box bg-gray filterDiv {{m.2}}x">
+        <div class="inner">
+          <h3>Id : {{o.0}}</h3>
+          <p> Estado :{{o.3}}</p>
+        </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        <a href="{% url 'orden_detalle' o.0 %}" id="{{m.2}}" class="small-box-footer">
+          <i class="fas fa-arrow-circle-right {{m.2}}t"> Detalles</i>
+        </a>
+      </div>
+    </div>
+{% endfor %}
+</div>
+
+  
+  <script>
+  filterSelection("all")
+  function filterSelection(c) {
+    var x, i;
+    x = document.getElementsByClassName("filterDiv");
+    if (c == "all") c = "";
+    for (i = 0; i < x.length; i++) {
+      w3RemoveClass(x[i], "show");
+      if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+    }
+  }
+  
+  function w3AddClass(element, name) {
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+      if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+    }
+  }
+  
+  function w3RemoveClass(element, name) {
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+      while (arr1.indexOf(arr2[i]) > -1) {
+        arr1.splice(arr1.indexOf(arr2[i]), 1);     
+      }
+    }
+    element.className = arr1.join(" ");
+  }
+  
+  // Add active class to the current button (highlight it)
+  var btnContainer = document.getElementById("myBtnContainer");
+  var btns = btnContainer.getElementsByClassName("btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function(){
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      this.className += " active";
+    });
+
+  window.onload = function reset() {
+  var elements = document.getElementsByName('1x'); 
+  for(var i = 0; i < elements.length; i++){
+    elements[i].classList.toggle('bg-danger');
+  }
+
+
+}
+
+}
+  </script>
+  
+{% endblock %}
+
+

@@ -1,0 +1,50 @@
+{% extends 'base_cocina.html' %}
+
+{% load static %}
+
+{% block contenido %}
+<div class="card card-primary"></div>
+<div class="card-header">
+    <h3 class="card-title">Detalle orden</h3>
+  </div>
+<div class="card-body">
+  <table id="example1" class="table table-bordered table-striped">
+          <tr>
+          <th>Plato</th>
+          <th>Cantidad</th>
+          <th>Estado</th>
+          <th>Comentarios</th>
+          <th>Tomar orden</th>
+          <th>Entregar para servir</th>
+          <th>Orden entregada</th>
+         </tr>
+        {% for o in ordenes %}
+          <tr>
+              <td>{{o.10}}</td>
+              <td>{{o.5}}</td>
+              <td>{{o.6}}</td>
+              <td>{{o.4}}</td> 
+              <td><a type="button" href="{% url 'orden_actualizar'  o.7 0 o.8 %}" class="btn btn-block btn-primary">Tomar</a></td> 
+              <td><a type="button" href="{% url 'orden_actualizar'  o.7 1 o.8 %}" class="btn btn-block btn-warning ">Servir</a></td> 
+              <td><a type="button" href="{% url 'orden_actualizar'  o.7 3 o.8 %}" class="btn btn-block btn-success">Entregada</a></td>              
+          </tr>
+         {% endfor %}
+  </table>
+</div>
+<table class="table table-bordered text-center">
+<tr>
+    <td>   
+       
+       <a href="{% url 'orden_listado'%}" type="button" class="btn btn-block btn-secondary">Volver</a>
+    </td>
+    <td>
+        
+       <a href="{% url 'orden_actualizar'  ordenes.0.7 4 1 %}"  type="button" class="btn btn-block btn-danger">Finalizar Orden</a>
+    </td>
+</tr>
+</table>
+
+</div>
+
+    
+{% endblock %}

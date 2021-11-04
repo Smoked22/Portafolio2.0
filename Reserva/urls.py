@@ -4,7 +4,9 @@ from .views import *
 
 urlpatterns = [
     path('home/', home, name="homeReserva"),
+
     path('pruebas/', pruebas, name="pruebas"),
+
     path('home/Listado_Reservas/', reserva_listado, name="reserva_listado"),
     path('home/Crear_Reserva/', reserva_crear, name="reserva_crear"),
     path('home/Mesas_Listado/', mesas_listar, name="mesas_listar"),
@@ -12,6 +14,11 @@ urlpatterns = [
     path('home/Eliminar_Reserva/<id>', reserva_eliminar, name="reserva_eliminar"),
     path('home/Listar_Horario_Mesa/<id>', horario_mesa, name="horario_mesa"),
     path('home/Buscar_Reserva/', reserva_buscar, name="reserva_buscar"),
+    
+    path('home/Listado_Cliente/', cliente_listado, name="cliente_listado"),
+    path('home/Cliente_modificar/<id>', cliente_modificar, name="cliente_modificar"),
+    path('home/Cliente_Eliminar/<id>', cliente_eliminar, name="cliente_eliminar"),
+    path('home/Crear_Cliente/', cliente_crear, name="cliente_crear"),
     path("select2/", include("django_select2.urls")),
     #path('home/reservas', reservas, name="reservas"),
     #path('home/crearReserva', crearReserva, name="crearReserva"),

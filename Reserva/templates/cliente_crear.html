@@ -1,0 +1,77 @@
+{% extends 'base_reserva.html' %}
+{% load static %}
+{% block contenido %}
+<div class="card card-primary">
+    <div class="card-header">
+      <h3 class="card-title">Crear Cliente</h3>
+    </div>
+
+    <form action="" method="POST">
+        {% csrf_token %}
+      <div class="card-body">
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Ingrese Rut</label>
+            <input  name="rutCli" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Ingrese digito verificador</label>
+            <select name="dv">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="K">K</option>
+              </select>
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Ingrese Nombre</label>
+            <input  name="nom" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el nombre del cliente">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Telefono</label>
+            <input name="telefono" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el telefono del cliente">
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputEmail1">Correo</label>
+            <input  name="correo" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el correo del cliente">
+        </div>
+
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+    {{mensaje}}
+</div>
+
+<!-- jQuery -->
+<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static './dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './dist/js/demo.js' %}"></script>
+<script>
+    $(function () {
+  
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        format: 'DD/MM/YYYY'
+    });
+    //Date and time picker
+    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
+
+  
+})
+</script>
+{% endblock %}

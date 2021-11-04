@@ -5,7 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIGLO XXI | Inicio</title>
-  
+  <link rel="shortcut icon" href="{static './assets/img/S21.ico' %}" />
+  <link rel="shortcut icon" type="image/x-icon" href="{static './assets/img/S21.ico' %}"/>
   <link rel="stylesheet" href="{% static '../plugins/ekko-lightbox/ekko-lightbox.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -163,15 +164,15 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="{% url 'cliente_crear'%}" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
-                Reserva
+                Crear Cliente
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="{% url 'cliente_listado'%}" class="nav-link">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Clientes
