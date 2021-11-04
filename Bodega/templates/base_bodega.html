@@ -124,27 +124,56 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
       <!-- en secciones van los botonsitos jeje -->
-         
-
-          <li class="nav-header">LABELS</li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="nav-icon fas fa-table"></i>
+          <p>
+            Ingredientes
+            <i class="fas fa-angle-left right"></i>
+          </p>
+        </a>
+        <ul class="nav nav-treeview">
           <li class="nav-item">
             <a href="{% url 'agregar_producto_listado'%}" class="nav-link">
-              <i class="nav-icon far fa-circle text-info"></i>
-              <p>Agregar producto</p>
+              <i class="far fa-circle nav-icon"></i>
+              <p>Agregar</p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="{% url 'listar_ingredientemod'%}" class="nav-link">
+              <i class="far fa-circle nav-icon"></i>
+              <p>Modificar/Eliminar</p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{% url 'registro_ingrediente'%}" class="nav-link">
-              <i class="nav-icon far fa-circle text-danger"></i>
-              <p class="text">Ver ingredientes</p>
+              <i class="far fa-circle nav-icon"></i>
+              <p>Listar</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon far fa-circle text-warning"></i>
-              <p>Eliminar produccto </p>
+        </ul>
+      </li>   
+<!-- otro boton -->
+      <li class="nav-item">
+            <a href="{% url 'listar_suministros'%}" class="nav-link">
+              <i class="nav-icon far fa-calendar-alt"></i>
+              <p>
+                Listar suministros
+                <span class="badge badge-info right"></span>
+              </p>
             </a>
           </li>
+       <!-- otro boton -->
+       <li class="nav-item">
+        <a href="{% url 'listar_proovedores'%}" class="nav-link">
+          <i class="nav-icon fas fa-columns"></i>
+          <p>
+            Listar proovedores
+          </p>
+        </a>
+      </li>
+          <!-- otro boton  -->
+
           
         </ul>
       </nav>

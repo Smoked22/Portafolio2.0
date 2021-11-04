@@ -415,7 +415,7 @@ end;
 ---------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------Procedimiento almacenado "MODIFICAR INGREDIENTE"-------------------------------------------
 ---------------------------------------------------------------------------------------------------------------------------------
-create or replace NONEDITIONABLE PROCEDURE sp_modificar_ingredienter(
+create or replace PROCEDURE sp_modificar_ingredienter(
 
     r_categoria_id          number,
     r_nombre_ingrediente    varchar2,
@@ -443,4 +443,130 @@ BEGIN
     WHEN others THEN
     r_salida:=0;
 END;
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "AGREGAR RECETA"--------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_agregar_receta(
+
+    v_id_receta       NVARCHAR2,
+    v_nom_receta    NVARCHAR2,
+    v_desc_receta      NVARCHAR2,
+    v_porcion     NVARCHAR2,
+    v_carta_id_carta   NVARCHAR2,
+    v_salida            out number
+)IS
+BEGIN
+    INSERT INTO receta(id_receta,
+                        nom_receta,
+                        desc_receta,
+                        porcion,
+                        carta_id_carta
+                        )
+    VALUES (v_id_receta.nextval,
+                        v_nom_receta,
+                        v_desc_receta,
+                        v_porcion,
+                        v_carta_id_carta
+                        );
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "BUSCAR RECETA"---------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+
+create or replace PROCEDURE sp_buscar_receta(
+
+    recetas out SYS_REFCURSOR,
+    v_id_reserva  NVARCHAR2
+
+)IS
+BEGIN
+    OPEN recetas for SELECT * FROM receta WHERE id_receta = v_id_receta;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "ELIMINAR RECETA"-------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_eliminar_receta(
+
+    v_id_receta  NVARCHAR2,
+    v_salida      out number
+
+)IS
+BEGIN
+    DELETE FROM receta WHERE id_receta = v_id_receta;
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR RECETA"-------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_listar_receta(recetas out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN recetas for SELECT * FROM receta;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "MODIFICAR RECETA"------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_modificar_receta(
+    v_id_receta       NVARCHAR2,
+    v_nom_receta    NVARCHAR2,
+    v_desc_receta      NVARCHAR2,
+    v_porcion     NVARCHAR2,
+    v_carta_id_carta   NVARCHAR2,
+    v_salida            out number
+)IS
+BEGIN
+    UPDATE receta SET  id_receta  = v_id_reserva,
+                        nom_receta = v_nom_receta,
+                        desc_receta = v_desc_receta,
+                        porcion = v_porcion,
+                        carta_id_carta =v_carta_id_carta,
+
+
+                        WHERE id_receta = v_id_receta;
+
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "BUSCAR ORDEN"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace PROCEDURE sp_mostrar_orden(
+
+    ordenes out SYS_REFCURSOR,
+    v_id_orden  NVARCHAR2
+
+)IS
+BEGIN
+    OPEN ordenes for SELECT * FROM orden WHERE id_orden = v_id_orden;
+END;
+
+---------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------Procedimiento almacenado "LISTAR ORDEN"----------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------
+create or replace NONEDITIONABLE PROCEDURE sp_listar_orden(ordenes out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN ordenes for SELECT * FROM orden;
+END;
+
 ---------------------------------------------------------------------------------------------------------------------------------
