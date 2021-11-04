@@ -8,7 +8,7 @@ from django.conf.urls import url
 
 
 urlpatterns = [
-   path('home/', home, name="home"),
+   path('home/', home, name="home_cocina"),
    path('home/receta/', receta, name="registro_receta"),
    path('home/Crear_Receta/', receta_crear, name="receta_crear"),
    path('home/Listar_Receta/', receta_listado, name="receta_listado"),
