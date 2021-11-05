@@ -82,7 +82,7 @@ def acceder(request):
             else:
                 login(request, usuario)
                 if usuario.groups.filter(name='Administrador').exists():
-                    return redirect ("home")
+                    return redirect ("home_admin")
                 elif usuario.groups.filter(name='Finanzas').exists():
                     return redirect ("homefinanzas")
                 elif usuario.groups.filter(name='Bodega').exists():
