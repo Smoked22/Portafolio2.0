@@ -6,9 +6,9 @@
 <div class="row">
   <div class="col-lg-3 col-6">
     <!-- small card -->
-    
+
     <div class="small-box bg-info">
-     
+
       <div class="inner">
         {% for r in reservas %}
         <h3>{{r.0}}</h3>
@@ -16,7 +16,7 @@
         <p>Reservas Hechas</p>
         {% endfor %}
       </div>
-      
+
       <div class="icon">
         <i class="fas fa-shopping-cart"></i>
       </div>
@@ -24,7 +24,7 @@
         Ir a reservas <i class="fas fa-arrow-circle-right"></i>
       </a>
     </div>
-    
+
   </div>
   <!-- ./col -->
   <div class="col-lg-3 col-6">
@@ -65,25 +65,25 @@
     </div>
   </div>
 </div>
-  <!-- TABLE: LATEST ORDERS -->
-  <div class="card">
-    <div class="card-header border-transparent">
-      <h3 class="card-title">Empleados</h3>
+<!-- TABLE: LATEST ORDERS -->
+<div class="card">
+  <div class="card-header border-transparent">
+    <h3 class="card-title">Empleados</h3>
 
-      <div class="card-tools">
-        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-          <i class="fas fa-minus"></i>
-        </button>
-        <button type="button" class="btn btn-tool" data-card-widget="remove">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
+    <div class="card-tools">
+      <button type="button" class="btn btn-tool" data-card-widget="collapse">
+        <i class="fas fa-minus"></i>
+      </button>
+      <button type="button" class="btn btn-tool" data-card-widget="remove">
+        <i class="fas fa-times"></i>
+      </button>
     </div>
-    <!-- /.card-header -->
-    <div class="card-body p-0">
-      <div class="table-responsive">
-        <table class="table m-0">
-          <thead>
+  </div>
+  <!-- /.card-header -->
+  <div class="card-body p-0">
+    <div class="table-responsive">
+      <table class="table m-0">
+        <thead>
           <tr>
             <th>RUT</th>
             <th>Nombre</th>
@@ -92,24 +92,23 @@
             <th>Correo</th>
             <th>Cargo</th>
           </tr>
-          </thead>
-          <tbody>
-            {% for e in empleados %}
+        </thead>
+        <tbody>
+          {% for e in empleados %}
           <tr>
-           
-              <td>{{e.0}}&nbsp{{e.1}}</td>
-              <td>{{e.2}}&nbsp{{e.3}}&nbsp{{e.4}}&nbsp{{e.5}}</td>
-              <td>{{e.7}}</td>
-              <td>{{e.9}}</td>
-              <td>{{e.10}}</td>
-              <td>{{e.13}}</td> 
+
+            <td>{{e.0}}&nbsp{{e.1}}</td>
+            <td>{{e.2}}&nbsp{{e.3}}&nbsp{{e.4}}&nbsp{{e.5}}</td>
+            <td>{{e.7}}</td>
+            <td>{{e.9}}</td>
+            <td>{{e.10}}</td>
+            <td>{{e.13}}</td>
           </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
+</div>
 {% endblock %}
-

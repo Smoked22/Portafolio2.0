@@ -5,15 +5,13 @@
 {% block contenido %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
-    $(document).ready(function()
-    {
+    $(document).ready(function () {
         var boleta;
-        var totalboleta=0;
-        $('td:nth-child(3)').each(function()
-        {
-            boleta=$(this).html();
-            totalboleta+=parseInt(boleta);
-            $('#boletat').text('$'+totalboleta);
+        var totalboleta = 0;
+        $('td:nth-child(3)').each(function () {
+            boleta = $(this).html();
+            totalboleta += parseInt(boleta);
+            $('#boletat').text('$' + totalboleta);
         });
     });
 </script>
@@ -29,11 +27,11 @@
             <th>Total de la Guia</th>
         </tr>
         {% for p in guia_despacho %}
-            <tr>
-                <td>{{ p.0}}</td>
-                <td>{{ p.4}}</td>
-                <td>{{ p.3}}</td>
-            </tr>
+        <tr>
+            <td>{{ p.0}}</td>
+            <td>{{ p.4}}</td>
+            <td>{{ p.3}}</td>
+        </tr>
         {% endfor %}
         <tr>
             <td colspan="2" style="text-align: right;">Total Boletas</td>

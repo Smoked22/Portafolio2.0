@@ -1,0 +1,839 @@
+--***********************************************************************************
+--LISTAR BOLETAS
+--Listar las boletas
+--#001
+CREATE OR replace PROCEDURE sp_listar_boletas(boletas OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN boletas FOR
+      SELECT *
+      FROM   boleta;
+END; 
+/
+--***********************************************************************************
+--LISTAR PROVEEDORES
+--Listar los proveedores
+--#002
+CREATE OR replace PROCEDURE Sp_listar_proveedores(proveedores OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN proveedores FOR
+      SELECT *
+      FROM   proveedor;
+END; 
+/
+--************************************************************************************
+--AGREGAR BOLETA
+--#003
+CREATE OR replace PROCEDURE Sp_agregar_boleta2(v_id_boleta NVARCHAR2,
+                                               v_fecha     NVARCHAR2,
+                                               v_hora      NVARCHAR2,
+                                               v_monto     NVARCHAR2,
+                                               v_tipo_pago NVARCHAR2,
+                                               v_id_orden  NVARCHAR2,
+                                               v_salida    OUT NUMBER)
+IS
+BEGIN
+    INSERT INTO boleta
+                (id_boleta,
+                 fecha,
+                 hora,
+                 monto,
+                 tipo_pago,
+                 orden_id_orden)
+    VALUES     (v_id_boleta,
+                v_fecha,
+                v_hora,
+                v_monto,
+                v_tipo_pago,
+                v_id_orden);
+
+    COMMIT;
+
+    v_salida := 1;
+EXCEPTION
+  WHEN OTHERS THEN
+             v_salida := 0;
+END; 
+/
+--************************************************************************************
+-- LISTAR PRODUCTOS PROVEEDORES
+-- Listar y filtrar productos de los proveedores por su RUT SOCIAL
+--#004
+CREATE OR replace PROCEDURE Sp_listar_productos_proveedores (
+productos       OUT SYS_REFCURSOR,
+v_rut_proveedor NVARCHAR2)
+IS
+BEGIN
+    OPEN productos FOR
+      SELECT *
+      FROM   suministro
+      WHERE  v_rut_proveedor = proveedor_rut_social;
+END; 
+/
+--************************************************************************************
+-- Total Boleta
+-- Selecciona todos los suministros por su RUT social
+--#005
+CREATE OR replace PROCEDURE Sp_total_boleta (productos       OUT SYS_REFCURSOR,
+                                             v_rut_proveedor NVARCHAR2)
+IS
+BEGIN
+    OPEN productos FOR
+      SELECT *
+      FROM   suministro
+      WHERE  v_rut_proveedor = proveedor_rut_social;
+END; 
+/
+--************************************************************************************
+--LISTAR GUIA DE DESPACHO
+--Listar guias de despacho
+--#006
+CREATE OR replace PROCEDURE Sp_listar_guias_despacho(
+guia_despacho OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN guia_despacho FOR
+      SELECT *
+      FROM   guia_desp;
+END; 
+/
+--************************************************************************************
+--SECUENCIA RESERVA
+--#007
+CREATE SEQUENCE sec_reserva
+  START WITH 100
+  INCREMENT BY 1
+  MAXVALUE 9999
+  MINVALUE 1; 
+  /
+--************************************************************************************
+-- AGREGAR RESERVA
+-- Agregar reserva
+--#008
+  CREATE OR replace PROCEDURE Sp_agregar_reserva(v_fec_reserva    NVARCHAR2,
+                                               v_empleado_e_rut INTEGER,
+                                               v_cliente_c_rut  NUMBER,
+                                               v_origen_reserva NVARCHAR2,
+                                               v_mesa_id_mesa   NVARCHAR2,
+                                               v_estado_reserva NVARCHAR2,
+                                               v_cant_personas  INTEGER,
+                                               v_salida         OUT NUMBER)
+IS
+BEGIN
+    INSERT INTO reserva
+                (id_reserva,
+                 fec_reserva_hecha,
+                 fec_reserva,
+                 empleado_e_rut,
+                 cliente_c_rut,
+                 origen_reserva,
+                 mesa_id_mesa,
+                 estado_reserva,
+                 cant_personas)
+    VALUES      (sec_reserva.NEXTVAL,
+                 To_char(SYSDATE, 'YYYY-MM-DD'),
+                 v_fec_reserva,
+                 v_empleado_e_rut,
+                 v_cliente_c_rut,
+                 v_origen_reserva,
+                 v_mesa_id_mesa,
+                 v_estado_reserva,
+                 v_cant_personas );
+
+    COMMIT;
+
+    v_salida := 1;
+EXCEPTION
+  WHEN OTHERS THEN
+             v_salida := 0;
+END; 
+/
+--************************************************************************************
+-- BUSCAR RESERVA
+-- Buscar reserva por ID
+-- #009
+CREATE OR replace PROCEDURE Sp_buscar_reserva(reservass    OUT SYS_REFCURSOR,
+                                              v_id_reserva NVARCHAR2)
+IS
+BEGIN
+    OPEN reservass FOR
+      SELECT *
+      FROM   reserva
+      WHERE  id_reserva = v_id_reserva;
+END; 
+/
+--************************************************************************************
+-- BUSCAR RESERVA POR RUT 
+--#010
+CREATE OR replace PROCEDURE Sp_buscar_reserva_por_rutcli(
+rutcli    OUT SYS_REFCURSOR,
+v_rut_cli NVARCHAR2)
+IS
+BEGIN
+    OPEN rutcli FOR
+      SELECT *
+      FROM   reserva
+      WHERE  cliente_c_rut = v_rut_cli;
+END; 
+/
+--************************************************************************************
+-- ELIMINAR RESERVA
+--#011
+CREATE OR replace PROCEDURE Sp_eliminar_reserva(v_id_reserva NVARCHAR2,
+                                                v_salida     OUT NUMBER)
+IS
+BEGIN
+    DELETE FROM reserva
+    WHERE  id_reserva = v_id_reserva;
+
+    COMMIT;
+
+    v_salida := 1;
+EXCEPTION
+  WHEN OTHERS THEN
+             v_salida := 0;
+END; 
+/
+--************************************************************************************
+--LISTAR CLIENTE
+--#012
+CREATE OR replace PROCEDURE Sp_listar_clientes(clientes OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN clientes FOR
+      SELECT *
+      FROM   cliente;
+END; 
+/
+--************************************************************************************
+-- LISTAR EMPLEADOS
+--#013
+CREATE OR replace PROCEDURE Sp_listar_empleados(empleados OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN empleados FOR
+      SELECT *
+      FROM   empleado;
+END; 
+/
+--************************************************************************************
+--LISTAR LOS HORARIOS DE LAS MESAS
+--LISTA LAS MESAS OCUPADAS Y ACTUALIZA LAS LIBRE POR HORARIO
+--#014
+CREATE OR replace PROCEDURE Sp_listar_horario(mesas     OUT SYS_REFCURSOR,
+                                              v_id_mesa NVARCHAR2)
+IS
+BEGIN
+    UPDATE hora
+    SET    h_estado = 'Libre';
+
+    COMMIT;
+
+    UPDATE hora
+    SET    h_estado = 'Ocupada'
+    WHERE  h_hora IN (SELECT hora.h_hora
+                      FROM   hora
+                             inner join reserva
+                                     ON reserva.mesa_id_mesa =
+                                        reserva.mesa_id_mesa
+                      WHERE  hora.h_hora = Substr(reserva.fec_reserva, 12, 2)
+                             AND Substr(reserva.fec_reserva, 1, 2) = Substr(
+                                 To_char(SYSDATE, 'DD/MM/YYYY'), 1
+                                                                     , 2)
+                             AND Substr(reserva.fec_reserva, 4, 2) = Substr(
+                                 To_char(SYSDATE, 'DD/MM/YYYY'), 4
+                                                                     , 2)
+                             AND Substr(reserva.fec_reserva, 7, 4) = Substr(
+                                 To_char(SYSDATE, 'DD/MM/YYYY'), 7
+                                                                     , 4)
+                             AND reserva.mesa_id_mesa = v_id_mesa);
+
+    COMMIT;
+
+    OPEN mesas FOR
+      SELECT *
+      FROM   hora;
+
+    COMMIT;
+END; 
+/
+--************************************************************************************
+--LISTAR MESAS
+--#015
+CREATE OR replace PROCEDURE Sp_listar_mesas(mesas OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN mesas FOR
+      SELECT *
+      FROM   mesa;
+
+    COMMIT;
+END; 
+/
+--************************************************************************************
+--LISTAR MESAS DISPONIBLE
+--#016
+CREATE OR replace PROCEDURE Sp_listar_mesas_disponibles(mesas OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN mesas FOR
+      SELECT *
+      FROM   mesa
+      WHERE  estareservada = 0;
+END; 
+/
+--************************************************************************************
+--LISTAR RESERVAS
+--#017
+CREATE OR replace PROCEDURE Sp_listar_reservas(reservas OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN reservas FOR
+      SELECT *
+      FROM   reserva;
+END; 
+/
+--************************************************************************************
+--MODIFICAR RESERVA
+--#018
+CREATE OR replace PROCEDURE Sp_modificar_reserva(v_id_reserva     NVARCHAR2,
+                                                 v_fec_reserva    NVARCHAR2,
+                                                 v_empleado_e_rut INTEGER,
+                                                 v_cliente_c_rut  NUMBER,
+                                                 v_origen_reserva NVARCHAR2,
+                                                 v_mesa_id_mesa   NVARCHAR2,
+                                                 v_estado_reserva NVARCHAR2,
+                                                 v_cant_personas  INTEGER,
+                                                 v_salida         OUT NUMBER)
+IS
+BEGIN
+    UPDATE reserva
+    SET    id_reserva = v_id_reserva,
+           fec_reserva_hecha = To_char(SYSDATE, 'YYYY-MM-DD'),
+           fec_reserva = v_fec_reserva,
+           empleado_e_rut = v_empleado_e_rut,
+           cliente_c_rut = v_cliente_c_rut,
+           origen_reserva = v_origen_reserva,
+           mesa_id_mesa = v_mesa_id_mesa,
+           estado_reserva = v_estado_reserva,
+           cant_personas = v_cant_personas
+    WHERE  id_reserva = v_id_reserva;
+
+    COMMIT;
+
+    v_salida := 1;
+EXCEPTION
+  WHEN OTHERS THEN
+             v_salida := 0;
+END; 
+/
+--************************************************************************************
+-- VER OCUPACION 
+--#019
+CREATE OR replace PROCEDURE Ver_ocupacion(v_fec_reserva NVARCHAR2,
+                                          v_salida      OUT NUMBER)
+IS
+BEGIN
+    SELECT fec_reserva
+    INTO   v_salida
+    FROM   reserva
+    WHERE  fec_reserva = v_fec_reserva;
+
+    v_salida := 1;
+
+    COMMIT;
+EXCEPTION
+  WHEN no_data_found THEN
+             v_salida := 0;
+
+             COMMIT;
+END; 
+/
+--************************************************************************************
+-- AGREGAR PRODUCTO
+--#020
+CREATE OR replace PROCEDURE Sp_agregar_productor(r_categoria_id       NUMBER,
+                                                 r_nombre_ingrediente VARCHAR2,
+                                                 r_tipo_ingrediente   VARCHAR2,
+                                                 r_stock              NUMBER,
+                                                 r_unidad_medida      VARCHAR2,
+                                                 r_fecha              VARCHAR2,
+                                                 r_salida             OUT NUMBER
+)
+IS
+BEGIN
+    INSERT INTO ingrediente
+                (id_ingrediente,
+                 nom_ingrediente,
+                 desc_ingrediente,
+                 stock,
+                 unidad_de_medida,
+                 fec_caduc)
+    VALUES     (r_categoria_id,
+                r_nombre_ingrediente,
+                r_tipo_ingrediente,
+                r_stock,
+                r_unidad_medida,
+                r_fecha);
+
+    COMMIT;
+
+    r_salida := 1;
+EXCEPTION
+  WHEN OTHERS THEN
+             r_salida := 0;
+END; 
+/
+--************************************************************************************
+-- BUSCAR INGREDIENTE
+--#021
+CREATE OR replace PROCEDURE Sp_buscar_ingredienter(
+ingredientess  OUT SYS_REFCURSOR,
+r_categoria_id NVARCHAR2)
+IS
+BEGIN
+    OPEN ingredientess FOR
+      SELECT *
+      FROM   ingrediente
+      WHERE  id_ingrediente = r_categoria_id;
+END; 
+/
+--************************************************************************************
+-- ELIMINAR INGREDIENTE
+--#022
+CREATE OR replace PROCEDURE Sp_eliminar_ingredienter(r_categoria_id NVARCHAR2,
+                                                     r_salida       OUT NUMBER)
+IS
+BEGIN
+    DELETE FROM ingrediente
+    WHERE  id_ingrediente = r_categoria_id;
+
+    COMMIT;
+
+    r_salida := 1;
+EXCEPTION
+  WHEN OTHERS THEN
+             r_salida := 0;
+END; 
+/
+--************************************************************************************
+--LISTAR CATEGORIA COMBO BOX
+--#023
+CREATE OR replace PROCEDURE Sp_listar_categoriasr(categoriasr OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN categoriasr FOR
+      SELECT *
+      FROM   ingrediente;
+END; 
+/
+--************************************************************************************
+--LISTAR INGREDIENTES
+--#024
+CREATE OR replace PROCEDURE Sp_listar_ingredienter(
+ingredienter OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN ingredienter FOR
+      SELECT *
+      FROM   ingrediente;
+END; 
+/
+--************************************************************************************
+-- LISTAR PROVEEDORES
+--#025
+CREATE OR replace PROCEDURE Sp_listar_proveedorr(proveedorr OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN proveedorr FOR
+      SELECT *
+      FROM   proveedor;
+END;
+/
+--************************************************************************************
+-- LISTAR SUMINISTROS
+--#026
+CREATE OR replace PROCEDURE Sp_listar_suministror(suministror OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN suministror FOR
+      SELECT *
+      FROM   suministro;
+END; 
+/
+--************************************************************************************
+--MODIFICAR INGREDIENTE
+--#027
+CREATE OR replace PROCEDURE Sp_modificar_ingredienter(
+r_categoria_id       NUMBER,
+r_nombre_ingrediente VARCHAR2,
+r_tipo_ingrediente   VARCHAR2,
+r_stock              NUMBER,
+r_unidad_medida      VARCHAR2,
+r_fecha              VARCHAR2,
+r_salida             OUT NUMBER)
+IS
+BEGIN
+    UPDATE ingrediente
+    SET    id_ingrediente = r_categoria_id,
+           nom_ingrediente = r_nombre_ingrediente,
+           desc_ingrediente = r_tipo_ingrediente,
+           stock = r_stock,
+           unidad_de_medida = r_unidad_medida,
+           fec_caduc = r_fecha
+    WHERE  id_ingrediente = r_categoria_id;
+
+    COMMIT;
+
+    r_salida := 1;
+EXCEPTION
+  WHEN OTHERS THEN
+             r_salida := 0;
+END; 
+/
+--************************************************************************************
+-- AGREGAR RECETA
+--#028
+create or replace PROCEDURE sp_agregar_receta(
+
+    v_id_receta       NVARCHAR2,
+    v_nom_receta    NVARCHAR2,
+    v_desc_receta      NVARCHAR2,
+    v_porcion     NVARCHAR2,
+    v_carta_id_carta   NVARCHAR2,
+    v_salida            out number
+)IS
+BEGIN
+    INSERT INTO receta(id_receta,
+                        nom_receta,
+                        desc_receta,
+                        porcion,
+                        carta_id_carta
+                        )
+    VALUES (sec_id_receta.nextval,
+                        v_nom_receta,
+                        v_desc_receta,
+                        v_porcion,
+                        v_carta_id_carta
+                        );
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+/
+--************************************************************************************
+--BUSCAR RECETA
+--#029
+CREATE OR replace PROCEDURE Sp_buscar_receta(recetas      OUT SYS_REFCURSOR,
+                                             v_id_receta NVARCHAR2)
+IS
+BEGIN
+    OPEN recetas FOR
+      SELECT *
+      FROM   receta
+      WHERE  id_receta = v_id_receta;
+END; 
+/
+--************************************************************************************
+-- ELIMINAR RECETA
+--#030
+create or replace PROCEDURE sp_eliminar_receta(
+
+    v_id_receta  NVARCHAR2,
+    v_salida      out number
+
+)IS
+BEGIN
+    DELETE FROM receta WHERE id_receta = v_id_receta;
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+/
+--************************************************************************************
+--LISTAR RECETA
+--#031
+CREATE OR replace PROCEDURE Sp_listar_receta(recetas OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN recetas FOR
+      SELECT *
+      FROM   receta;
+END; 
+/
+--************************************************************************************
+--MODIFICAR RECETA
+--#032
+CREATE OR replace PROCEDURE Sp_modificar_receta( v_id_receta NVARCHAR2,
+                                                v_nom_receta NVARCHAR2,
+                                                v_desc_receta NVARCHAR2,
+                                                v_porcion NVARCHAR2,
+                                                v_carta_id_carta NVARCHAR2,
+                                                v_salida OUT NUMBER )
+IS
+BEGIN
+  UPDATE receta
+  SET    id_receta = v_id_receta,
+         nom_receta = v_nom_receta,
+         desc_receta = v_desc_receta,
+         porcion = v_porcion,
+         carta_id_carta =v_carta_id_carta
+  where  id_receta = v_id_receta;
+  
+  COMMIT;
+  v_salida:=1;
+EXCEPTION
+WHEN OTHERS THEN
+  v_salida:=0;
+END;
+/
+--************************************************************************************  
+--BUSCAR ORDEN
+--#033
+CREATE OR replace PROCEDURE Sp_mostrar_orden(ordenes    OUT SYS_REFCURSOR,
+                                             v_id_orden NVARCHAR2)
+IS
+BEGIN
+    OPEN ordenes FOR
+      SELECT *
+      FROM   orden
+      WHERE  id_orden = v_id_orden;
+END; 
+/
+--************************************************************************************  
+--LISTAR ORDEN
+--#034
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_listar_orden(ordenes OUT sys_refcursor)
+IS
+BEGIN
+  OPEN ordenes FOR
+  SELECT *
+  FROM   orden
+  WHERE  hora != 'x' ;END;
+/
+--************************************************************************************  
+--MODIFICAR ORDEN 
+--#035
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_modificar_ordenes( v_id_orden nvarchar2,
+                               v_estado nvarchar2,
+                               v_plato nvarchar2,
+                               v_salida OUT NUMBER )
+IS
+BEGIN
+  IF v_estado = '0' THEN
+    UPDATE detalle_orden
+    SET    estado_orden = 'Orden Tomada'
+    WHERE  orden_id_orden = v_id_orden
+    AND    carta_id_carta = v_plato;END IF;IF v_estado = '1' THEN
+    UPDATE detalle_orden
+    SET    estado_orden = 'Orden por entregar'
+    WHERE  orden_id_orden= v_id_orden
+    AND    carta_id_carta = v_plato;END IF;IF v_estado = '2' THEN
+    UPDATE detalle_orden
+    SET    estado_orden = 'Orden entregada'
+    WHERE  orden_id_orden = v_id_orden
+    AND    carta_id_carta = v_plato;END IF;IF v_estado = '3' THEN
+    UPDATE detalle_orden
+    SET    estado_orden = 'FINALIZADO'
+    WHERE  orden_id_orden = v_id_orden
+    AND    carta_id_carta = v_plato;END IF;IF v_estado = '4' THEN
+    UPDATE orden
+    SET    hora = 'x'
+    WHERE  id_orden = v_id_orden;END IF;COMMIT;v_salida:=1;EXCEPTION
+WHEN OTHERS THEN
+  v_salida:=0;END;
+/
+--************************************************************************************  
+--LISTAR DETALLE ORDEN
+--#036
+create or replace NONEDITIONABLE PROCEDURE sp_listar_detalle_orden_2(
+
+            ordenes out SYS_REFCURSOR,
+            v_id_orden NVARCHAR2
+)
+IS
+BEGIN
+    OPEN ordenes for 
+
+    SELECT *
+    FROM orden o
+    INNER JOIN detalle_orden do
+    ON o.id_orden = do.orden_id_orden
+    INNER JOIN carta c
+    ON do.carta_id_carta = c.id_carta
+    WHERE o.id_orden = v_id_orden;
+END;
+/
+--************************************************************************************  
+--LISTAR DETALLE ORDEN
+--#037
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_listar_detalle_orden_2( ordenes OUT sys_refcursor,
+                                    v_id_orden nvarchar2 )
+IS
+BEGIN
+  OPEN ordenes FOR
+  SELECT     *
+  FROM       orden o
+  inner join detalle_orden DO
+  ON         o.id_orden = do.orden_id_orden
+  inner join carta c
+  ON         do.carta_id_carta = c.id_carta
+  WHERE      o.id_orden = v_id_orden;
+END;
+/
+--************************************************************************************  
+--LISTAR MESAS DISPONIBLES AHORA
+--#038
+
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_listar_mesas_disponibles_ahora(mesas OUT sys_refcursor)
+IS
+BEGIN
+  UPDATE mesa
+  SET    estareservada= '1'
+  WHERE  id_mesa IN
+         (
+                    SELECT     reserva.mesa_id_mesa
+                    FROM       mesa
+                    inner join reserva
+                    ON         reserva.mesa_id_mesa = mesa.id_mesa
+                    WHERE      substr(reserva.fec_reserva,1,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),1,2)
+                    AND        substr(reserva.fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                    AND        substr(reserva.fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4)
+                    AND        substr(fec_reserva,12,2) = substr(to_char(SYSDATE, 'HH24:MI:SS'),1,2) );COMMIT;UPDATE mesa
+  SET    estareservada= '0'
+  WHERE  id_mesa NOT IN
+         (
+                    SELECT     reserva.mesa_id_mesa
+                    FROM       mesa
+                    inner join reserva
+                    ON         reserva.mesa_id_mesa = mesa.id_mesa
+                    WHERE      Substr(reserva.fec_reserva,1,2) = Substr(To_char(SYSDATE, 'DD/MM/YYYY'),1,2)
+                    AND        Substr(reserva.fec_reserva,4,2) = Substr(To_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                    AND        Substr(reserva.fec_reserva,7,4) = Substr(To_char(SYSDATE, 'DD/MM/YYYY'),7,4)
+                    AND        Substr(fec_reserva,12,2) = Substr(To_char(SYSDATE, 'HH24:MI:SS'),1,2) );COMMIT;OPEN mesas FOR
+  SELECT *
+  FROM   mesa;
+END;
+/
+--************************************************************************************  
+--BUSCAR INFO RESERVA
+--#039
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_buscar_info_reservas( mesa OUT sys_refcursor )
+IS
+BEGIN
+  OPEN mesa FOR
+  SELECT     count(r.id_reserva)              AS reservas,
+             count(DISTINCT(r.cliente_c_rut)) AS cli_regis,
+             SUM(m.estareservada)             AS reserva_actual,
+             count(DISTINCT(m.id_mesa))       AS mesas_libres
+  FROM       reserva r
+  inner join mesa m
+  ON         r.mesa_id_mesa = m.id_mesa ;
+END;
+/
+--************************************************************************************  
+--ELIMINAR CLIENTE
+--#040
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_eliminar_cliente( v_rut nvarchar2,
+                              v_salida OUT NUMBER )
+IS
+BEGIN
+  DELETE
+  FROM   cliente
+  WHERE  c_rut = v_rut;COMMIT;v_salida:=1;EXCEPTION
+WHEN OTHERS THEN
+  v_salida:=0;
+END;
+/
+--************************************************************************************  
+--LISTAR CARTA
+--#041
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_listar_carta(cartas OUT sys_refcursor)
+IS
+BEGIN
+  OPEN cartas FOR
+  SELECT *
+  FROM   carta;
+END;
+/
+--************************************************************************************  
+--LISTAR CARTA DETALLE
+--#042
+create or replace NONEDITIONABLE PROCEDURE sp_listar_carta_detalle(cartas out SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN cartas for 
+    SELECT * 
+    FROM carta c
+    INNER JOIN RECETA r
+    ON c.id_carta = r.carta_id_carta;
+END;
+/
+--************************************************************************************  
+--MODIFICAR CLIENTE
+--#043
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_modificar_cliente( v_rut nvarchar2,
+                               v_dv nvarchar2,
+                               v_nombre nvarchar2,
+                               v_telefono INTEGER,
+                               v_correo nvarchar2,
+                               v_salida OUT NUMBER )
+IS
+BEGIN
+  UPDATE cliente
+  SET    c_rut = v_rut,
+         dv = v_dv,
+         nombre = v_nombre,
+         telefono = v_telefono,
+         correo = v_correo
+  WHERE  c_rut = v_rut;COMMIT;v_salida:=1;EXCEPTION
+WHEN OTHERS THEN
+  v_salida:=0;
+END;
+/
+--************************************************************************************  
+--BUSCAR MESA
+--#044
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_buscar_mesa( mesa OUT sys_refcursor,
+                         v_id_mesa nvarchar2 )
+IS
+BEGIN
+  OPEN mesa FOR
+  SELECT *
+  FROM   mesa
+  WHERE  id_mesa = v_id_mesa;END;
+  /
