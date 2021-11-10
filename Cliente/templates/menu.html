@@ -4,7 +4,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SIGLO XXI - Cliente</title>
+  <title>SIGLO XXI - Menú</title>
   {% load static %}
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -35,59 +35,47 @@
     <!-- /.login-logo -->
     <div class="card card-primary">
       <div class="card-header">
-        <h3 class="card-title">Crear Reserva</h3>
+        <h2 class="m-0"><center>Menú</center></h2>
       </div>
-  
-      <form action="" method="POST">
-          {% csrf_token %}
-        <div class="card-body">
-  
-          <div class="form-group">
-              <label>Fecha y hora de reserva</label>
-                <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                    <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                    <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+      
+      <div>
+        <section class="content">
+           <div class="container-fluid">
+             <div class="row">
+               <div class="col-12">
+                    <div class="table-responsive">
+                      <table class="table m-0">
+                        <thead>
+                        <tr>
+                          <th>ca_nombre</th>
+                          <th>ca_desc</th>
+                          <th>precio</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                          {% for c in cartas %}
+                        <tr>
+                            <td>{{c.1}}</td>
+                            <td>{{c.2}}</td>
+                            <td>{{c.3}}</td>
+                        </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
                     </div>
-                </div>
-          </div>
+                    <!-- /.table-responsive -->
+               <!-- /.col -->
+             </div>
+             <!-- /.row -->
+           </div>
+           <!-- /.container-fluid -->
+         </section>
+       </div>
+      
+
+    </div>
+
   
-  
-          <div class="form-group">
-              <label for="exampleInputEmail1">Rut empleado</label>
-          <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
-              {% for e in empleados %}
-              <option value="{{e.0}}">{{e.0}}</option>
-              {% endfor %}
-          </select>
-          </div>
-  
-          <div class="form-group">
-              <label for="exampleInputEmail1">Rut Cliente sin dígito verificador</label>
-              <input name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
-          </div>
-  
-          <div class="form-group">
-              <label for="exampleInputEmail1">Mesa</label>
-          <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
-              {% for m in mesas %}
-              <option value="{{m.0}}">{{m.0}}</option>
-              {% endfor %}
-          </select>
-          </div>
-  
-          <div class="form-group">
-              <label for="exampleInputEmail1">Cantidad de Personas</label>
-              <input name="cantP" class="form-control" id="exampleInputEmail1" placeholder="Ingresa la cantidad de personas a asistir">
-          </div>
-          
-          
-  
-        <div class="card-footer">
-          <center><button type="submit" class="btn btn-primary">Guardar</button></center>
-        </div>
-      </form>
-      {{mensaje}}
   </div>
 <!-- /.login-box -->
 

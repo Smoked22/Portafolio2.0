@@ -14,7 +14,10 @@ def CancelarReserva(request):
     return render(request, './cancelarReserva.html')
 
 def VerMenu(request):
-    return render(request, './menu.html')
+    data ={
+        'cartas' : listado_cartas()
+    }
+    return render(request, './menu.html',data)
 
 def listado_mesas():
     django_cursor = connection.cursor()
@@ -121,4 +124,18 @@ def reserva_listado(request):
         'reservas' : listado_Reservas()
     }
     return render(request,'./reserva_listado.html',data)
+
+def listado_cartas():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_CARTA", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
