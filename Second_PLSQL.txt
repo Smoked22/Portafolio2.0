@@ -5,9 +5,9 @@
 CREATE OR replace PROCEDURE sp_listar_boletas(boletas OUT SYS_REFCURSOR)
 IS
 BEGIN
-    OPEN boletas FOR
-      SELECT *
-      FROM   boleta;
+    OPEN boletas for SELECT   *
+    FROM     boleta
+    ORDER BY Lpad(id_boleta, 9);
 END; 
 /
 --***********************************************************************************
@@ -835,5 +835,19 @@ BEGIN
   OPEN mesa FOR
   SELECT *
   FROM   mesa
-  WHERE  id_mesa = v_id_mesa;END;
-  /
+  WHERE  id_mesa = v_id_mesa;
+END;
+/
+--************************************************************************************
+--LISTAR ORDENES DISPONIBLES
+--#45
+CREATE OR replace PROCEDURE Sp_ordenes_libres(ordenes_lib OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN ordenes_lib FOR
+      SELECT *
+      FROM   boleta b
+             right outer join orden o
+                           ON o.id_orden = b.orden_id_orden
+      WHERE  b.id_boleta IS NULL;
+END;
