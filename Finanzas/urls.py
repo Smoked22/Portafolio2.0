@@ -13,4 +13,5 @@ urlpatterns = [
    path('proveedores/productos/<id>', listado_produc_proveedor, name="productos_proveedores"),
    path('guias_despacho/', guia_despacho, name="guias_desp_finanzas"),
    path('agregar_boleta/', agegar_boleta, name="agregar_boleta_finanzas"),
+   path('grafico/', grafico, name="graficos_finanzas"),
 ]
