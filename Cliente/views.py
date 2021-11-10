@@ -13,6 +13,9 @@ def ClienteEnMesa(request):
 def CancelarReserva(request):
     return render(request, './cancelarReserva.html')
 
+def VerMenu(request):
+    return render(request, './menu.html')
+
 def listado_mesas():
     django_cursor = connection.cursor()
 
