@@ -19,7 +19,7 @@
               <input type="text" name="id_boleta" class="form-control" >
               <br>
               <label for="">Fecha</label>
-              <input type="date" name="fecha" class="form-control" >
+              <input type="text" name="fecha" placeholder="DD-MM-YYYY" required pattern="[0-9]{2}-[0-9]{2}-[0-9]{4}" title="Ingresar una fecha con este formato DD-MM-YYYY" class="form-control"/>
               <br>
               <label for="">Hora</label>
               <input type="time" name="hora" class="form-control" >
@@ -29,16 +29,22 @@
               <br>
               <label for="">Tipo de Pago</label>
               <br>
-              <select class="select-css" name="tipo_pago" >
-                  <option>Seleccionar una opcion</option>
+              <select name="tipo_pago" class="form-control">
                   <option>Efectivo</option>
                   <option>Transferencia</option> 
               </select>
               <br>
               <label for="">Identificador de la orden</label>
-              <input type="text" name="id_orden" class="form-control" >
               <br>
+              <select name="id_orden" id="id_orden" class="form-control">
+                    {% for c in orden_disp %}
+                    <option value="{{ c.6 }}">{{ c.6 }}</option>
+                    {% endfor %}
+              </select>
+              <br>
+              <hr>
               <input class="btn btn-primary " type="submit" value="Ingresar Boleta">
+              <a href="{% url 'boletas_finanzas'%}" class="btn btn-secondary float-right">Volver</a>
             </div>
         <div>
 
