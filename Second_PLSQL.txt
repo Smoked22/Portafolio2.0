@@ -849,7 +849,8 @@ BEGIN
       FROM   boleta b
              right outer join orden o
                            ON o.id_orden = b.orden_id_orden
-      WHERE  b.id_boleta IS NULL;
+      WHERE  b.id_boleta IS NULL
+      ORDER BY Lpad(id_orden,4);
 END;
 /
 --*************************************************************************************
@@ -884,4 +885,61 @@ BEGIN
     WHEN others THEN
         v_salida:=0;
 END;
+/
+--*************************************************************************************
+--Monto Mensual Vendido
+--#47
+CREATE OR replace PROCEDURE sp_monto_mensual(monto_men OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN monto_men FOR
+      SELECT ene.enero      AS Enero,
+             feb.febrero    AS Febrero,
+             mar.marzo      AS Marzo,
+             abr.abril      AS Abril,
+             may.mayo       AS Mayo,
+             jun.junio      AS Junio,
+             jul.julio      AS Julio,
+             ago.agosto     AS Agosto,
+             sep.septiembre AS Septiembre,
+             oct.octubre    AS Octubre,
+             nov.noviembre  AS Noviembre,
+             dic.diciembre  AS Diciembre
+      FROM   (SELECT SUM(monto) AS enero
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '01' )) ene,
+             (SELECT SUM(monto) AS febrero
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '02' )) feb,
+             (SELECT to_number(SUM(monto)) AS marzo
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '03' )) mar,
+             (SELECT SUM(monto) AS abril
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '04' )) abr,
+             (SELECT SUM(monto) AS mayo
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '05' )) may,
+             (SELECT SUM(monto) AS junio
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '06' )) jun,
+             (SELECT SUM(monto) AS julio
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '07' )) jul,
+             (SELECT SUM(monto) AS agosto
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '08' )) ago,
+             (SELECT SUM(monto) AS septiembre
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '09' )) sep,
+             (SELECT SUM(monto) AS octubre
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '10' )) oct,
+             (SELECT SUM(monto) AS noviembre
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '11' )) nov,
+             (SELECT SUM(monto) AS diciembre
+              FROM   boleta
+              WHERE  ( Substr(fecha, 4, 2) = '12' )) dic;
+END; 
 /
