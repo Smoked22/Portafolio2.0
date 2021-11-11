@@ -138,21 +138,15 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/mailbox/mailbox.html" class="nav-link">
-                  <i class="fas fa-hamburger nav-icon"></i>
-                  <p>Platos</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/mailbox/compose.html" class="nav-link">
+                <a href="{% url 'listar_reservas_admin'%}" class="nav-link">
                   <i class="fas fa-list-alt nav-icon"></i>
-                  <p>Menú</p>
+                  <p>Listar Reservas</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/mailbox/compose.html" class="nav-link">
+                <a href="{% url 'crear_reservas_admin'%}" class="nav-link">
                   <i class="fas fa-user-alt nav-icon"></i>
-                  <p>Generar Informes</p>
+                  <p>Crear Reservas</p>
                 </a>
               </li>
 
