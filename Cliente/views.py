@@ -13,6 +13,12 @@ def ClienteEnMesa(request):
 def CancelarReserva(request):
     return render(request, './cancelarReserva.html')
 
+def VerMenu(request):
+    data ={
+        'cartas' : listado_cartas()
+    }
+    return render(request, './menu.html',data)
+
 def listado_mesas():
     django_cursor = connection.cursor()
 
@@ -118,4 +124,51 @@ def reserva_listado(request):
         'reservas' : listado_Reservas()
     }
     return render(request,'./reserva_listado.html',data)
+
+def listado_cartas():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_CARTA", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def ClienteCrear(request):
+
+    data = {
+
+    }
+
+    if request.method == 'POST':
+
+        rut = request.POST.get('rutCli')
+        dv = request.POST.get('dv')
+        nombre = request.POST.get('nom')
+        telefono = int(request.POST.get('telefono'))
+        correo = request.POST.get('correo')
+
+        salida = CrearCliente(rut, dv, nombre, telefono, correo)
+
+        if salida == 1:
+            data['mensaje'] = 'Cliente agregado correctamente'
+        else:
+            data['mensaje'] = 'No se pudo agregar el cliente'
+
+    return render(request, './crear_cliente.html', data)
+
+
+def CrearCliente(rut, dv, nom, telefono, correo):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_CLIENTE', [
+                    rut, dv, nom, telefono, correo, salida])
+    return salida.getvalue()
 
