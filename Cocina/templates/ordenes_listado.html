@@ -20,26 +20,57 @@
 </style>
 <div class="card card-gray-dark">
     <div class="card-header">
-      <h3 class="card-title">Crear Receta</h3>
+      <h3 class="card-title">Ordenes</h3>
     </div>
 </div>
-<div class="row">
-{% for o in ordenes %}   
-    <div class="col-lg-3 col-6 filterDiv {{m.2}}x">
-      <div name="{{m.2}}x" class="small-box bg-gray filterDiv {{m.2}}x">
-        <div class="inner">
-          <h3>Id : {{o.0}}</h3>
-          <p> Estado :{{o.3}}</p>
-        </div>
-        <div class="icon">
-          <i class="ion ion-stats-bars"></i>
-        </div>
-        <a href="{% url 'orden_detalle' o.0 %}" id="{{m.2}}" class="small-box-footer">
-          <i class="fas fa-arrow-circle-right {{m.2}}t"> Detalles</i>
-        </a>
+
+<div class="row"> 
+  {% for o in ordenes %}   
+  <div class="col-md-4">
+    
+    <!-- Widget: user widget style 2 -->
+    <div class="card card-widget widget-user-2">
+      <!-- Add the bg color to the header using any of the bg-* classes -->
+     
+      <div class="widget-user-header bg-warning">
+        <!-- /.widget-user-image -->
+        <h3 class="">Orden</h3>
+        <h5 class="">{{o.0}}</h5>
       </div>
+      <div class="card-footer p-0">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Platos <span class="float-right badge bg-primary">{{o.2}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Hora <span class="float-right badge bg-info">{{o.3}}</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              Mesa <span class="float-right badge bg-success">{{o.1}}</span>
+            </a>
+          </li>
+          <li class="nav-link text-center">
+            <a href="{% url 'orden_detalle' o.0 %}" id="" class="small-box-footer">
+              <i class="fas fa-arrow-circle-right"> </i>
+            </a>
+          </li>
+      
+        </ul>
+        
+      </div>
+      
     </div>
-{% endfor %}
+    
+   
+    <!-- /.widget-user -->
+  </div>
+  {% endfor %}
+  </div>
 </div>
 
   
@@ -99,5 +130,8 @@
   </script>
   
 {% endblock %}
+
+
+
 
 
