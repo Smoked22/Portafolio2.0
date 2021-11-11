@@ -47,8 +47,14 @@ def agegar_boleta(request):
 
     # si es un metodo "POST" entra en el if
     if request.method == 'POST':
+        guion = '-'
+        dia = request.POST.get('dia')
+        mes = request.POST.get('mes')
+        año = request.POST.get('año')
         id_boleta = request.POST.get('id_boleta')
-        fecha = request.POST.get('fecha')
+        #fecha = request.POST.get('dia')
+        fecha = dia + guion + mes + guion + año
+        print(fecha)
         hora = request.POST.get('hora')
         monto = request.POST.get('monto')
         tipo_pago = request.POST.get('tipo_pago')
@@ -171,5 +177,20 @@ def listado_guia_despacho():
 
 # Renderizar pagina prueba
 def grafico(request):
-    return render(request,'./graficos.html')
+    data = {
+        'datos_grafico': datos_grafico
+    }
+    return render(request,'./graficos.html',data)
+
+def datos_grafico():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_MONTO_MENSUAL", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 # codigo prueba
