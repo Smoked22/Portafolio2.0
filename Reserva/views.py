@@ -10,7 +10,17 @@ from .models import Mesa, Reserva, Cliente
 from .forms import ReservaForm, ClienteForm
 from .filters import ClienteFiltro
 from django.db import connection
+from django.http import JsonResponse
+from django.views.generic import TemplateView
+from chartjs.views.lines import BaseLineChartView
 import cx_Oracle
+from datetime import date, timedelta,datetime
+import datetime
+import locale
+locale.setlocale(locale.LC_ALL,'es_ES.UTF-8')
+
+# Returns 2018-01-15 09:00
+
 
 
 # Inicio Reservas
@@ -28,7 +38,20 @@ def home(request):
 
 @login_required
 def pruebas(request):
-    return render(request, './prueba.html')
+
+    
+    b = grafico_reserva_base()
+    v = []
+    v = (b[0])
+    y = listado_clientes()
+
+    data ={
+        'v' : v,
+        'y' : y,
+        'b' : b
+     }
+
+    return render(request, './prueba.html', data)
 
 
 def cliente_listado(request):
@@ -92,7 +115,7 @@ def listado_mesas():
     out_cur = django_cursor.connection.cursor()
 
     # Llamada al cursor
-    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES", [out_cur])
+    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES_AHORA", [out_cur])
 
     # llenamos la lista
     lista = []
@@ -450,7 +473,7 @@ def listado_Reservas():
 def reserva_listado(request):
     data = {
         'reservas': listado_Reservas(),
-        'base': listado_Reservas()
+        'base': listado_clientes()
     }
 
     if request.method == 'POST':
@@ -463,7 +486,7 @@ def reserva_listado(request):
 
 def horario_mesa(request, id):
     data = {
-        'horarios':    listado_Horario(id),
+        'horarios':   listado_Horario(id),
         'mesa': buscar_mesa(id)
     }
 
@@ -483,3 +506,92 @@ def listado_Horario(id):
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+
+
+
+#pruebas con CHART
+
+
+
+class LineChartJSONView(BaseLineChartView):
+    def get_labels(self):
+        """Return 7 labels for the x-axis."""
+        return ["Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"]
+
+    def get_providers(self):
+        """Return names of datasets."""
+        return ["Central", "Eastside", "Westside"]
+
+    def get_data(self):
+        """Return 3 datasets to plot."""
+
+        return [[75, 44, 92, 11, 44, 95, 35],
+                [41, 92, 18, 3, 73, 87, 92],
+                [87, 21, 94, 3, 90, 13, 65]]
+
+
+line_chart = TemplateView.as_view(template_name='line_chart.html')
+line_chart_json = LineChartJSONView.as_view()
+
+
+def grafico_reserva(request):
+
+    hoy = date.today()
+    nohoy = hoy - timedelta(days = 0)
+    nohoy = nohoy.strftime("%A")
+
+    #LABELS PASADO
+    ayer = hoy - timedelta(days = 1)
+    ayer = ayer.strftime("%A")
+
+    anteayer = hoy   - timedelta(days = 2)
+    anteayer = anteayer.strftime("%A")
+
+    antiayer = hoy - timedelta(days = 3)
+    antiayer = antiayer.strftime("%A")
+
+    #EL FUTURO ES HOY OISTE VIEJO
+    manana= hoy + timedelta(days = 1)
+    manana = manana.strftime("%A")
+
+    pasadomanana = hoy + timedelta(days = 2)
+    pasadomanana = pasadomanana.strftime("%A")
+
+    postmanana = hoy + timedelta(days = 3)
+    postmanana = postmanana.strftime("%A")
+
+    nombres = []
+    nombres.append(antiayer)
+    nombres.append(anteayer)
+    nombres.append(ayer)
+    nombres.append(nohoy)
+    nombres.append(manana)
+    nombres.append(pasadomanana)
+    nombres.append(postmanana)
+
+    b = grafico_reserva_base()
+    data = []
+    data = b[0]
+    
+    return JsonResponse(data={
+        'data': data,
+        'labels': nombres
+    })
+
+
+
+def grafico_reserva_base():
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_GRAFICO_DATA_RESERVA_DIAS_2", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+

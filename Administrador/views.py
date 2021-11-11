@@ -10,6 +10,13 @@ from Finanzas import urls
 from .models import Ingrediente , Cliente, Carta, GuiaDesp, Suministro
 from .forms import IngredienteForm
 from django.db import connection
+from django.http import JsonResponse
+from django.views.generic import TemplateView
+from chartjs.views.lines import BaseLineChartView
+import cx_Oracle
+from datetime import date, timedelta,datetime
+import datetime
+import locale
 
 #from .forms import formLog
 
@@ -21,6 +28,75 @@ def home_admin(request):
   
     }
     return render(request, './home_admin.html', data)
+
+
+
+def informe_reservas(request):
+
+
+    return render(request, './Reserva_Grafico.html')
+
+
+def grafico_reserva(request):
+
+    hoy = date.today()
+    nohoy = hoy - timedelta(days = 0)
+    nohoy = nohoy.strftime("%A")
+
+    #LABELS PASADO
+    ayer = hoy - timedelta(days = 1)
+    ayer = ayer.strftime("%A")
+
+    anteayer = hoy   - timedelta(days = 2)
+    anteayer = anteayer.strftime("%A")
+
+    antiayer = hoy - timedelta(days = 3)
+    antiayer = antiayer.strftime("%A")
+
+    #EL FUTURO ES HOY OISTE VIEJO
+    manana= hoy + timedelta(days = 1)
+    manana = manana.strftime("%A")
+
+    pasadomanana = hoy + timedelta(days = 2)
+    pasadomanana = pasadomanana.strftime("%A")
+
+    postmanana = hoy + timedelta(days = 3)
+    postmanana = postmanana.strftime("%A")
+
+    nombres = []
+    nombres.append(antiayer)
+    nombres.append(anteayer)
+    nombres.append(ayer)
+    nombres.append(nohoy)
+    nombres.append(manana)
+    nombres.append(pasadomanana)
+    nombres.append(postmanana)
+
+    b = grafico_reserva_base()
+    data = []
+    data = b[0]
+    
+    return JsonResponse(data={
+        'data': data,
+        'labels': nombres
+    })
+
+
+
+def grafico_reserva_base():
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_GRAFICO_DATA_RESERVA_DIAS_2", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
 
 
 @login_required

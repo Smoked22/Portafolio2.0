@@ -15,4 +15,5 @@ urlpatterns = [
    path('home/ingrediente/crearIngrediente/', crearProductos, name="crearProductos"),
    path('home/ingrediente/modificarIngrediente/<id>', modificarProductos, name="modificarProductos"),
    path('home/ingrediente/', ingredientespage, name="ingredientespage"),
+   path('reservas/informe_reservas', informe_reservas, name="informe_reservas"),
 ]

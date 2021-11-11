@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'django_select2',
     'django_redis',
     'django_filters',
+    'chartjs',
 ]
 
 
