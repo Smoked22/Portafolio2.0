@@ -9,4 +9,5 @@ urlpatterns = [
     path('ReservarMesa/', ReservarMesa, name="reservarMesa"),
     path('CancelarReserva/', CancelarReserva, name="cancelarReserva"),
     path('VerMenu/', VerMenu, name="verMenu"),
+    path('CrearCliente/', ClienteCrear, name="clienteCrear"),
 ]

@@ -851,3 +851,37 @@ BEGIN
                            ON o.id_orden = b.orden_id_orden
       WHERE  b.id_boleta IS NULL;
 END;
+/
+--*************************************************************************************
+--AGREGAR CLIENTE
+--#46
+create or replace NONEDITIONABLE PROCEDURE sp_agregar_cliente(
+
+    v_c_rut             NUMBER,
+    v_dv                CHAR,
+    v_nombre            VARCHAR2,
+    v_telefono          NUMBER,
+    v_correo            NVARCHAR2,
+    v_salida            out number
+)IS
+BEGIN
+    INSERT INTO cliente(c_rut,
+                        dv,
+                        nombre,
+                        telefono,
+                        correo
+                        )
+    VALUES (v_c_rut,
+            v_dv,
+            v_nombre,
+            v_telefono,
+            v_correo
+            );
+    COMMIT;
+    v_salida:=1;
+
+    EXCEPTION 
+    WHEN others THEN
+        v_salida:=0;
+END;
+/
