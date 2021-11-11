@@ -16,4 +16,6 @@ urlpatterns = [
    path('home/ingrediente/modificarIngrediente/<id>', modificarProductos, name="modificarProductos"),
    path('home/ingrediente/', ingredientespage, name="ingredientespage"),
    path('reservas/informe_reservas', informe_reservas, name="informe_reservas"),
+   path('reservas/listar_reservas', listar_reservas_admin, name="listar_reservas_admin"),
+   path('reservas/crear_reservas', crear_reservas_admin, name="crear_reservas_admin"),
 ]
