@@ -216,5 +216,99 @@ def crearProductos(request):
 
     return render(request, './CrearProducto.html',data)
 
+#parte Reservas
+
+def listado_Reservas_admin():
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_RESERVAS", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 
+# Vista listado reserva
+def listar_reservas_admin(request):
+    data = {
+        'reservas': listado_Reservas_admin(),
+    }
+
+    return render(request, './listar_reservas_admin.html', data)
+
+#crear reserva 
+def enviar_reserva_admin(fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_RESERVA', [
+                    fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant, salida])
+    return salida.getvalue()
+
+def crear_reservas_admin(request):
+
+    data = {
+        'mesas': listado_mesas_disponibles(),
+        'empleados': listado_empleados(),
+    }
+
+    if request.method == 'POST':
+        fecha_reserva = request.POST.get('fecha_reserva')
+        hora_reserva = request.POST.get('hora_reserva')
+        espacio = ' '
+        fecha_hora = str(fecha_reserva)+espacio+str(hora_reserva)
+        rut_emp = request.POST.get('empleado')
+        rut_cli = request.POST.get('cliente')
+        origen = 'Presencial'
+        id_mesa = request.POST.get('id_mesa')
+        estado = request.POST.get('estado')
+        cant = request.POST.get('cantP')
+
+        salida = enviar_reserva_admin(fecha_hora, rut_emp, rut_cli,
+                               origen, id_mesa, estado, cant)
+
+        if salida == 1:
+            data['mensaje'] = 'agregador correctamente'
+        else:
+            data['mensaje'] = 'no se pudo guardar'
+
+    return render(request, './crear_reservas_admin.html', data)
+
+def listado_mesas_disponibles():
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    # Llamada al cursor
+    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES", [out_cur])
+
+    # llenamos la lista
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_empleados():
+    django_cursor = connection.cursor()
+
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    # Llamada al cursor
+    cursor.callproc("SP_LISTAR_EMPLEADOS", [out_cur])
+
+    # llenamos la lista
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
