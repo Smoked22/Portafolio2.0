@@ -27,10 +27,13 @@
 <div class="card-body" >
 <form action="" method="post">
   {% csrf_token %}
+  <label for="exampleInputEmail1">ID ingrediente</label>
                 <input class="form-control" name="id_productos" type="text"  placeholder="id ingrediente" required>
                 <br>
+                <label for="exampleInputEmail1">Nombre ingrediente</label>
                 <input class="form-control" name="nombre_ingrediente" type="text"  placeholder="nombre_ingrediente">
                 <br>
+                <label for="exampleInputEmail1">Unidad de medida</label>
                 <div class="form-group">
                 <select name="categoria" class="form-control custom-select">
                   <option selected disabled>unidad de medida</option>
@@ -39,11 +42,12 @@
                   <option>CONDIMENTO Y SALSA</option>
                 </select>
               </div>
-                
+              <label for="exampleInputEmail1">Stock</label>
                 <input class="form-control" name="stock" type="number" placeholder="stock">
                 <br>
 
                 <div class="form-group">
+                  <label for="exampleInputEmail1">Unidad de medidad</label>
                 <select name="un_medida" class="form-control custom-select">
                   <option selected disabled>unidad de medida</option>
                   <option>KG</option>
@@ -57,7 +61,7 @@
                 <!-- <br>
                 <input class="form-control" type="number" id=numid name=numid placeholder="numerosjej" min="1" value="1" required> -->
                 
-                <label for="start"></label>
+                <label for="start">Fecha de caducidad</label>
                 <input type="date" name="fecha" class="form-control"
                 value="2018-07-22"
                 min="2018-01-01" max="2030-12-31">
