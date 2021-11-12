@@ -889,7 +889,7 @@ END;
 --*************************************************************************************
 --Monto Mensual Vendido
 --#47
-CREATE OR replace PROCEDURE sp_monto_mensual(monto_men OUT SYS_REFCURSOR)
+CREATE OR replace PROCEDURE Sp_monto_mensual(monto_men OUT SYS_REFCURSOR)
 IS
 BEGIN
     OPEN monto_men FOR
@@ -905,41 +905,41 @@ BEGIN
              oct.octubre    AS Octubre,
              nov.noviembre  AS Noviembre,
              dic.diciembre  AS Diciembre
-      FROM   (SELECT SUM(monto) AS enero
+      FROM   (SELECT Coalesce(SUM(monto), 0) AS enero
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '01' )) ene,
-             (SELECT SUM(monto) AS febrero
+             (SELECT Coalesce(SUM(monto), 0) AS febrero
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '02' )) feb,
-             (SELECT to_number(SUM(monto)) AS marzo
+             (SELECT Coalesce(SUM(monto), 0) AS marzo
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '03' )) mar,
-             (SELECT SUM(monto) AS abril
+             (SELECT Coalesce(SUM(monto), 0) AS abril
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '04' )) abr,
-             (SELECT SUM(monto) AS mayo
+             (SELECT Coalesce(SUM(monto), 0) AS mayo
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '05' )) may,
-             (SELECT SUM(monto) AS junio
+             (SELECT Coalesce(SUM(monto), 0) AS junio
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '06' )) jun,
-             (SELECT SUM(monto) AS julio
+             (SELECT Coalesce(SUM(monto), 0) AS julio
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '07' )) jul,
-             (SELECT SUM(monto) AS agosto
+             (SELECT Coalesce(SUM(monto), 0) AS agosto
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '08' )) ago,
-             (SELECT SUM(monto) AS septiembre
+             (SELECT Coalesce(SUM(monto), 0) AS septiembre
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '09' )) sep,
-             (SELECT SUM(monto) AS octubre
+             (SELECT Coalesce(SUM(monto), 0) AS octubre
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '10' )) oct,
-             (SELECT SUM(monto) AS noviembre
+             (SELECT Coalesce(SUM(monto), 0) AS noviembre
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '11' )) nov,
-             (SELECT SUM(monto) AS diciembre
+             (SELECT Coalesce(SUM(monto), 0) AS diciembre
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '12' )) dic;
-END; 
-/
+END;
+/ 
