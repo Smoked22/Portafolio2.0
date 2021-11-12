@@ -67,7 +67,7 @@ def agregar_receta( nom, desc, porcion, carta):
     #Cursor que llama
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_RECETA_D',[nom, desc , porcion, carta, salida] )
+    cursor.callproc('SP_AGREGAR_RECETA_2',[nom, desc , porcion, carta, salida] )
     return salida.getvalue()
 
 
@@ -86,6 +86,7 @@ def listar_recetas():
 
 def receta_listado(request):
     data = {
+
         'receta': listar_recetas()
     }
 
@@ -216,13 +217,31 @@ def listado_ordenes():
     out_cur = django_cursor.connection.cursor()
 
     #Llamada al cursor 
-    cursor.callproc("SP_LISTAR_ORDEN", [out_cur])
+    cursor.callproc("SP_LISTAR_ORDENES", [out_cur])
 
     #llenamos la lista
     lista= []
     for fila in out_cur:
         lista.append(fila)
     return lista 
+
+def listar_recetas():
+    django_cursor = connection.cursor()
+
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    #Llamada al cursor 
+    cursor.callproc("SP_LISTAR_RECETA", [out_cur])
+
+    #llenamos la lista
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista 
+
 
 def orden_listado(request):
     data = {
@@ -258,14 +277,20 @@ def detalles_ordenes(id):
 
 def orden_actualizar(request, id, sec, sec2):
     
-    actualizar_ordenes(id, sec, sec2)
+    salida = actualizar_ordenes(id, sec, sec2)
 
-    data = {
-        'ordenes': detalles_ordenes(id)
-        
-    }
+    
 
-    return render(request, './detalle_orden.html', data)
+    if salida == 1:
+        data = {
+        'ordenes':listado_ordenes()
+        }
+        return render(request, './ordenes_listado.html', data)
+    else:
+        data = {
+        'ordenes' : detalles_ordenes(id)
+         }
+        return render(request, './detalle_orden.html', data)
 
 def actualizar_ordenes(id,sec, sec2):
     django_cursor = connection.cursor()

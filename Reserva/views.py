@@ -252,9 +252,9 @@ def reserva_modificar(request, id):
             id, fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant)
 
         if salida == 1:
-            data['mensaje'] = 'agregador correctamente'
+            data['mensaje'] = 'Se ha creado la reserva'
         else:
-            data['mensaje'] = 'no se pudo guardar'
+            data['mensaje'] = 'No se pudo guardar'
 
     return render(request, './reserva_modificar.html', data)
 
@@ -444,7 +444,7 @@ def reserva_buscar(request):
         id = request.POST.get('rutCli')
         listadoReserva = listado_reservas_por_RUT(id)
 
-        data['mensaje'] = 'agregador correctamente'
+        data['mensaje'] = 'Agregado correctamente'
         data['reservas'] = listadoReserva
     else:
         data['mensaje'] = 'no se pudo guardar'
