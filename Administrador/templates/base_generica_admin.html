@@ -132,24 +132,35 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-utensils"></i>
               <p>
-                 Reservas
+                 Área Reservas
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
             <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{% url 'listar_reservas_admin'%}" class="nav-link">
-                  <i class="fas fa-list-alt nav-icon"></i>
-                  <p>Listar Reservas</p>
-                </a>
-              </li>
               <li class="nav-item">
                 <a href="{% url 'crear_reservas_admin'%}" class="nav-link">
                   <i class="fas fa-user-alt nav-icon"></i>
                   <p>Crear Reservas</p>
                 </a>
               </li>
-
+              <li class="nav-item">
+                <a href="{% url 'listar_reservas_admin'%}" class="nav-link">
+                  <i class="fas fa-list-alt nav-icon"></i>
+                  <p>Reservas</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'cliente_crear_admin'%}" class="nav-link">
+                  <i class="fas fa-list-alt nav-icon"></i>
+                  <p>Crear Cliente</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'cliente_listado_admin'%}" class="nav-link">
+                  <i class="fas fa-list-alt nav-icon"></i>
+                  <p>Clientes</p>
+                </a>
+              </li>
             </ul>
           </li>
           
@@ -193,7 +204,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{% url 'ingredientespage'%}" class="nav-link">
+                <a href="" class="nav-link">
                   <i class="fas fa-list-alt"></i>
                   <p>Ingredientes</p>
                 </a>

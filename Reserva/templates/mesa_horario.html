@@ -4,7 +4,12 @@
 
 <body>
   {% for m in mesa%}
+  <div class="form-group">
   <h2>Mesa {{m.0}}</h2>
+  <small id="passwordHelpInline" class="text-muted">
+    Horarios de la mesa {{m.0}} para hoy.
+</small>  
+  </div>
   {% endfor %}
   
  

@@ -296,6 +296,8 @@ def listado_mesas_disponibles():
         lista.append(fila)
     return lista
 
+
+#LISTADO EMPLEADO
 def listado_empleados():
     django_cursor = connection.cursor()
 
@@ -312,3 +314,132 @@ def listado_empleados():
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+
+#AREA CLIENTE
+def cliente_crear(request):
+    data = {
+    }
+    if request.method == 'POST':
+
+        rut = request.POST.get('rutCli')
+        dv = request.POST.get('dv')
+        nombre = request.POST.get('nom')
+        telefono = int(request.POST.get('telefono'))
+        correo = request.POST.get('correo')
+
+        salida = crear_cliente(rut, dv, nombre, telefono, correo)
+
+        if salida == 1:
+            messages.success(request, "Cliente ha sido creado")
+        else:
+            messages.error(request, "El cliente no ha podido crearse")
+
+    return render(request, './cliente_crear_admin.html', data)
+
+def cliente_listado(request):
+    data = {
+        'clientef': listado_clientes(),
+        'cliente': listado_clientes()
+    }
+    if request.method == 'POST':
+        id = request.POST.get('rutcli')
+        listadofiltro = buscar_cliente(id)
+        data['cliente'] = listadofiltro
+
+    return render(request, './cliente_listar_admin.html', data)
+
+def listado_clientes():
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+    # Llamada al cursor
+    cursor.callproc("SP_LISTAR_CLIENTES", [out_cur])
+    # llenamos la lista
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def buscar_cliente(id):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+    # Llamada al cursor
+    cursor.callproc("SP_BUSCAR_CLIENTE", [out_cur, id])
+    # llenamos la lista
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+
+def cliente_modificar(request, id):
+    data = {
+        'cliente': buscar_cliente(id)
+    }
+    if request.method == 'POST':
+        rut = request.POST.get('rutCli')
+        dv = request.POST.get('dv')
+        nombre = request.POST.get('nom')
+        telefono = int(request.POST.get('telefono'))
+        correo = request.POST.get('correo')
+        salida = modificar_cliente(rut, dv, nombre, telefono, correo)
+
+        if salida == 1:
+            data['mensaje'] = 'agregado correctamente'
+        else:
+            data['mensaje'] = 'no se pudo guardar'
+    return render(request, './cliente_modificar_admin.html', data)
+
+
+def cliente_eliminar(request, id):
+    data = {
+    }
+    salida = eliminar_cliente(id)
+    if salida == 1:
+        data['mensaje'] = 'Borrado correctamente'
+        data['cliente'] = listado_clientes()
+    else:
+        data['mensaje'] = 'No se pudo borrar'
+        data['cliente'] = listado_clientes()
+    return render(request, './cliente_listar_admin.html', data)
+
+
+def crear_cliente(rut, dv, nom, telefono, correo):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_CLIENTE', [
+                    rut, dv, nom, telefono, correo, salida])
+    return salida.getvalue()
+
+
+def modificar_cliente(rut, dv, nom, telefono, correo):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_MODIFICAR_CLIENTE', [
+                    rut, dv, nom, telefono, correo, salida])
+    return salida.getvalue()
+
+
+def eliminar_cliente(rut):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_CLIENTE', [rut, salida])
+    return salida.getvalue()
+
+
+
+

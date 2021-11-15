@@ -299,7 +299,7 @@ def reserva_crear(request):
         rut_cli = request.POST.get('cliente')
         origen = 'Presencial'
         id_mesa = request.POST.get('id_mesa')
-        estado = request.POST.get('estado')
+        estado = 'Reservada'
         cant = request.POST.get('cantP')
 
         salida = crear_reserva(fecha_hora, rut_emp, rut_cli,
@@ -307,8 +307,10 @@ def reserva_crear(request):
 
         if salida == 1:
             data['mensaje'] = 'agregador correctamente'
+            
         else:
             data['mensaje'] = 'no se pudo guardar'
+            
 
     return render(request, './reserva_crear.html', data)
 
@@ -330,9 +332,9 @@ def cliente_crear(request):
         salida = crear_cliente(rut, dv, nombre, telefono, correo)
 
         if salida == 1:
-            data['mensaje'] = 'agregador correctamente'
+            messages.success(request, "Ojala aparezca este mensaje dios")
         else:
-            data['mensaje'] = 'no se pudo guardar'
+            messages.error(request, "que pero queeeeeee")
 
     return render(request, './cliente_crear.html', data)
 

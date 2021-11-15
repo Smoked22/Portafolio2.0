@@ -9,13 +9,19 @@ from django.conf.urls import include, url
 
 urlpatterns = [
    path('home/', home_admin, name="home_admin"),
+
+   #EMPLEADOS
    path('home/empleados', empleados, name="empleados"),
    path('home/detalle_empleado/<id>', detalle_empleado, name="detalle_empleado"),
-   path('home/ingrediente/listarIngrediente', listarProductos, name="listarProductos"),
-   path('home/ingrediente/crearIngrediente/', crearProductos, name="crearProductos"),
-   path('home/ingrediente/modificarIngrediente/<id>', modificarProductos, name="modificarProductos"),
-   path('home/ingrediente/', ingredientespage, name="ingredientespage"),
-   path('reservas/informe_reservas', informe_reservas, name="informe_reservas"),
-   path('reservas/listar_reservas', listar_reservas_admin, name="listar_reservas_admin"),
-   path('reservas/crear_reservas', crear_reservas_admin, name="crear_reservas_admin"),
+
+   #RESERVA
+   path('home/informe_reservas', informe_reservas, name="informe_reservas"),
+   path('home/listar_reservas', listar_reservas_admin, name="listar_reservas_admin"),
+   path('home/crear_reservas', crear_reservas_admin, name="crear_reservas_admin"),
+
+   #CLIENTE
+   path('home/Crear_Cliente/', cliente_crear, name="cliente_crear_admin"),
+   path('home/Listado_Cliente/', cliente_listado, name="cliente_listado_admin"),
+   path('home/Cliente_modificar/<id>', cliente_modificar, name="cliente_modificar_admin"),
+   path('home/Cliente_Eliminar/<id>', cliente_eliminar, name="cliente_eliminar_admin"),
 ]

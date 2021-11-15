@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  {% load static %}
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIGLO XXI | Inicio</title>
-  <link rel="shortcut icon" href="{static './assets/img/S21.ico' %}" />
-  <link rel="shortcut icon" type="image/x-icon" href="{static './assets/img/S21.ico' %}"/>
+  {% load static %}
+  <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <!-- Toastr -->
+    <link rel="stylesheet" href="{% static './plugins/toastr/toastr.min.css' %}">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'css/toastr.css' %}" media="all">
+  <script type="text/javascript" src="{% static 'js/toastr.min.js' %}"></script>  
+  <link rel="shortcut icon" type="image/png" href="{% static './assets/img/favicon.png' %}" >
+
   <link rel="stylesheet" href="{% static '../plugins/ekko-lightbox/ekko-lightbox.css' %}">
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
