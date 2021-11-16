@@ -229,3 +229,22 @@ def ingresar_ingrediente(ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOC
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_PRODUCTOR',[ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOCK, UNIDAD_DE_MEDIDA, FEC_CADUC, salida])
     return salida.getvalue()
+
+def Bodega_buscar(request):
+
+    data = {
+        'categorias' :listar_categoria() 
+        
+    }
+
+    if request.method== 'POST':
+        id = request.POST.get('rutCli')
+        listadoReserva = listado_reservas_por_RUT(id)
+
+        data['mensaje'] = 'agregador correctamente'
+        data['reservas'] = listadoReserva
+    else:
+        data['mensaje'] = 'no se pudo guardar'
+        data['reservas'] = listado_Reservas()
+
+    return render(request, './reserva_listado.html', data) 
