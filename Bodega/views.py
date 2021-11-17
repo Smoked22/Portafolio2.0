@@ -131,39 +131,37 @@ def ingrediente_eliminar(request, id):
 
     return render(request, './lista_ingredientemod.html', data)    
     
+
 def buscar_ingrediente(id):
     django_cursor = connection.cursor()
-
-    #Cursor que llama
     cursor = django_cursor.connection.cursor()
-    #Cursor que recibe
     out_cur = django_cursor.connection.cursor()
 
-    #Llamada al cursor 
     cursor.callproc("SP_BUSCAR_INGREDIENTER", [out_cur,id])
 
-    #llenamos la lista
-    lista= []
+    lista = []
     for fila in out_cur:
+        print(fila)
         lista.append(fila)
-    return lista 
+    return lista
+    
 
-def buscar_ingrediente_lista(request, id):
+# def buscar_ingrediente_lista(request, id):
 
-    listadoReserva = buscar_ingrediente(id)
-
-    data = {
-    'categorias' : listar_categoria 
-    # 'reservas' : listadoReserva
+#      data = {
+#     'categorias' : listar_categoria 
+#     'listadoReserva' : buscar_ingrediente(id)
      
-    }    
+#      }    
+    
 
-    return render(request, './lista_ingredientemod.html', data)
+#     return render(request, './lista_ingredientemod.html', data)
 
 def modificar_ingrediente_rellenar(request, id):
     data= {
 
-    'categorias' :listar_categoria()        
+    'categorias' : listar_categoria(), 
+    'x' : buscar_ingrediente(id)        
     }
     
 
