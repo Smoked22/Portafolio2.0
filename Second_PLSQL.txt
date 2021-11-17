@@ -942,4 +942,69 @@ BEGIN
               FROM   boleta
               WHERE  ( Substr(fecha, 4, 2) = '12' )) dic;
 END;
-/ 
+/
+--*************************************************************************************
+--grafico reserva de dias
+--#48
+CREATE
+OR
+replace noneditionable
+PROCEDURE sp_grafico_data_reserva_dias_2( graficos OUT sys_refcursor )
+IS
+BEGIN
+  OPEN graficos FOR
+  SELECT antiayer.nro,
+         anteayer.nro,
+         ayer.nro,
+         hoy.nro,
+         manana.nro,
+         pasadomanana.nro,
+         postmanana.nro
+  FROM   (
+                SELECT count(id_reserva)AS nro
+                FROM   reserva
+                WHERE  to_char(SYSDATE,'DD')-3 = substr(fec_reserva,1,2)
+                AND    substr(fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                AND    substr(fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4) )antiayer,
+         (
+                SELECT count(id_reserva)AS nro
+                FROM   reserva
+                WHERE  to_char(SYSDATE,'DD')-2 = substr(fec_reserva,1,2)
+                AND    substr(fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                AND    substr(fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4) )anteayer,
+         (
+                SELECT count(id_reserva)AS nro
+                FROM   reserva
+                WHERE  to_char(SYSDATE,'DD')-1 = substr(fec_reserva,1,2)
+                AND    substr(fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                AND    substr(fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4) )ayer,
+         (
+                SELECT count(id_reserva)AS nro
+                FROM   reserva
+                WHERE  to_char(SYSDATE,'DD') = substr(fec_reserva,1,2)
+                AND    substr(fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                AND    substr(fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4) )hoy,
+         (
+                SELECT count(id_reserva)AS nro
+                FROM   reserva
+                WHERE  to_char(SYSDATE,'DD')+1 = substr(fec_reserva,1,2)
+                AND    substr(fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                AND    substr(fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4) )manana,
+         (
+                SELECT count(id_reserva)AS nro
+                FROM   reserva
+                WHERE  to_char(SYSDATE,'DD')+2 = substr(fec_reserva,1,2)
+                AND    substr(fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                AND    substr(fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4) )pasadomanana,
+         (
+                SELECT count(id_reserva)AS nro
+                FROM   reserva
+                WHERE  to_char(SYSDATE,'DD')+3 = substr(fec_reserva,1,2)
+                AND    substr(fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                AND    substr(fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4) )postmanana;
+                
+
+END;
+
+/
+--*************************************************************************************

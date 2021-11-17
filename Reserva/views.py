@@ -332,9 +332,9 @@ def cliente_crear(request):
         salida = crear_cliente(rut, dv, nombre, telefono, correo)
 
         if salida == 1:
-            messages.success(request, "Ojala aparezca este mensaje dios")
+            messages.success(request, "Cliente creado")
         else:
-            messages.error(request, "que pero queeeeeee")
+            messages.error(request, "Cliente no creado")
 
     return render(request, './cliente_crear.html', data)
 
