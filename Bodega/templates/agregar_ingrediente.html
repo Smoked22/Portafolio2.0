@@ -27,44 +27,71 @@
 <div class="card-body" >
 <form action="" method="post">
   {% csrf_token %}
-  <label for="exampleInputEmail1">ID ingrediente</label>
+  <div class="row">
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label>Text</label>
                 <input class="form-control" name="id_productos" type="text"  placeholder="id ingrediente" required>
-                <br>
-                <label for="exampleInputEmail1">Nombre ingrediente</label>
+            </div>
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+                <label>Text</label>
                 <input class="form-control" name="nombre_ingrediente" type="text"  placeholder="nombre_ingrediente">
-                <br>
-                <label for="exampleInputEmail1">Unidad de medida</label>
-                <div class="form-group">
+            </div>
+            </div>
+            </div>
+            <br>
+            <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Text</label>
+            <div class="form-group">
                 <select name="categoria" class="form-control custom-select">
-                  <option selected disabled>unidad de medida</option>
+                  <option selected disabled>Tipo de ingrediente</option>
                   <option>PESCADOS Y MARISCOS</option>
                   <option>FRUTA Y VERDURA</option>
                   <option>CONDIMENTO Y SALSA</option>
                 </select>
-              </div>
-              <label for="exampleInputEmail1">Stock</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Text</label>
                 <input class="form-control" name="stock" type="number" placeholder="stock">
-                <br>
-
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Unidad de medidad</label>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+            <div class="col-sm-6">
+              <div class="form-group">
+                <label>Text</label>
+            <div class="form-group">
                 <select name="un_medida" class="form-control custom-select">
                   <option selected disabled>unidad de medida</option>
                   <option>KG</option>
                   <option>GRS</option>
                   <option>LTS</option>
                 </select>
-              </div>
+            </div>
+          </div>
+        </div>
                 
                 
                 <!-- <input class="form-control" type="text" placeholder="Default input"> -->
                 <!-- <br>
                 <input class="form-control" type="number" id=numid name=numid placeholder="numerosjej" min="1" value="1" required> -->
-                
-                <label for="start">Fecha de caducidad</label>
+                <div class="col-sm-6">
+              <div class="form-group">
+                <label>Text</label>
                 <input type="date" name="fecha" class="form-control"
                 value="2018-07-22"
                 min="2018-01-01" max="2030-12-31">
+                </div>
+              </div>
+            </div>
                 <br>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success btn-block btn-primary" value="Guardar">Crear Ingrediente</button>

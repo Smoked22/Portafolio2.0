@@ -15,7 +15,7 @@ urlpatterns = [
    path('home/listar_proveedores/', proveedor, name="listar_proovedores"),
    path('home/lista_ingredientemod/', modificar_ingrediente, name="listar_ingredientemod"),
    path('home/modificar_ingrediente/<id>', modificar_ingrediente_rellenar, name="modificar_ingrediente_rellenar"),
-   path('home/Buscar_ingrediente/<id>', buscar_ingrediente_lista, name="buscar_ingrediente_lista"),
+   # path('home/Buscar_ingrediente/<id>', buscar_ingrediente_lista, name="buscar_ingrediente_lista"),
    path('home/eliminar_ingrediente/<id>', ingrediente_eliminar , name="ingrediente_eliminar"),
    path("select2/", include("django_select2.urls")),
    #path('', acceder, name="inicio"),

@@ -131,39 +131,37 @@ def ingrediente_eliminar(request, id):
 
     return render(request, './lista_ingredientemod.html', data)    
     
+
 def buscar_ingrediente(id):
     django_cursor = connection.cursor()
-
-    #Cursor que llama
     cursor = django_cursor.connection.cursor()
-    #Cursor que recibe
     out_cur = django_cursor.connection.cursor()
 
-    #Llamada al cursor 
     cursor.callproc("SP_BUSCAR_INGREDIENTER", [out_cur,id])
 
-    #llenamos la lista
-    lista= []
+    lista = []
     for fila in out_cur:
+        print(fila)
         lista.append(fila)
-    return lista 
+    return lista
+    
 
-def buscar_ingrediente_lista(request, id):
+# def buscar_ingrediente_lista(request, id):
 
-    listadoReserva = buscar_ingrediente(id)
-
-    data = {
-    'categorias' : listar_categoria 
-    # 'reservas' : listadoReserva
+#      data = {
+#     'categorias' : listar_categoria 
+#     'listadoReserva' : buscar_ingrediente(id)
      
-    }    
+#      }    
+    
 
-    return render(request, './lista_ingredientemod.html', data)
+#     return render(request, './lista_ingredientemod.html', data)
 
 def modificar_ingrediente_rellenar(request, id):
     data= {
 
-    'categorias' :listar_categoria()        
+    'categorias' : listar_categoria(), 
+    'x' : buscar_ingrediente(id)        
     }
     
 
@@ -229,3 +227,22 @@ def ingresar_ingrediente(ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOC
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_PRODUCTOR',[ID_INGREDIENTE, NOM_INGREDIENTE, DESC_INGREDIENTE, STOCK, UNIDAD_DE_MEDIDA, FEC_CADUC, salida])
     return salida.getvalue()
+
+def Bodega_buscar(request):
+
+    data = {
+        'categorias' :listar_categoria() 
+        
+    }
+
+    if request.method== 'POST':
+        id = request.POST.get('rutCli')
+        listadoReserva = listado_reservas_por_RUT(id)
+
+        data['mensaje'] = 'agregador correctamente'
+        data['reservas'] = listadoReserva
+    else:
+        data['mensaje'] = 'no se pudo guardar'
+        data['reservas'] = listado_Reservas()
+
+    return render(request, './reserva_listado.html', data) 
