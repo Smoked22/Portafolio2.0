@@ -1056,3 +1056,43 @@ BEGIN
 END;
 /
 --***************************************************************************************************
+-- Agregar reserva por Totem
+--#50
+create or replace NONEDITIONABLE PROCEDURE Sp_agregar_reserva_totem
+
+(                                              v_cliente_c_rut  NUMBER,
+                                               v_mesa_id_mesa   NVARCHAR2,
+                                               v_cant_personas  INTEGER,
+                                               v_salida         OUT NUMBER)
+IS
+BEGIN
+    INSERT INTO reserva
+                (id_reserva,
+                 fec_reserva_hecha,
+                 fec_reserva,
+                 empleado_e_rut,
+                 cliente_c_rut,
+                 origen_reserva,
+                 mesa_id_mesa,
+                 estado_reserva,
+                 cant_personas)
+                 
+    VALUES      (sec_reserva.NEXTVAL,
+                 To_char(SYSDATE, 'YYYY-MM-DD'),
+                 To_char(SYSDATE, 'YYYY-MM-DD'),
+                 '00000000',
+                 v_cliente_c_rut,
+                 'Totem',
+                 v_mesa_id_mesa,
+                 'Reservada',
+                 v_cant_personas );
+
+    COMMIT;
+    v_salida := 1;
+    
+    
+EXCEPTION   
+  WHEN OTHERS THEN
+             v_salida := 0;
+END;
+--***************************************************************************************************
