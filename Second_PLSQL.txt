@@ -943,7 +943,7 @@ BEGIN
               WHERE  ( Substr(fecha, 4, 2) = '12' )) dic;
 END;
 /
---*************************************************************************************
+--***************************************************************************************************
 --grafico reserva de dias
 --#48
 CREATE
@@ -1007,4 +1007,52 @@ BEGIN
 END;
 
 /
---*************************************************************************************
+--***************************************************************************************************
+-- Nuevo Listar Mesas
+--#49
+create or replace NONEDITIONABLE PROCEDURE sp_listar_mesas_disponibles_ex(mesas OUT sys_refcursor)
+IS
+BEGIN
+  UPDATE mesa
+  SET    estareservada= '1'
+  WHERE  id_mesa IN
+         (
+                    SELECT     reserva.mesa_id_mesa
+                    FROM       mesa
+                    inner join reserva
+                    ON         reserva.mesa_id_mesa = mesa.id_mesa
+                    WHERE      substr(reserva.fec_reserva,1,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),1,2)
+                    AND        substr(reserva.fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                    AND        substr(reserva.fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4)
+                    AND        substr(fec_reserva,12,2) = substr(to_char(SYSDATE, 'HH24:MI:SS'),1,2) );COMMIT;UPDATE mesa
+  SET    estareservada= '0'
+  WHERE  id_mesa NOT IN
+         (
+                    SELECT     reserva.mesa_id_mesa
+                    FROM       mesa
+                    inner join reserva
+                    ON         reserva.mesa_id_mesa = mesa.id_mesa
+                    WHERE      Substr(reserva.fec_reserva,1,2) = Substr(To_char(SYSDATE, 'DD/MM/YYYY'),1,2)
+                    AND        Substr(reserva.fec_reserva,4,2) = Substr(To_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                    AND        Substr(reserva.fec_reserva,7,4) = Substr(To_char(SYSDATE, 'DD/MM/YYYY'),7,4)
+                    AND        Substr(fec_reserva,12,2) = Substr(To_char(SYSDATE, 'HH24:MI:SS'),1,2) );COMMIT;OPEN mesas FOR
+  SELECT *
+  FROM   mesa
+  WHERE estareservada='0';
+END;
+/
+--***************************************************************************************************
+-- Filtrar por rut del cliente  
+--#49
+create or replace NONEDITIONABLE PROCEDURE Sp_cli_por_rutcli(
+rutcli    OUT SYS_REFCURSOR,
+v_rut_cli NVARCHAR2)
+IS
+BEGIN
+    OPEN rutcli FOR
+      SELECT *
+      FROM   CLIENTE
+      WHERE  c_rut = v_rut_cli;
+END;
+/
+--***************************************************************************************************

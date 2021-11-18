@@ -41,6 +41,7 @@
 
     .texto{
         text-align: center;
+        color: honeydew;
     }
     
     .colorboton{
@@ -65,7 +66,11 @@
           <label for="inputPassword3" class="col-sm-2 col-form-label">RUT</label>
           <div class="col-sm-10">
             <input disabled name="cliente" class="form-control" id="exampleInputEmail1" value={{rut}}>
+            <small id="passwordHelpInline" class="text-muted">
+              Fecha en la que será reservada la mesa.
+          </small>
           </div>
+          
         </div>
         <div class="form-group row"> 
             <label class="col-sm-2 col-form-label">Fecha reserva</label>
@@ -73,7 +78,7 @@
           
               <div class="form-group">
                 <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                    <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                    <input disabled name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
                     <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i>
                         </div>
@@ -115,13 +120,13 @@
           
               <div class="form-group">
                 <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                    <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
+                    <select disabled name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
                         <option value="{{mesa}}">{{mesa}}</option>
                     </select>
                     
               </div>
               <small id="passwordHelpInline" class="text-muted">
-                Mesa ha ser reservada.
+                Mesa que será reservada.
             </small>
               </div>
             </div>
@@ -179,7 +184,25 @@
       <!-- /.card-footer -->
     </form>
   </div>
-  <!-- /.card -->
+  <h2 class="texto" id="txt"></h2>
+  
+  <script>
+  function startTime() {
+    const today = new Date();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    let s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML =  h + ":" + m + ":" + s;
+    setTimeout(startTime, 1000);
+  }
+  
+  function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+  }
+  </script>
 
 
 <!-- jQuery -->
@@ -200,13 +223,10 @@
   
     //Date picker
     $('#reservationdate').datetimepicker({
-
         minDate: new Date(currentYear, currentMonth, currentDate),
-        format: 'DD/MM/YYYY'
-        
+        format: 'DD/MM/YYYY',
+        date : new Date()
     });
-    //Date and time picker
-    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
 
   
 })

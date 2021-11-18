@@ -13,7 +13,6 @@ def home_totem(request):
     data = {
 
     }
-
     if request.method == 'POST':
 
         if len(request.POST.get('rutCli')) > 0:
@@ -33,10 +32,11 @@ def home_totem(request):
             else:
                 return mesas_listar(request, rut)
 
-        return render(request, './ingreso.html', )
+        return render(request, './ingreso.html')
 
 
-    return render(request, './ingreso.html', )
+    return render(request, './ingreso.html')
+    
 
 def crear_cliente(rut, dv, nom, telefono, correo):
     django_cursor = connection.cursor()
@@ -50,13 +50,30 @@ def crear_cliente(rut, dv, nom, telefono, correo):
 
 def mesas_listar(request, rut):
 
+    cli = buscar_cliente(rut)
+
     data = {
         # Almacena la variable para listar mesas
         'mesas': listado_mesas(),
-        'rut' : rut
+        'ruto' : cli
     }
 
     return render(request, './home_totem.html', data)
+
+def buscar_cliente(id):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+    # Llamada al cursor
+    cursor.callproc("SP_CLI_POR_RUTCLI", [out_cur, id])
+    # llenamos la lista
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
 
 
 def listado_mesas():
@@ -76,11 +93,12 @@ def listado_mesas():
         lista.append(fila)
     return lista
 
-def reservar_totem(request, rut, mesa ):
-
+def reservar_totem(request,id,sec):
+    
     data = {
-        'rut': rut,
-        'mesa': mesa
-
+        'rut': id,
+        'mesa': sec
     }
+
     return render(request, 'reserva.html', data)
+
