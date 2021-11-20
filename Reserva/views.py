@@ -14,12 +14,10 @@ from django.http import JsonResponse
 from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
 import cx_Oracle
-from datetime import date, timedelta,datetime
+from datetime import date, timedelta, datetime
 import datetime
 import locale
-locale.setlocale(locale.LC_ALL,'es_ES.UTF-8')
-
-# Returns 2018-01-15 09:00
+locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')
 
 
 
@@ -33,27 +31,27 @@ def home(request):
     }
     return render(request, './home_reserva.html', data)
 
-# Inicio Reservas
 
 
+#Area de pruebas
 @login_required
 def pruebas(request):
 
-    
     b = grafico_reserva_base()
     v = []
     v = (b[0])
     y = listado_clientes()
 
-    data ={
-        'v' : v,
-        'y' : y,
-        'b' : b
-     }
+    data = {
+        'v': v,
+        'y': y,
+        'b': b
+    }
 
     return render(request, './prueba.html', data)
 
 
+#Listado de clientes
 def cliente_listado(request):
 
     data = {
@@ -307,10 +305,9 @@ def reserva_crear(request):
 
         if salida == 1:
             data['mensaje'] = 'agregador correctamente'
-            
+
         else:
             data['mensaje'] = 'no se pudo guardar'
-            
 
     return render(request, './reserva_crear.html', data)
 
@@ -510,10 +507,7 @@ def listado_Horario(id):
     return lista
 
 
-
-
-#pruebas con CHART
-
+# pruebas con CHART
 
 
 class LineChartJSONView(BaseLineChartView):
@@ -540,27 +534,27 @@ line_chart_json = LineChartJSONView.as_view()
 def grafico_reserva(request):
 
     hoy = date.today()
-    nohoy = hoy - timedelta(days = 0)
+    nohoy = hoy - timedelta(days=0)
     nohoy = nohoy.strftime("%A")
 
-    #LABELS PASADO
-    ayer = hoy - timedelta(days = 1)
+    # LABELS PASADO
+    ayer = hoy - timedelta(days=1)
     ayer = ayer.strftime("%A")
 
-    anteayer = hoy   - timedelta(days = 2)
+    anteayer = hoy - timedelta(days=2)
     anteayer = anteayer.strftime("%A")
 
-    antiayer = hoy - timedelta(days = 3)
+    antiayer = hoy - timedelta(days=3)
     antiayer = antiayer.strftime("%A")
 
-    #EL FUTURO ES HOY OISTE VIEJO
-    manana= hoy + timedelta(days = 1)
+    # EL FUTURO ES HOY OISTE VIEJO
+    manana = hoy + timedelta(days=1)
     manana = manana.strftime("%A")
 
-    pasadomanana = hoy + timedelta(days = 2)
+    pasadomanana = hoy + timedelta(days=2)
     pasadomanana = pasadomanana.strftime("%A")
 
-    postmanana = hoy + timedelta(days = 3)
+    postmanana = hoy + timedelta(days=3)
     postmanana = postmanana.strftime("%A")
 
     nombres = []
@@ -575,12 +569,11 @@ def grafico_reserva(request):
     b = grafico_reserva_base()
     data = []
     data = b[0]
-    
+
     return JsonResponse(data={
         'data': data,
         'labels': nombres
     })
-
 
 
 def grafico_reserva_base():
@@ -596,4 +589,3 @@ def grafico_reserva_base():
     for fila in out_cur:
         lista.append(fila)
     return lista
-
