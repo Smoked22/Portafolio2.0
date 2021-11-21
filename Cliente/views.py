@@ -19,6 +19,31 @@ def VerMenu(request):
     }
     return render(request, './menu.html',data)
 
+def MenuEntrada(request):
+    data ={
+        'entradas' : listado_entradas()
+    }
+    return render(request, './menu_Entrada.html',data)
+
+def MenuFondo(request):
+    data ={
+        'fondos' : listado_fondos()
+    }
+    return render(request, './menu_Fondo.html',data)
+
+def MenuPostre(request):
+    data ={
+        'postres' : listado_postres()
+    }
+    return render(request, './menu_Postre.html',data)
+
+def MenuBeber(request):
+    data ={
+        'bebidas' : listado_bebidas()
+    }
+    return render(request, './menu_Beber.html',data)
+
+
 def listado_mesas():
     django_cursor = connection.cursor()
 
@@ -138,6 +163,63 @@ def listado_cartas():
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+def listado_entradas():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_ENTRADA", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_fondos():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_FONDO", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_postres():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_POSTRE", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_bebidas():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_BEBIDA", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
 
 def ClienteCrear(request):
 
