@@ -24,22 +24,23 @@
         
             
     
-<div class="card-body" >
+
 <form action="" method="post">
   {% csrf_token %}
-                <input class="form-control" name="id_productos" type="text"  placeholder="id ingrediente" required>
+  <div class="card-body" >
+    {% for r in x %}
+                <input value="{{r.0}}" class="form-control" name="id_productos" type="text"  placeholder="id ingrediente" required>
                 <br>
-                <input class="form-control" name="nombre_ingrediente" type="text"  placeholder="nombre_ingrediente">
+                <input value="{{r.1}}" class="form-control" name="nombre_ingrediente" type="text"  placeholder="nombre_ingrediente">
                 <br>
                 <select name="categoria" placeholder="numerosjej" class="form-control">
-                  
                   <option value="">seleccion categoria</option> 
                   {% for c in categorias %}
                   <option value="{{ c.2 }}">{{ c.2 }}</option>
                   {% endfor %}
                 </select>
                 <br>
-                <input class="form-control" name="stock" type="number" placeholder="stock">
+                <input value="{{r.3}}" class="form-control" name="stock" type="number" placeholder="stock">
                 <br>
                 <select name="un_medida" placeholder="numerosjej" class="form-control">
                   <option value="">seleccion unidad de medida</option> 
@@ -56,12 +57,13 @@
                 
                 <label for="start"></label>
                 <input type="date" name="fecha" class="form-control"
-                value="2018-07-22"
+                value="{{r.5}}"
                 min="2018-01-01" max="2030-12-31">
                 <br>
                 <div class="card-footer">
                     <button type="submit" class="btn btn-block btn-warning" value="Guardar">Modificar ingrediente</button>
                   </div>
+                  {% endfor %}                           
 </form>
 {{mensaje}}
     

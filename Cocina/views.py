@@ -279,8 +279,6 @@ def orden_actualizar(request, id, sec, sec2):
     
     salida = actualizar_ordenes(id, sec, sec2)
 
-    
-
     if salida == 1:
         data = {
         'ordenes':listado_ordenes()
@@ -291,6 +289,7 @@ def orden_actualizar(request, id, sec, sec2):
         'ordenes' : detalles_ordenes(id)
          }
         return render(request, './detalle_orden.html', data)
+
 
 def actualizar_ordenes(id,sec, sec2):
     django_cursor = connection.cursor()

@@ -5,92 +5,94 @@
 
 <div>
  <!-- Main content -->
-    <div class="card card-primary">
+    <div class="card card-info">
     <div class="card-header">
-      <h3 class="card-title">Buscar Reserva</h3>
+      <h3 class="card-title">Buscar reserva cliente</h3>
     </div>
     <form action="" method="POST">
         {% csrf_token %}
         <!-- SELECT2 EXAMPLE -->
-       
             <div class="card-body">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label>Rut Cliente</label>
-                    <select name="rutcli" class="form-control select2" style="width: 100%;">
-                      {% for r in base %}
-                      <option value="{{r.0}}">{{r.0}}</option>           
-                      {% endfor %}   
-                    </select>
-                   
+                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                      <select name="rutcli" class="form-control select2" style="width: 100%;">
+                        {% for r in base %}
+                        <option value="{{r.0}}">{{r.0}}</option>           
+                        {% endfor %}   
+                      </select>
+                    </div>
+                        <small id="passwordHelpInline" class="text-muted">
+                          Ingresar RUT del cliente.
+                        </small>
                   </div>         
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group">
+                    <button type="submit" class="btn btn-info">Buscar</button> 
+                  </div>
                 </div>     
               </div>
-              <button type="submit" class="btn btn-primary">Buscar</button> 
             </div>
-        
     </form>
   </div>
-
-
  
- <section class="content">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-12">
-          <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Listar Reservas</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-              <table id="example1" class="table table-bordered table-striped">
-                <thead>
-                  <tr>
-                      <th>ID Reserva</th>
-                      <th>Fecha ingreso</th>
-                      <th>Día</th>
-                      <th>Rut Empleado</th>
-                      <th>Rut Cliente</th>
-                      <th>Origen</th>
-                      <th>Mesa</th>
-                      <th>Estado</th>
-                      <th>Personas</th>
-                      <th>Modificar</th>
-                      <th>Eliminar</th>
-                  </tr>
-                </thead>
-                {% for r in reservas %}
-                <tbody>
-                  <tr>
-                    <td>{{ r.0 }}</td>
-                    <td>{{ r.1 }}</td>
-                    <td>{{ r.2 }}</td>
-                    <td>{{ r.3 }}</td>
-                    <td>{{ r.4 }}</td>
-                    <td>{{ r.5 }}</td>
-                    <td>{{ r.6 }}</td>
-                    <td>{{ r.7 }}</td>
-                    <td>{{ r.8 }}</td>
-                    <td><a class="btn btn-block btn-warning" href="{% url 'reserva_modificar' r.0 %}">Modificar</a></td>
-                    <td><a class="btn btn-block btn-danger" href="{% url 'reserva_eliminar' r.0 %}">Eliminar</a></td>
-                  </tr>
-                </tbody>
-                {% endfor %}                 
-              </table>
-            </div>
-            <!-- /.card-body -->
-          </div>
-          <!-- /.card -->
+
+
+      <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title">Reservas</h3>
         </div>
-        <!-- /.col -->
+        <!-- /.card-header -->
+        <div class="card-body">
+          <table id="example1" class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>ID Reserva</th>
+                <th>Fecha ingreso</th>
+                <th>Día</th>
+                <th>Rut Empleado</th>
+                <th>Rut Cliente</th>
+                <th>Origen</th>
+                <th>Mesa</th>
+                <th>Estado</th>
+                <th>Personas</th>
+                <th></th>
+            </tr>
+            </thead>
+            
+            <tbody>
+              {% for r in reservas %}
+              <tr>
+                <td>{{ r.0 }}</td>
+                <td>{{ r.1 }}</td>
+                <td>{{ r.2 }}</td>
+                <td>{{ r.3 }}</td>
+                <td>{{ r.4 }}</td>
+                <td>{{ r.5 }}</td>
+                <td>{{ r.6 }}</td>
+                <td>{{ r.7 }}</td>
+                <td>{{ r.8 }}</td>
+                <td class="btn-group">
+                  <button type="button" class="btn bg-info">Editar</button>
+                  <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <div class="dropdown-menu " role="menu">
+                    <a type="button" class="dropdown-item"  href="{% url 'reserva_modificar' r.0 %}">Modificar</a>
+                    <a type="button" class="dropdown-item"  href="{% url 'reserva_eliminar' r.0 %}">Eliminar</a>
+                  </div>
+                </td>
+              </tr>
+              {% endfor %}   
+            </tbody>
+          </table>
+        </div>
+        <!-- /.card-body -->
       </div>
-      <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-  </section>
-</div>
+      <!-- /.card -->
+
 
 <!-- Bootstrap 4 -->
 <script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -106,6 +108,20 @@
 <script src="{% static './plugins/jquery/jquery.min.js'%}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{% static './plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{% static './plugins/datatables/jquery.dataTables.min.js'%}"></script>
+<script src="{% static './plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
+<script src="{% static './plugins/datatables-responsive/js/dataTables.responsive.min.js'%}"></script>
+<script src="{% static './plugins/datatables-responsive/js/responsive.bootstrap4.min.js'%}"></script>
+<script src="{% static './plugins/datatables-buttons/js/dataTables.buttons.min.js'%}"></script>
+<script src="{% static './plugins/datatables-buttons/js/buttons.bootstrap4.min.js'%}"></script>
+<script src="{% static './plugins/jszip/jszip.min.js'%}"></script>
+<script src="{% static './plugins/pdfmake/pdfmake.min.js'%}"></script>
+<script src="{% static './plugins/pdfmake/vfs_fonts.js'%}"></script>
+<script src="{% static './plugins/datatables-buttons/js/buttons.html5.min.js'%}"></script>
+<script src="{% static './plugins/datatables-buttons/js/buttons.print.min.js'%}"></script>
+<script src="{% static './plugins/datatables-buttons/js/buttons.colVis.min.js'%}"></script>
+
 
 <script>
   $(function () {
@@ -116,7 +132,24 @@
     $('.select2bs4').select2({
       theme: 'bootstrap4'
     }) 
-  })
+
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["csv", "excel", "pdf"],
+      "language": { 
+                   "emptyTable": "No hay datos para mostrar",
+                    "paginate": {
+				             "previous": "Anterior",
+                     "next": "Siguente"
+				           },
+      "search": "Buscador",
+      "info": "Mostrando pagina _PAGE_ de _PAGES_",
+      "infoEmpty": "No hay datos",
+      },
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+   
+  });
 </script>
 
+</body>
 {% endblock %}

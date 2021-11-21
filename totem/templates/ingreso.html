@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIGLO XXI | Inicio</title>
+  
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static './plugins/fontawesome-free/css/all.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static './css/adminlte.min.css' %}">
+</head>
+<body class="hold-transition lockscreen">
+  <style>
+    img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 35%;
+  }
+  
+  body {
+    background-image: url("{% static '/assets/img/fondoIndex.jpg'%}");
+  }
+  
+  .fondo{
+  
+    background-color: rgb(233, 233, 233, .8);
+    border-radius: 25px;
+  
+  }
+  
+  
+  </style>
+
+<!-- Automatic element centering -->
+<div class="lockscreen-wrapper fondo">
+  <h3>&nbsp&nbsp</h3>
+
+  <div class="lockscreen-logo">
+    <img src="{% static './assets/img/logototem.png' %}">
+    <h5>Restaurante</h5>
+    <h3>&nbsp&nbsp</h3>
+  </div>
+  
+  <!-- User name -->
+  <div class="lockscreen-name">Ingresa tu RUT</div>
+
+  <!-- START LOCK SCREEN ITEM -->
+  <div class="lockscreen-item">
+    <!-- lockscreen image -->
+    <div class="lockscreen-image">
+      <img src="{% static './assets/img/usuario.png' %}" alt="User Image">
+    </div>
+    <!-- /.lockscreen-image -->
+
+    <!-- lockscreen credentials (contains the form) -->
+    <form class="lockscreen-credentials" action="" method="POST">
+      {% csrf_token %}
+      <div class="input-group">
+        <input name="rutCli" maxlength="9"  pattern=".{8,9}" required title="8 o 9 caracteres minimos" onkeypress="return isNumberKey(event)" class="form-control" placeholder="Rut">
+        <div class="input-group-append">
+          <button class="btn" type="submit">
+            <i class="fas fa-arrow-right text-muted"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+    <div>
+    </div>
+  </div>
+  <h3>&nbsp&nbsp</h3>
+</div>
+
+<script>
+  function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+</script>
+<!-- jQuery -->
+<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>

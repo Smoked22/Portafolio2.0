@@ -27,6 +27,7 @@ urlpatterns = [
     path('Finanzas/', include('Finanzas.urls')),
     path('Cliente/', include('Cliente.urls')),
     path('Reserva/', include('Reserva.urls')),
+    path('totem/', include('totem.urls')),
     path('Administrador/', include('Administrador.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path("select2/", include("django_select2.urls")),
