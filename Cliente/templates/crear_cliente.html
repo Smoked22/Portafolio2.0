@@ -20,10 +20,8 @@
     body {
       background-image: url("{% static '/assets/img/fondocliente.jpg'%}");
     }
-  </style> 
+  </style>
 <div class="login-box">
-  
-
   <div class="login-logo">
     <img src="{% static '/assets/img/indexLogo.jpg'%}"/>
     <style>
@@ -81,12 +79,13 @@
         </div>
 
       <div class="card-footer">
-        <center><button type="submit" class="btn btn-primary">Crear cliente</button></center>
+        <center><button type="submit" class="btn btn-primary">Crear cliente</button></center><br>
       </div>
     </form>
     {{mensaje}}
-
     </div>
+    <button onclick="window.location.href='/Cliente/ReservarMesa'" class="btn btn-primary btn-block">Ir a Reserva</button>
+    <button onclick="window.location.href='/Cliente'" class="btn btn-block bg-gradient-danger btn-lg">Volver a Home cliente</button>
     <!-- /.login-card-body -->
   </div>
 </div>
