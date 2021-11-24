@@ -1095,4 +1095,46 @@ EXCEPTION
   WHEN OTHERS THEN
              v_salida := 0;
 END;
+/
 --***************************************************************************************************
+--Listar entrada
+--#51
+
+
+create or replace NONEDITIONABLE PROCEDURE sp_listar_entrada(entradas OUT sys_refcursor)
+IS
+BEGIN
+  OPEN entradas FOR
+  SELECT *
+  FROM   carta
+  WHERE id_carta LIKE 'E%';
+END;
+/
+--***************************************************************************************************
+--Listar Fondo
+--#52
+
+create or replace NONEDITIONABLE PROCEDURE sp_listar_fondo(fondos OUT sys_refcursor)
+IS
+BEGIN
+  OPEN fondos FOR
+  SELECT *
+  FROM   carta
+  WHERE id_carta LIKE 'F%';
+END;
+/
+--***************************************************************************************************
+--Listar Postre
+--#53
+create or replace NONEDITIONABLE PROCEDURE sp_listar_postre(postres OUT sys_refcursor)
+IS
+BEGIN
+  OPEN postres FOR
+  SELECT *
+  FROM   carta
+  WHERE id_carta LIKE 'P%';
+END;
+/
+--***************************************************************************************************
+--
+--#54

@@ -1,0 +1,78 @@
+{% extends 'base_finanzas.html' %}
+{% load static %}
+{% block css %}
+<!-- Importamos el css de Bootstrap-->
+<link rel="stylesheet" href="{% static '/lib/bootstrap/css/bootstrap.min.css'%}">
+<!-- Importamos el css del datepicker-->
+<link href="{% static '/lib/datepicker/css/bootstrap-datepicker.min.css'%}" rel="stylesheet">
+<!-- Importamos el css de Bootstrap-->
+<link rel="stylesheet" href="{% static '/lib/bootstrap/css/font-awesome.min.css'%}">
+{% endblock %}
+
+
+<!--CODIFO DE PRUEBA-->
+
+<!--FIN PRUEBA-->
+{% block contenido %}
+<!-- Importamos el Jquery y js de Bootstrap-->
+<script src="{% static '/lib/jquery.js'%}"></script>
+<script src="{% static '/lib/jquery.min.js'%}"></script>
+<script src="{% static '/js/main.js'%}"></script>
+
+<!-- Codigo para el datepicker-->
+<form action="" method="post">
+    {% csrf_token %}
+    <br>
+
+    <!--codigo prueba-->
+    <br>
+    <div class="form-group">
+      <label>Date:</label>
+        <div class="input-group date" id="datepicker" data-target-input="nearest">
+            <input type="text" name="fecha" class="form-control datetimepicker-input" data-target="#datepicker" readonly/>
+            <div class="input-group-append" data-target="#datepicker" data-toggle="datetimepicker">
+                <div class="input-group-text">
+                  <i class="fa fa-calendar"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Fin prueba-->
+    <br>
+    <div class="row form-group">
+      <label for="date" class="col-sm-1 col-form-label">Date malo</label>
+      <div class="col-sm-4">
+          <div class="input-group date" id="datepicker">
+              <input type="text" class="form-control">
+              <span class="input-group-append">
+                  <span class="input-group-text bg-white d-block">
+                      <i class="fa fa-calendar"></i>
+                  </span>
+              </span>
+          </div>
+      </div>
+    </div>
+    <input class="btn btn-info " type="submit" value="Ingresar Boleta">
+</form>
+
+<script type="text/javascript">
+  $(function() {
+      $('#datepicker').datetimepicker({
+        format: "DD-MM-YYYY",
+        language: "es",
+        autoclose: true,
+        todayBtn: true
+    });
+  });
+</script>
+
+
+{% endblock %}
+
+{% block js %}
+<!-- Importamos el js de Bootstrap-->
+<script src="{% static '/lib/bootstrap/js/bootstrap.min.js'%}"></script>
+<script src="{% static '/lib/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Importamos DatePicker de Bootstrap-->
+<script src="{% static '/lib/datepicker/js/bootstrap-datepicker.js'%}"></script>
+{% endblock %}

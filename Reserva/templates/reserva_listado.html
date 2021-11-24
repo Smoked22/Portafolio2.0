@@ -61,7 +61,6 @@
                 <th></th>
             </tr>
             </thead>
-            
             <tbody>
               {% for r in reservas %}
               <tr>
@@ -92,7 +91,7 @@
         <!-- /.card-body -->
       </div>
       <!-- /.card -->
-
+</div>
 
 <!-- Bootstrap 4 -->
 <script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
@@ -108,6 +107,7 @@
 <script src="{% static './plugins/jquery/jquery.min.js'%}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{% static './plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+
 <!-- DataTables  & Plugins -->
 <script src="{% static './plugins/datatables/jquery.dataTables.min.js'%}"></script>
 <script src="{% static './plugins/datatables-bs4/js/dataTables.bootstrap4.min.js'%}"></script>
@@ -146,8 +146,7 @@
       "info": "Mostrando pagina _PAGE_ de _PAGES_",
       "infoEmpty": "No hay datos",
       },
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-   
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)'); 
   });
 </script>
 

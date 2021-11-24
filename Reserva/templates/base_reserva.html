@@ -286,6 +286,8 @@
     <script src="{% static './plugins/bs-stepper/js/bs-stepper.min.js' %}"></script>
     <!-- dropzonejs -->
     <script src="{% static './plugins/dropzone/min/dropzone.min.js' %}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'%}"></script>
 
     <!-- Page specific script -->
     <!-- DataTables  & Plugins -->
@@ -336,16 +338,20 @@
           }
         });
 
-        //Date range picker
-        $('#reservation').daterangepicker()
-        //Date range picker with time picker
-        $('#reservationtime').daterangepicker({
-          timePicker: true,
-          timePickerIncrement: 30,
-          locale: {
-            format: 'MM/DD/YYYY hh:mm A'
-          }
-        })
+        var date = new Date();
+        var currentMonth = date.getMonth();
+        var currentDate = date.getDate();
+        var currentYear = date.getFullYear();
+
+        //Date picker
+        $('#reservationdate').datetimepicker({
+
+          minDate: new Date(currentYear, currentMonth, currentDate),
+          format: 'DD/MM/YYYY'
+
+        });
+
+
       })
       // DropzoneJS Demo Code End
     </script>

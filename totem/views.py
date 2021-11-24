@@ -5,9 +5,12 @@ from django.template import RequestContext
 from django.http import HttpResponseRedirect
 import cx_Oracle
 from django.db import connection
+import datetime
 
 # Create your views here.
 # Inicio Reservas
+
+
 @login_required
 def home_totem(request):
     data = {
@@ -23,7 +26,6 @@ def home_totem(request):
             nombre = 'John Doe'
             telefono = '00000000'
             correo = 'default@default.com'
-            
 
             salida = crear_cliente(rut, dv, nombre, telefono, correo)
 
@@ -34,9 +36,8 @@ def home_totem(request):
 
         return render(request, './ingreso.html')
 
-
     return render(request, './ingreso.html')
-    
+
 
 def crear_cliente(rut, dv, nom, telefono, correo):
     django_cursor = connection.cursor()
@@ -55,10 +56,11 @@ def mesas_listar(request, rut):
     data = {
         # Almacena la variable para listar mesas
         'mesas': listado_mesas(),
-        'ruto' : cli
+        'ruto': cli
     }
 
     return render(request, './home_totem.html', data)
+
 
 def buscar_cliente(id):
     django_cursor = connection.cursor()
@@ -73,7 +75,6 @@ def buscar_cliente(id):
     for fila in out_cur:
         lista.append(fila)
     return lista
-
 
 
 def listado_mesas():
@@ -93,12 +94,64 @@ def listado_mesas():
         lista.append(fila)
     return lista
 
-def reservar_totem(request,id,sec):
-    
+
+def buscar_mesa(id):
+    django_cursor = connection.cursor()
+
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    # Llamada al cursor
+    cursor.callproc("SP_BUSCAR_MESA", [out_cur, id])
+
+    # llenamos la lista
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+
+def reservar_totem(request, id, sec):
+
     data = {
-        'rut': id,
-        'mesa': sec
+        'rut': buscar_cliente(id),
+        'mesa': buscar_mesa(sec)
     }
+
+    if request.method == 'POST':
+
+        rut_cli = request.POST.get('cliente')
+        id_mesa = request.POST.get('id_mesa')
+        cant = request.POST.get('cantP')
+
+
+        salida = crear_reserva(rut_cli, id_mesa, cant)
+
+        if salida == 1:
+            data['mensaje'] = 'Agregado correctamente'
+
+        else:
+            data['mensaje'] = 'No agregado'
 
     return render(request, 'reserva.html', data)
 
+
+def crear_reserva(rut_cli, id_mesa, cant):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_RESERVA_TOTEM', [
+        rut_cli, id_mesa, cant, salida])
+    return salida.getvalue()
+
+
+def hora(request):
+
+    ahora = datetime.datetime.now()
+    hora = ahora.hour
+
+    return hora
