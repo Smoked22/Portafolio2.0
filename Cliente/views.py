@@ -43,6 +43,9 @@ def MenuBeber(request):
     }
     return render(request, './menu_Beber.html',data)
 
+def Reservar(request):
+    return render(request, './reservar.html')
+
 
 def listado_mesas():
     django_cursor = connection.cursor()
@@ -70,7 +73,7 @@ def ReservarMesa(request):
 
     if request.method== 'POST':
         fecha_reserva = request.POST.get('fecha_reserva')
-        rut_emp = request.POST.get('empleado')
+        rut_emp = 0
         rut_cli = request.POST.get('cliente')
         origen = 'Cliente'
         id_mesa = request.POST.get('id_mesa')

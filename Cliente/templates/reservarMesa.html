@@ -68,16 +68,6 @@
               </div>
         </div>
 
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">Rut empleado</label>
-        <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
-            {% for e in empleados %}
-            <option value="{{e.0}}">{{e.0}}</option>
-            {% endfor %}
-        </select>
-        </div>
-
         <div class="form-group">
             <label for="exampleInputEmail1">Rut Cliente sin dígito verificador</label>
             <input name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
@@ -105,6 +95,7 @@
     </form>
     {{mensaje}}
 </div>
+<button onclick="window.location.href='/Cliente'" class="btn btn-block bg-gradient-danger btn-lg">Volver a Home cliente</button>
 <!-- /.login-box -->
 
 <!-- jQuery -->
