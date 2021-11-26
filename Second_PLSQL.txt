@@ -1043,7 +1043,7 @@ END;
 /
 --***************************************************************************************************
 -- Filtrar por rut del cliente  
---#49
+--#50
 create or replace NONEDITIONABLE PROCEDURE Sp_cli_por_rutcli(
 rutcli    OUT SYS_REFCURSOR,
 v_rut_cli NVARCHAR2)
@@ -1098,7 +1098,7 @@ END;
 /
 --***************************************************************************************************
 --Listar entrada
---#51
+--#52
 
 
 create or replace NONEDITIONABLE PROCEDURE sp_listar_entrada(entradas OUT sys_refcursor)
@@ -1125,7 +1125,7 @@ END;
 /
 --***************************************************************************************************
 --Listar Postre
---#53
+--#54
 create or replace NONEDITIONABLE PROCEDURE sp_listar_postre(postres OUT sys_refcursor)
 IS
 BEGIN
@@ -1137,4 +1137,4 @@ END;
 /
 --***************************************************************************************************
 --
---#54
+--#55
