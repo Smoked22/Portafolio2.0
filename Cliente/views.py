@@ -43,6 +43,9 @@ def MenuBeber(request):
     }
     return render(request, './menu_Beber.html',data)
 
+def Reservar(request):
+    return render(request, './reservar.html')
+
 
 def listado_mesas():
     django_cursor = connection.cursor()
