@@ -17,7 +17,7 @@
       <div class="form-group row">
         <label for="inputPassword3" class="col-sm-2 col-form-label">RUT Cliente</label>
         <div class="col-sm-4">
-          <input value="{{c.0}}" name="rutCli" maxlength="8" class="form-control" id="exampleInputEmail1"
+          <input required value="{{c.0}}" name="rutCli" maxlength="8" class="form-control" id="exampleInputEmail1"
             placeholder="Ingresa el RUT del cliente">
           <small id="passwordHelpInline" class="text-muted">
             Debe ser sin puntos.
@@ -45,7 +45,7 @@
         <label class="col-sm-2 col-form-label">Ingrese nombre</label>
         <div class="col-sm-4">
           <div class="form-group">
-            <input value="{{c.2}}" name="nom" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el nombre del cliente">
+            <input required value="{{c.2}}" name="nom" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el nombre del cliente">
             <small id="passwordHelpInline" class="text-muted">
               Nombre del cliente.
             </small>
@@ -59,7 +59,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">+56</span>
             </div>
-            <input value="{{c.3}}" name="telefono" class="form-control" id="exampleInputEmail1"
+            <input required value="{{c.3}}" name="telefono" class="form-control" id="exampleInputEmail1"
               placeholder="Ingresa el telefono del cliente">
           </div>
         </div>
@@ -70,7 +70,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">@</span>
             </div>
-            <input value="{{c.4}}" type="email" name="correo" class="form-control" id="exampleInputEmail1"
+            <input required value="{{c.4}}" type="email" name="correo" class="form-control" id="exampleInputEmail1"
               placeholder="Ingresa el correo del cliente">
           </div>
         </div>

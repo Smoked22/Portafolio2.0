@@ -304,10 +304,9 @@ def reserva_crear(request):
                                origen, id_mesa, estado, cant)
 
         if salida == 1:
-            data['mensaje'] = 'agregador correctamente'
-
+            messages.success(request, "Reserva Creada")
         else:
-            data['mensaje'] = 'no se pudo guardar'
+            messages.error(request, "No se pued crear la reserva")
 
     return render(request, './reserva_crear.html', data)
 

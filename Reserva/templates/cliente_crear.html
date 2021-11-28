@@ -16,7 +16,7 @@
       <div class="form-group row">
         <label for="inputPassword3" class="col-sm-2 col-form-label">RUT Cliente</label>
         <div class="col-sm-4">
-          <input name="rutCli" maxlength="8" class="form-control" id="exampleInputEmail1"
+          <input maxlength="8"  pattern=".{7,8}" required title="7 o 8 caracteres minimos" onkeypress="return isNumberKey(event)"  required name="rutCli" maxlength="8" class="form-control" id="exampleInputEmail1"
             placeholder="Ingresa el RUT del cliente">
           <small id="passwordHelpInline" class="text-muted">
             Debe ser sin puntos .
@@ -43,7 +43,7 @@
         <label class="col-sm-2 col-form-label">Ingrese nombre</label>
         <div class="col-sm-4">
           <div class="form-group">
-            <input name="nom" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el nombre del cliente">
+            <input required name="nom" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el nombre del cliente">
             <small id="passwordHelpInline" class="text-muted">
               Nombre del cliente.
             </small>
@@ -57,7 +57,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">+56</span>
             </div>
-            <input name="telefono" class="form-control" id="exampleInputEmail1"
+            <input required name="telefono" class="form-control" id="exampleInputEmail1"
               placeholder="Ingresa el telefono del cliente">
           </div>
         </div>
@@ -68,7 +68,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text">@</span>
             </div>
-            <input type="email" name="correo" class="form-control" id="exampleInputEmail1"
+            <input required type="email" name="correo" class="form-control" id="exampleInputEmail1"
               placeholder="Ingresa el correo del cliente">
           </div>
         </div>
@@ -122,6 +122,15 @@
 
 <script src="{% static './plugins/toastr/toastr.min.js' %}"></script>
 
+<script>
+  function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    if (charCode > 31 && (charCode < 48 || charCode > 57))
+        return false;
+    return true;
+}
+</script>
+
 
 
 <script>
@@ -133,36 +142,6 @@
       timer: 3000
     });
 
-    $('.swalDefaultSuccess').click(function () {
-      Toast.fire({
-        icon: 'success',
-        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-      })
-    });
-    $('.swalDefaultInfo').click(function () {
-      Toast.fire({
-        icon: 'info',
-        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-      })
-    });
-    $('.swalDefaultError').click(function () {
-      Toast.fire({
-        icon: 'error',
-        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-      })
-    });
-    $('.swalDefaultWarning').click(function () {
-      Toast.fire({
-        icon: 'warning',
-        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-      })
-    });
-    $('.swalDefaultQuestion').click(function () {
-      Toast.fire({
-        icon: 'question',
-        title: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
-      })
-    });
 
     $('.toastrDefaultSuccess').click(function () {
       toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
