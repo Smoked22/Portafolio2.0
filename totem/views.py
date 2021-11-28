@@ -86,7 +86,7 @@ def listado_mesas():
     out_cur = django_cursor.connection.cursor()
 
     # Llamada al cursor
-    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES_EX", [out_cur])
+    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES_SIMPLE", [out_cur])
 
     # llenamos la lista
     lista = []
