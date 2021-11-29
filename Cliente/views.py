@@ -11,7 +11,24 @@ def ClienteEnMesa(request):
     return render(request, './clienteenmesa.html')
 
 def CancelarReserva(request):
-    return render(request, './cancelarReserva.html')
+
+    data = {
+        'mesas' : listado_mesas_disponibles(),
+        'empleados' : listado_empleados(),
+    }
+
+    if request.method== 'POST':
+        fecha_reserva = request.POST.get('fecha_reserva')
+        rut_cli = request.POST.get('cliente')
+
+        salida = eliminar_reserva(fecha_reserva, rut_cli)
+
+        if salida == 1:
+            data['mensaje'] = 'Reserva eliminada correctamente'
+        else:
+            data['mensaje'] = 'No se pudo eliminar la reserva'
+
+    return render(request, './cancelarReserva.html', data)
 
 def VerMenu(request):
     data ={
@@ -88,6 +105,14 @@ def ReservarMesa(request):
             data['mensaje'] = 'No se pudo guardar'
 
     return render(request, './reservarMesa.html', data)
+
+def eliminar_reserva(fecha_reserva, rut_cli):
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_RESERVA_CLIENTE', [fecha_reserva, rut_cli, salida])
+    return salida.getvalue()
 
 def crear_reserva( fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant):
     django_cursor = connection.cursor()
@@ -253,7 +278,6 @@ def CrearCliente(rut, dv, nom, telefono, correo):
     # Cursor que llama
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_CLIENTE', [
-                    rut, dv, nom, telefono, correo, salida])
+    cursor.callproc('SP_AGREGAR_CLIENTE', [rut, dv, nom, telefono, correo, salida])
     return salida.getvalue()
 
