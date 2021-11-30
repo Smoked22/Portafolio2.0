@@ -31,6 +31,9 @@ urlpatterns = [
     path('Administrador/', include('Administrador.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path("select2/", include("django_select2.urls")),
+    
+    #path para importar las vistas de PWA
+    path('',include('pwa.urls')),
 ]
 
 admin.site.site_header = 'Administrador de Restaurante'
