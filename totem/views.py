@@ -14,12 +14,22 @@ import datetime
 @login_required
 def home_totem(request):
     data = {
-
     }
+
+    return render(request, './inicio_totem.html')
+
+def totem_mensaje(request):
+    data = {
+    }
+
+    return render(request, './mensaje.html')
+
+
+def totem_login(request):
+    data = {
+    }
+    
     if request.method == 'POST':
-
-        if len(request.POST.get('rutCli')) > 0:
-
             rutsinmod = request.POST.get('rutCli')
             rut = rutsinmod[:-1]
             dv = rutsinmod[-1]
@@ -33,10 +43,8 @@ def home_totem(request):
                 return mesas_listar(request, rut)
             else:
                 return mesas_listar(request, rut)
-
+    else:
         return render(request, './ingreso.html')
-
-    return render(request, './ingreso.html')
 
 
 def crear_cliente(rut, dv, nom, telefono, correo):
@@ -127,14 +135,12 @@ def reservar_totem(request, id, sec):
         id_mesa = request.POST.get('id_mesa')
         cant = request.POST.get('cantP')
 
-
         salida = crear_reserva(rut_cli, id_mesa, cant)
 
         if salida == 1:
-            data['mensaje'] = 'Agregado correctamente'
-
+            return totem_mensaje(request)
         else:
-            data['mensaje'] = 'No agregado'
+            return totem_mensaje(request)
 
     return render(request, 'reserva.html', data)
 
