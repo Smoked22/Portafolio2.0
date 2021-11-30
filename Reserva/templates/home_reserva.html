@@ -20,7 +20,7 @@
         Crear <i class="fas fa-arrow-circle-right"></i>
       </a>
     </div>
-    
+
   </div>
   <!-- ./col -->
   <div class="col-lg-3 col-6">
@@ -42,7 +42,7 @@
   <div class="col-lg-3 col-6">
     <!-- small card -->
     <div class="small-box bg-warning">
-      <div class="inner">    
+      <div class="inner">
         <h3>Crear</h3>
         <p>Cliente</p>
       </div>
@@ -72,115 +72,117 @@
 </div>
 
 <style>
-    .filterDiv {
-      display: none;
-    }
-    
-    .show {
-      display: block;
-    }
-    
-    .container {
-      margin-top: 20px;
-      overflow: hidden;
-    }
-    
-  
-  </style>
-    
-    <h1>Mesas</h1>
-    <h5></h5>
-    
-    
-    <table class="table table-bordered">
-      <tr>
-        <td>
-          <div id="myBtnContainer" class="btn-group">
-            <button type="button" class="btn btn-block btn-outline-primary" onclick="filterSelection('all')">Todas</button>
-            <a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
-            <button type="button" class="btn btn-block btn-outline-success" onclick="filterSelection('0x')"> Libres</button>
-            <a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
-            <button type="button" class="btn btn-block btn-outline-danger" onclick="filterSelection('1x')"> Reservadas</button>
-          </div>
-        </td>
-      </tr>
-    </table>
-   
-  <div class="row">
-  {% for m in mesas %}   
-      <div class="col-lg-3 col-6 filterDiv {{m.2}}x">
-        <div name="{{m.2}}x" class="small-box bg-success filterDiv {{m.2}}x">
-          <div class="inner">
-            <h3>{{m.0}}</h3>
-            <p> Mesa</p>
-          </div>
-          <div class="icon">
-            <i class="ion ion-stats-bars"></i>
-          </div>
-          <a href="{% url 'horario_mesa' m.0 %}" id="{{m.2}}" class="small-box-footer">
-            <i class="fas fa-arrow-circle-right {{m.2}}t"> </i>
-          </a>
-        </div>
+  .filterDiv {
+    display: none;
+  }
+
+  .show {
+    display: block;
+  }
+
+  .container {
+    margin-top: 20px;
+    overflow: hidden;
+  }
+</style>
+
+<h1>Mesas</h1>
+<h5></h5>
+
+
+<table class="table table-bordered">
+  <tr>
+    <td>
+      <div id="myBtnContainer" class="btn-group">
+        <button type="button" class="btn btn-block btn-outline-primary" onclick="filterSelection('all')">Todas</button>
+        <a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+        <button type="button" class="btn btn-block btn-outline-success" onclick="filterSelection('0x')"> Libres</button>
+        <a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</a>
+        <button type="button" class="btn btn-block btn-outline-danger" onclick="filterSelection('1x')">
+          Reservadas</button>
       </div>
-  {% endfor %}
+    </td>
+  </tr>
+</table>
+
+<div class="row">
+  {% for m in mesas %}
+  <div class="col-lg-3 col-6 filterDiv {{m.2}}x">
+    <div name="{{m.2}}x" class="small-box bg-success filterDiv {{m.2}}x">
+      <div class="inner">
+        <h3>{{m.0}}</h3>
+        <p> Mesa</p>
+      </div>
+      <div class="icon">
+        <i class="ion ion-stats-bars"></i>
+      </div>
+      <a href="{% url 'horario_mesa' m.0 %}" id="{{m.2}}" class="small-box-footer">
+        <i class="fas fa-arrow-circle-right {{m.2}}t"> </i>
+      </a>
+    </div>
   </div>
-  
-    
-    <script>
-    filterSelection("all")
-    function filterSelection(c) {
-      var x, i;
-      x = document.getElementsByClassName("filterDiv");
-      if (c == "all") c = "";
-      for (i = 0; i < x.length; i++) {
-        w3RemoveClass(x[i], "show");
-        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+  {% endfor %}
+</div>
+
+
+<script>
+  filterSelection("all")
+
+  function filterSelection(c) {
+    var x, i;
+    x = document.getElementsByClassName("filterDiv");
+    if (c == "all") c = "";
+    for (i = 0; i < x.length; i++) {
+      w3RemoveClass(x[i], "show");
+      if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+    }
+  }
+
+  function w3AddClass(element, name) {
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+      if (arr1.indexOf(arr2[i]) == -1) {
+        element.className += " " + arr2[i];
       }
     }
-    
-    function w3AddClass(element, name) {
-      var i, arr1, arr2;
-      arr1 = element.className.split(" ");
-      arr2 = name.split(" ");
-      for (i = 0; i < arr2.length; i++) {
-        if (arr1.indexOf(arr2[i]) == -1) {element.className += " " + arr2[i];}
+  }
+
+  function w3RemoveClass(element, name) {
+    var i, arr1, arr2;
+    arr1 = element.className.split(" ");
+    arr2 = name.split(" ");
+    for (i = 0; i < arr2.length; i++) {
+      while (arr1.indexOf(arr2[i]) > -1) {
+        arr1.splice(arr1.indexOf(arr2[i]), 1);
       }
     }
-    
-    function w3RemoveClass(element, name) {
-      var i, arr1, arr2;
-      arr1 = element.className.split(" ");
-      arr2 = name.split(" ");
-      for (i = 0; i < arr2.length; i++) {
-        while (arr1.indexOf(arr2[i]) > -1) {
-          arr1.splice(arr1.indexOf(arr2[i]), 1);     
-        }
-      }
-      element.className = arr1.join(" ");
-    }
-    
-    // Add active class to the current button (highlight it)
-    var btnContainer = document.getElementById("myBtnContainer");
-    var btns = btnContainer.getElementsByClassName("btn");
-    for (var i = 0; i < btns.length; i++) {
-      btns[i].addEventListener("click", function(){
-        var current = document.getElementsByClassName("active");
-        current[0].className = current[0].className.replace(" active", "");
-        this.className += " active";
-      });
-  
+    element.className = arr1.join(" ");
+  }
+
+  // Add active class to the current button (highlight it)
+  var btnContainer = document.getElementById("myBtnContainer");
+  var btns = btnContainer.getElementsByClassName("btn");
+  for (var i = 0; i < btns.length; i++) {
+    btns[i].addEventListener("click", function () {
+      var current = document.getElementsByClassName("active");
+      current[0].className = current[0].className.replace(" active", "");
+      this.className += " active";
+    });
+
     window.onload = function reset() {
-    var elements = document.getElementsByName('1x'); 
-    for(var i = 0; i < elements.length; i++){
-      elements[i].classList.toggle('bg-danger');
+      var elements = document.getElementsByName('1x');
+      for (var i = 0; i < elements.length; i++) {
+        elements[i].classList.toggle('bg-danger');
+      }
+
+
     }
-  
-  
+
   }
-  
-  }
-    </script>
- 
+</script>
+
 </div>
 
 
