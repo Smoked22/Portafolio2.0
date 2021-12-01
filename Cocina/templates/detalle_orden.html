@@ -5,7 +5,7 @@
 {% block contenido %}
 <div class="card card-primary"></div>
 <div class="card-header">
-    <h3 class="card-title">Detalle orden</h3>
+    <h1>Detalle orden</h1>
   </div>
 <div class="card-body">
   <table id="example1" class="table table-bordered table-striped">
@@ -34,11 +34,10 @@
 <table class="table table-bordered text-center">
 <tr>
     <td>   
-       <a href="{% url 'orden_listado'%}" type="button" class="btn btn-block btn-secondary">Volver</a>
+       <a class="btn btn-block btn-info" href="{% url 'orden_listado'%}" type="button" class="btn btn-block btn-secondary">Volver</a>
     </td>
-    <td>
-        
-       <a href="{% url 'orden_actualizar'  ordenes.0.7 4 1 %}"  type="button" class="btn btn-block btn-danger">Finalizar Orden</a>
+    <td>      
+       <a class="btn btn-block btn-danger" href="{% url 'orden_actualizar'  ordenes.0.7 4 1 %}"  type="button" class="btn btn-block btn-danger">Finalizar Orden</a>
     </td>
 </tr>
 </table>

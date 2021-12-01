@@ -1,73 +1,166 @@
 {% extends 'base_reserva.html' %}
 {% load static %}
 {% block contenido %}
-<div class="card card-primary">
-    <div class="card-header">
-      <h3 class="card-title">Modificar Reserva</h3>
-    </div>
+<!-- Horizontal Form -->    
 
-    <form action="" method="POST">
+<div class="card card-info">
+    <div class="card-header">
+      <h3 class="card-title">Modificar reserva</h3>
+    </div>
+       
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" action="" method="POST">
         {% csrf_token %}
       <div class="card-body">
-    
         {% for r in reserva %}
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">Fecha y hora de reserva</label>
-            <input value="{{r.0}}" name="fecha_reserva" class="form-control" id="exampleInputEmail1" placeholder="Ingresa un ID">
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label">RUT Cliente</label>
+          <div class="col-sm-10">
+            <input value="{{r.4}}" name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
+            <small id="passwordHelpInline" class="text-muted">
+                Debe ser sin puntos ni digito verificador.
+            </small>
+          </div>
         </div>
+        <div class="form-group row"> 
+            <label class="col-sm-2 col-form-label">Fecha reserva</label>
+            <div class="col-sm-4">
+          
+              <div class="form-group">
+                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                    <input value="{{r.2}}" name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i>
+                        </div>
+                    </div> 
+              </div>
+              <small id="passwordHelpInline" class="text-muted">
+                Fecha en la que será reservada la mesa.
+            </small>
+              </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <label class="col-sm-2 col-form-label">Hora reserva</label>
+            <div class="col-sm-3">
+                <div class="form-group">
+                <select name="hora_reserva" class="custom-select rounded-0" id="exampleSelectBorder">
+                    <option value="13:00"> 13:00 </option>
+                    <option value="14:00"> 14:00 </option>
+                    <option value="15:00"> 15:00 </option>
+                    <option value="16:00"> 16:00 </option>
+                    <option value="17:00"> 17:00 </option>
+                    <option value="18:00"> 18:00 </option>
+                    <option value="19:00"> 19:00 </option>
+                    <option value="20:00"> 20:00 </option>
+                    <option value="21:00"> 21:00 </option>
+                    <option value="22:00"> 22:00 </option>
+                    <option value="23:00"> 23:00 </option>
+                </select>
+                <small id="passwordHelpInline" class="text-muted">
+                    * Obligatorio.
+                </small>
+                </div>
+               
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Mesa</label>
+            <div class="col-sm-4">
+          
+              <div class="form-group">
+                <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                    <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
+                        <option selected value="{{r.6}}">{{r.6}}</option>
+                        {% for m in mesas %}
+                        <option value="{{m.0}}">{{m.0}}</option>
+                        {% endfor %}
+                    </select>
+                    
+              </div>
+              <small id="passwordHelpInline" class="text-muted">
+                Mesa ha ser reservada.
+            </small>
+              </div>
+            </div>
+            <div class="col-sm-1"></div>
+            <label class="col-sm-2 col-form-label">Personas</label>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <select name="cantP" class="custom-select rounded-0" id="exampleSelectBorder">
+                        <option selected value="{{r.8}}">{{r.8}}</option>
+                        <option value="1"> 1 </option>
+                        <option value="2"> 2 </option>
+                        <option value="3"> 3 </option>
+                        <option value="4"> 4 </option>
+                        <option value="5"> 5 </option>
+                        <option value="6"> 6 </option>
+                        <option value="7"> 7 </option>
+                        <option value="8"> 8 </option>
+                        <option value="9"> 9 </option>
+                        <option value="10"> 10 </option>
+                        <option value="11"> 11 </option>
+                        <option value="12"> 12 </option>
+                        <option value="13"> 13 </option>
+                        <option value="14"> 14 </option>
+                        <option value="15"> 15 </option>
+                        <option value="16"> 16 </option>
+                    </select>
+                </div>
+                <small id="passwordHelpInline" class="text-muted">
+                   Cantidad de personas que asistirán.
+                </small>
+            </div>
+            
+          </div>
+          <div class="form-group row">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">RUT Empleado</label>
+            <div class="col-sm-10">
+                <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
+                    <option selected value="{{r.3}}">{{r.3}}</option>
+                    {% for e in empleados %}
+                    <option value="{{e.0}}">{{e.0}}</option>
+                    {% endfor %}
+                </select>
+              <small id="passwordHelpInline" class="text-muted">
+                  Debe ser sin puntos ni digito verificador.
+                </small>
+            </div>
+          </div>
+          
 
-        <div class="form-group">
-            <label for="exampleInputEmail1">Rut empleado</label>
-        <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
-            {% for e in empleados %}
-            <option value="{{e.0}}">{{e.0}}</option>
-            {% endfor %}
-        </select>
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">Rut Cliente</label>
-            <input value="{{r.4}}" name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa un ID">
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">ID mesa</label>
-        <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
-            {% for m in mesas %}
-            <option value="{{m.0}}">{{m.0}}</option>
-            {% endfor %}
-        </select>
-        </div>
-
-        <div class="form-group">
-                <label for="exampleInputEmail1">
-                Origen Reserva
-                </label>
-            <select name="origen" class="custom-select rounded-0" id="exampleSelectBorder">
-                <option value="Presencial">
-                Presencial
-                </option> 
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">Estado Reserva</label>
-            <input value="{{r.7}}" name="estado"class="form-control" id="exampleInputEmail1" placeholder="Ingresa un ID">
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">Cantidad de Personas</label>
-            <input value="{{r.8}}" name="cantP" class="form-control" id="exampleInputEmail1" placeholder="Ingresa un ID">
-        </div>
 
       </div>
-
+      <!-- /.card-body -->
       <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Guardar</button>
+        <button type="submit" class="btn btn-info">Ingresar</button>
+        <a href="{% url 'homeReserva' %}" class="btn btn-default float-right">Volver</a>
       </div>
-      {% endfor %}
+      {% endfor %}  
+      <!-- /.card-footer -->
     </form>
-    {{mensaje}}
-</div>
+  </div>
+  <!-- /.card -->
+<!-- jQuery -->
+<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static './dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './dist/js/demo.js' %}"></script>
+<script>
+    $(function () {
+
+    var date = new Date();
+    var currentMonth = date.getMonth();
+    var currentDate = date.getDate();
+    var currentYear = date.getFullYear();
+    //Date picker
+    $('#reservationdate').datetimepicker({
+        minDate: new Date(currentYear, currentMonth, currentDate),
+        format: 'DD/MM/YYYY'
+    });
+})
+</script>
 {% endblock %}

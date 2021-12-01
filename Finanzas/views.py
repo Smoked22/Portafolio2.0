@@ -1,6 +1,8 @@
+from typing_extensions import Required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.db import connection
+from django.contrib import messages
 import cx_Oracle
 
 # Create your views here.
@@ -47,13 +49,9 @@ def agegar_boleta(request):
 
     # si es un metodo "POST" entra en el if
     if request.method == 'POST':
-        guion = '-'
-        dia = request.POST.get('dia')
-        mes = request.POST.get('mes')
-        año = request.POST.get('año')
-        id_boleta = request.POST.get('id_boleta')
-        #fecha = request.POST.get('dia')
-        fecha = dia + guion + mes + guion + año
+        fecha = request.POST.get('fecha')
+        fechaprueba = request.POST.get('anio2')
+        print(fechaprueba)
         print(fecha)
         hora = request.POST.get('hora')
         monto = request.POST.get('monto')
@@ -63,23 +61,25 @@ def agegar_boleta(request):
         # problema con el procedimiento almacenado, al momento de enviar los datos se queda cargando la pagina y ahi queda :C
         # se cancela, si esta funcionando la wea, anoche tenai sueño el django y no queria funcionar
         salida = ingresar_boleta(
-            id_boleta, fecha, hora, monto, tipo_pago, id_orden)
+             fecha, hora, monto, tipo_pago, id_orden)
         if salida == 1:
             data['mensaje'] = 'agregado correctamente'
+            return redirect(boletas)
         else:
             data['mensaje'] = 'no se ha agregado'
+
 
     return render(request, './ingresar_boleta.html', data)
 
 
 # Creamos una funcion para llamar el procedimiento almacenado
 
-def ingresar_boleta(id_boleta, fecha, hora, monto, tipo_pago, id_orden):
+def ingresar_boleta( fecha, hora, monto, tipo_pago, id_orden):
     django_cursor = connection.cursor()
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_BOLETA2', [
-                    id_boleta, fecha, hora, monto, tipo_pago, id_orden, salida])
+                     fecha, hora, monto, tipo_pago, id_orden, salida])
     return salida.getvalue()
 
 
@@ -97,6 +97,17 @@ def listar_orden_disp():
         lista.append(fila)
     return lista
 
+def id_de_boleta():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_PUESTO_BOLETA", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 # Funcion para renderizar la pagina "registro_proveedores.html"
 
@@ -127,6 +138,7 @@ def listado_proveedor():
 
 # Funcion para renderizar la pagina "Producto_proveedores.html"
 
+@login_required
 def listado_produc_proveedor(request, id):
     data = {
         'producto': lista_productos(id),
@@ -176,6 +188,7 @@ def listado_guia_despacho():
     return lista
 
 # Renderizar pagina prueba
+@login_required
 def grafico(request):
     data = {
         'datos_grafico': datos_grafico
@@ -194,3 +207,9 @@ def datos_grafico():
         lista.append(fila)
     return lista
 # codigo prueba
+
+def prueba(request):
+    if request.method == 'POST':
+        fecha = request.POST.get('fecha')
+        print(fecha)
+    return render(request,'./prueba.html')

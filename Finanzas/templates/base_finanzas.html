@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   {% load static %}
   <meta charset="utf-8">
@@ -26,6 +26,10 @@
   <link rel="stylesheet" href="{% static '/plugins/daterangepicker/daterangepicker.css'%}">
   <!-- summernote -->
   <link rel="stylesheet" href="{% static '/plugins/summernote/summernote-bs4.min.css'%}">
+
+  {% load pwa %}
+
+  {% progressive_web_app_meta %}
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -54,9 +58,6 @@
       </div>
       <!-- Navbar Search -->
       <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="{% url 'homefinanzas'%}" role="button">
-          <i class="fas fa-search"></i>
-        </a>
         <div class="navbar-search-block">
           <form class="form-inline">
             <div class="input-group input-group-sm">

@@ -14,12 +14,10 @@ from django.http import JsonResponse
 from django.views.generic import TemplateView
 from chartjs.views.lines import BaseLineChartView
 import cx_Oracle
-from datetime import date, timedelta,datetime
+from datetime import date, timedelta, datetime
 import datetime
 import locale
-locale.setlocale(locale.LC_ALL,'es_ES.UTF-8')
-
-# Returns 2018-01-15 09:00
+locale.setlocale(locale.LC_ALL, 'es_ES.UTF-8')
 
 
 
@@ -33,27 +31,27 @@ def home(request):
     }
     return render(request, './home_reserva.html', data)
 
-# Inicio Reservas
 
 
+#Area de pruebas
 @login_required
 def pruebas(request):
 
-    
     b = grafico_reserva_base()
     v = []
     v = (b[0])
     y = listado_clientes()
 
-    data ={
-        'v' : v,
-        'y' : y,
-        'b' : b
-     }
+    data = {
+        'v': v,
+        'y': y,
+        'b': b
+    }
 
     return render(request, './prueba.html', data)
 
 
+#Listado de clientes
 def cliente_listado(request):
 
     data = {
@@ -115,7 +113,7 @@ def listado_mesas():
     out_cur = django_cursor.connection.cursor()
 
     # Llamada al cursor
-    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES_AHORA", [out_cur])
+    cursor.callproc("SP_LISTAR_MESAS_ALL", [out_cur])
 
     # llenamos la lista
     lista = []
@@ -306,11 +304,9 @@ def reserva_crear(request):
                                origen, id_mesa, estado, cant)
 
         if salida == 1:
-            data['mensaje'] = 'agregador correctamente'
-            
+            messages.success(request, "Reserva Creada")
         else:
-            data['mensaje'] = 'no se pudo guardar'
-            
+            messages.error(request, "No se pued crear la reserva")
 
     return render(request, './reserva_crear.html', data)
 
@@ -332,9 +328,9 @@ def cliente_crear(request):
         salida = crear_cliente(rut, dv, nombre, telefono, correo)
 
         if salida == 1:
-            messages.success(request, "Ojala aparezca este mensaje dios")
+            messages.success(request, "Cliente creado")
         else:
-            messages.error(request, "que pero queeeeeee")
+            messages.error(request, "Cliente no creado")
 
     return render(request, './cliente_crear.html', data)
 
@@ -398,7 +394,6 @@ def eliminar_reserva(id):
 
 
 def cliente_eliminar(request, id):
-
     data = {
 
     }
@@ -489,10 +484,48 @@ def reserva_listado(request):
 def horario_mesa(request, id):
     data = {
         'horarios':   listado_Horario(id),
-        'mesa': buscar_mesa(id)
+        'mesa':       buscar_mesa(id),
+        'reserva':    detalle_mesa(id)
     }
 
     return render(request, './mesa_horario.html', data)
+
+
+def reserva_finalizar(request, id,num):
+    data = { 
+        'mesas' : listado_mesas()
+    }
+    salida = finalizar_reserva(id,num)
+
+    if salida == 1:
+        data['mesas'] = listado_mesas()
+        return mesas_listar(request)
+    else:
+        data['mesas'] =  listado_mesas()
+        return mesas_listar(request)
+
+
+def finalizar_reserva(id,num):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_REMOVER_RESERVA', [id,num, salida])
+    return salida.getvalue()
+
+def detalle_mesa(id):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_DETALLE_MESA", [out_cur, id])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 
 def listado_Horario(id):
@@ -510,10 +543,7 @@ def listado_Horario(id):
     return lista
 
 
-
-
-#pruebas con CHART
-
+# pruebas con CHART
 
 
 class LineChartJSONView(BaseLineChartView):
@@ -540,27 +570,27 @@ line_chart_json = LineChartJSONView.as_view()
 def grafico_reserva(request):
 
     hoy = date.today()
-    nohoy = hoy - timedelta(days = 0)
+    nohoy = hoy - timedelta(days=0)
     nohoy = nohoy.strftime("%A")
 
-    #LABELS PASADO
-    ayer = hoy - timedelta(days = 1)
+    # LABELS PASADO
+    ayer = hoy - timedelta(days=1)
     ayer = ayer.strftime("%A")
 
-    anteayer = hoy   - timedelta(days = 2)
+    anteayer = hoy - timedelta(days=2)
     anteayer = anteayer.strftime("%A")
 
-    antiayer = hoy - timedelta(days = 3)
+    antiayer = hoy - timedelta(days=3)
     antiayer = antiayer.strftime("%A")
 
-    #EL FUTURO ES HOY OISTE VIEJO
-    manana= hoy + timedelta(days = 1)
+    # EL FUTURO ES HOY OISTE VIEJO
+    manana = hoy + timedelta(days=1)
     manana = manana.strftime("%A")
 
-    pasadomanana = hoy + timedelta(days = 2)
+    pasadomanana = hoy + timedelta(days=2)
     pasadomanana = pasadomanana.strftime("%A")
 
-    postmanana = hoy + timedelta(days = 3)
+    postmanana = hoy + timedelta(days=3)
     postmanana = postmanana.strftime("%A")
 
     nombres = []
@@ -575,12 +605,11 @@ def grafico_reserva(request):
     b = grafico_reserva_base()
     data = []
     data = b[0]
-    
+
     return JsonResponse(data={
         'data': data,
         'labels': nombres
     })
-
 
 
 def grafico_reserva_base():
@@ -596,4 +625,3 @@ def grafico_reserva_base():
     for fila in out_cur:
         lista.append(fila)
     return lista
-

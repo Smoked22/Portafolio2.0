@@ -11,13 +11,58 @@ def ClienteEnMesa(request):
     return render(request, './clienteenmesa.html')
 
 def CancelarReserva(request):
-    return render(request, './cancelarReserva.html')
+
+    data = {
+        'mesas' : listado_mesas_disponibles(),
+        'empleados' : listado_empleados(),
+    }
+
+    if request.method== 'POST':
+        fecha_reserva = request.POST.get('fecha_reserva')
+        rut_cli = request.POST.get('cliente')
+
+        salida = eliminar_reserva(fecha_reserva, rut_cli)
+
+        if salida == 1:
+            data['mensaje'] = 'Reserva eliminada correctamente'
+        else:
+            data['mensaje'] = 'No se pudo eliminar la reserva'
+
+    return render(request, './cancelarReserva.html', data)
 
 def VerMenu(request):
     data ={
         'cartas' : listado_cartas()
     }
     return render(request, './menu.html',data)
+
+def MenuEntrada(request):
+    data ={
+        'entradas' : listado_entradas()
+    }
+    return render(request, './menu_Entrada.html',data)
+
+def MenuFondo(request):
+    data ={
+        'fondos' : listado_fondos()
+    }
+    return render(request, './menu_Fondo.html',data)
+
+def MenuPostre(request):
+    data ={
+        'postres' : listado_postres()
+    }
+    return render(request, './menu_Postre.html',data)
+
+def MenuBeber(request):
+    data ={
+        'bebidas' : listado_bebidas()
+    }
+    return render(request, './menu_Beber.html',data)
+
+def Reservar(request):
+    return render(request, './reservar.html')
+
 
 def listado_mesas():
     django_cursor = connection.cursor()
@@ -45,7 +90,7 @@ def ReservarMesa(request):
 
     if request.method== 'POST':
         fecha_reserva = request.POST.get('fecha_reserva')
-        rut_emp = request.POST.get('empleado')
+        rut_emp = 0
         rut_cli = request.POST.get('cliente')
         origen = 'Cliente'
         id_mesa = request.POST.get('id_mesa')
@@ -60,6 +105,14 @@ def ReservarMesa(request):
             data['mensaje'] = 'No se pudo guardar'
 
     return render(request, './reservarMesa.html', data)
+
+def eliminar_reserva(fecha_reserva, rut_cli):
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_ELIMINAR_RESERVA_CLIENTE', [fecha_reserva, rut_cli, salida])
+    return salida.getvalue()
 
 def crear_reserva( fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant):
     django_cursor = connection.cursor()
@@ -139,6 +192,63 @@ def listado_cartas():
         lista.append(fila)
     return lista
 
+def listado_entradas():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_ENTRADA", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_fondos():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_FONDO", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_postres():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_POSTRE", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_bebidas():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_BEBIDA", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
 def ClienteCrear(request):
 
     data = {
@@ -168,7 +278,6 @@ def CrearCliente(rut, dv, nom, telefono, correo):
     # Cursor que llama
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_CLIENTE', [
-                    rut, dv, nom, telefono, correo, salida])
+    cursor.callproc('SP_AGREGAR_CLIENTE', [rut, dv, nom, telefono, correo, salida])
     return salida.getvalue()
 

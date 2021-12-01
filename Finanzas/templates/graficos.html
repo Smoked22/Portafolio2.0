@@ -5,7 +5,15 @@
 {% block contenido %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.js"></script>
 
-    <div class = "container-fluid">
+    <div class="col-sm-6">
+    </div>
+    <div class="card card-info">
+        <div class="card-header">
+            <h4> Grafico de las ventas totales del año 2021</h4>
+        </div>
+    </div>
+    
+    <div class = "">
         <div class="">
             <canvas id="myChart"></canvas>
         </div>
@@ -48,8 +56,31 @@
             },
             options: {
                 scales: {
-                    y: {
-                        beginAtZero: false
+                    yAxes: {
+                        beginAtZero: false,
+                        title: {
+                            color: 'black',
+                            display: true,
+                            text: 'Ventas mensuales($)'
+                        },
+                        ticks: {
+                            callback: function(value, index, values){
+                                return '$ '+ value;
+                            }
+                        }
+                    },
+                    xAxes: {
+                        title: {
+                            color: 'black',
+                            display: true,
+                            text: 'Meses del Año',
+                        }
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                        text: 'Ventas Mensuales',
                     }
                 }
             }

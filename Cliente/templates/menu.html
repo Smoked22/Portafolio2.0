@@ -21,9 +21,8 @@
         background-image: url("{% static '/assets/img/fondocliente.jpg'%}");
       }
     </style> 
-  <div class="wrapper">
+  <div class="login-box">
     
-  
     <div class="login-logo">
       <img src="{% static '/assets/img/indexLogo.jpg'%}"/>
       <style>
@@ -33,44 +32,25 @@
         </style>
     </div>
     <!-- /.login-logo -->
-    <div class="card card-primary">
+    <div class="card">
       <div class="card-header">
-        <h2 class="m-0"><center>Menú</center></h2>
-      </div>      
-      <div>
-        <section class="content">
-           <div class="container-fluid">
-             <div class="row">
-               <div class="col-12">
-                    <div class="table-responsive">
-                      <table class="table m-0">
-                        <thead>
-                        <tr>
-                          <th>Nombre</th>
-                          <th>Descripción</th>
-                          <th>Precio</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          {% for c in cartas %}
-                        <tr>
-                            <td>{{c.1}}</td>
-                            <td>{{c.2}}</td>
-                            <td>{{c.3}}</td>
-                        </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
-                    </div>
-                    <!-- /.table-responsive -->
-               <!-- /.col -->
-             </div>
-             <!-- /.row -->
-           </div>
-           <!-- /.container-fluid -->
-         </section>
-       </div>
+        <h1 class="m-0"><center>Menú</center></h1>
+        
+        <br> 
+  
+        <button onclick="window.location.href='/Cliente/Menu_Entrada'" class="btn btn-primary btn-block">Entrada</button><br>
+  
+        <button onclick="window.location.href='/Cliente/Menu_Fondo'" class="btn btn-primary btn-block">Plato de fondo</button><br>
+
+        <button onclick="window.location.href='/Cliente/Menu_Postre'" class="btn btn-primary btn-block">Postre</button><br>
+
+        <button onclick="window.location.href='/Cliente/Menu_Beber'" class="btn btn-primary btn-block">Para beber</button><br>
+  
+      </div>
+      <!-- /.login-card-body -->
     </div>
+  </div>
+  
 
   
   </div>

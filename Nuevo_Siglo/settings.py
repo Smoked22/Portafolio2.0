@@ -56,7 +56,9 @@ INSTALLED_APPS = [
     'django_select2',
     'django_redis',
     'django_filters',
-    'chartjs'   
+    'chartjs',
+    'totem',
+    'pwa',
 ]
 
 
@@ -98,7 +100,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
         'NAME': '127.0.0.1:1521/orcl',
-        'USER': 'rodrigontas',
+        'USER': 'RESTAURANTE21',
         'PASSWORD': '1234',
         'TEST': {
             'USER': 'default_test',
@@ -176,5 +178,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+PWA_APP_NAME = "Siglo 21"
+PWA_APP_DESCRIPTION = "Restaurante siglo 21"
+PWA_APP_THEME_COLOR = "#3477F5"
+PWA_APP_BACKGROUND_COLOR = "#6699F7"
 
+PWA_APP_ICONS = [
+    {
+        "src": "/static/assets/img/favicon.png",
+        "sizes": "160x160"
+    }
+]
 
+PWA_APP_ICONS_APPLE = [
+    {
+        "src": "/static/assets/img/favicon.png",
+        "sizes": "160x160"
+    }
+]

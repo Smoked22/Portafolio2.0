@@ -1,0 +1,208 @@
+{% extends 'base_generica_totem.html' %}
+{% load static %}
+{% block contenido %}
+
+
+
+<style>
+  .filterDiv {
+    display: none;
+  }
+
+  .show {
+    display: block;
+  }
+
+  .container {
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .padd {
+    padding-top: 60px;
+    padding-right: 250px;
+    padding-bottom: 20px;
+    padding-left: 250px;
+  }
+
+  .padd2 {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+
+  .padd3 {
+    padding-left: 50px;
+  }
+
+
+  body {
+    background-image: url("{% static '/assets/img/fondoIndex.jpg'%}");
+  }
+
+  .fondo {
+    background-color: rgba(255, 250, 250, 0.6);
+    border-radius: 25px;
+  }
+
+  .texto {
+    text-align: center;
+    color: honeydew;
+  }
+
+  .colorboton {
+    background-color: rgb(153, 155, 190);
+  }
+</style>
+
+<div class="padd">
+
+  <div class="card card-info">
+    <div class="card-header">
+      <h3 class="card-title">Crear reserva</h3>
+    </div>
+    <!-- form start -->
+    <form class="form-horizontal" action="" method="POST">
+      {% csrf_token %}
+      <div class="card-body">
+        <div class="form-group row">
+          <label  for="inputPassword3" class="col-sm-3 col-form-label padd3">RUT</label>
+          <div class="col-sm-5">
+            <input readonly name="cliente" class="form-control" id="exampleInputEmail1" value={{rut.0.0}}>
+            <small id="passwordHelpInline" class="text-muted">
+              Fecha en la que será reservada la mesa.
+            </small>
+          </div>
+
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label padd3">Fecha reserva</label>
+          <div class="col-sm-5">
+
+            <div class="form-group">
+              <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                <input readonly name="fecha_reserva" type="text" class="form-control datetimepicker-input "
+                  data-target="#reservationdate" />
+                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i>
+                  </div>
+                </div>
+
+              </div>
+              <small id="passwordHelpInline" class="text-muted">
+                Fecha en la que será reservada la mesa.
+              </small>
+            </div>
+          </div>
+          <div class="col-sm-1"></div>
+
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label padd3">Mesa</label>
+          <div class="col-sm-5">
+
+            <div class="form-group">
+              <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                <select readonly name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
+                  <option value="{{mesa.0.0}}">{{mesa.0.0}}</option>
+                </select>
+
+              </div>
+              <small id="passwordHelpInline" class="text-muted">
+                Mesa que será reservada.
+              </small>
+            </div>
+          </div>
+          <div class="col-sm-1"></div>
+
+
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label padd3">Personas</label>
+          <div class="col-sm-5">
+            <select name="cantP" class="custom-select rounded-0" id="exampleSelectBorder">
+              <option value="1"> 1 </option>
+              <option value="2"> 2 </option>
+              <option value="3"> 3 </option>
+              <option value="4"> 4 </option>
+              <option value="5"> 5 </option>
+              <option value="6"> 6 </option>
+              <option value="7"> 7 </option>
+              <option value="8"> 8 </option>
+              <option value="9"> 9 </option>
+              <option value="10"> 10 </option>
+              <option value="11"> 11 </option>
+              <option value="12"> 12 </option>
+              <option value="13"> 13 </option>
+              <option value="14"> 14 </option>
+              <option value="15"> 15 </option>
+              <option value="16"> 16 </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <!-- /.card-body -->
+      <div class="card-footer">
+        <button type="submit" class="btn btn-info">Ingresar</button>
+        <a href="{% url 'homeReserva' %}" class="btn btn-default float-right">Volver</a>
+      </div>
+      <!-- /.card-footer -->
+    </form>
+    {{mensaje}}
+
+  </div>
+  <h2 class="texto" id="txt"></h2>
+
+  <script>
+    function startTime() {
+      const today = new Date();
+      let h = today.getHours();
+      let m = today.getMinutes();
+      let s = today.getSeconds();
+      m = checkTime(m);
+      s = checkTime(s);
+      document.getElementById('txt').innerHTML = h + ":" + m + ":" + s;
+      setTimeout(startTime, 1000);
+    }
+
+    function checkTime(i) {
+      if (i < 10) {
+        i = "0" + i
+      }; // add zero in front of numbers < 10
+      return i;
+    }
+  </script>
+
+
+  <!-- jQuery -->
+  <script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static './dist/js/adminlte.min.js' %}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{% static './dist/js/demo.js' %}"></script>
+  <script>
+    $(function () {
+
+      var date = new Date();
+      var currentMonth = date.getMonth();
+      var currentDate = date.getDate();
+      var currentYear = date.getFullYear();
+
+      //Date picker
+      $('#reservationdate').datetimepicker({
+        minDate: new Date(currentYear, currentMonth, currentDate),
+        format: 'DD/MM/YYYY',
+        date: new Date()
+      });
+
+
+    })
+  </script>
+
+
+</div>
+
+
+
+{% endblock %}
