@@ -90,6 +90,9 @@ def ReservarMesa(request):
 
     if request.method== 'POST':
         fecha_reserva = request.POST.get('fecha_reserva')
+        hora_reserva = request.POST.get('hora_reserva')
+        espacio = ' '
+        fecha_hora = str(fecha_reserva)+espacio+str(hora_reserva)
         rut_emp = 0
         rut_cli = request.POST.get('cliente')
         origen = 'Cliente'
@@ -97,7 +100,7 @@ def ReservarMesa(request):
         estado = 'Reserva'
         cant = request.POST.get('cantP')
 
-        salida = crear_reserva(fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant)
+        salida = crear_reserva(fecha_hora, rut_emp, rut_cli, origen, id_mesa, estado, cant)
 
         if salida == 1:
             data['mensaje'] = 'Reserva agregada correctamente'
