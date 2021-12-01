@@ -52,7 +52,6 @@
                 <th>Telefono</th>
                 <th>Correo</th>
                 <th>Editar</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -62,7 +61,8 @@
                  <td>{{ e.2 }}</td>
                  <td>{{ e.3 }}</td>
                  <td>{{ e.4 }}</td>
-                <td class="btn-group">
+                 <td>
+                <div class="btn-group">
                   <button type="button" class="btn bg-info">Editar</button>
                   <button type="button" class="btn btn-default dropdown-toggle dropdown-icon" data-toggle="dropdown">
                     <span class="sr-only">Toggle Dropdown</span>
@@ -71,7 +71,8 @@
                     <a type="button" class="dropdown-item"  href="{% url 'cliente_modificar' e.0 %}">Modificar</a>
                     <a type="button" class="dropdown-item"  href="{% url 'cliente_eliminar' e.0 %}">Eliminar</a>
                   </div>
-                </td>
+                </div>
+              </td>
               </tr>
               {% endfor %}   
             </tbody>

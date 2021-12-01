@@ -150,14 +150,11 @@ def crear_reserva(rut_cli, id_mesa, cant):
     # Cursor que llama
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_AGREGAR_RESERVA_TOTEM', [
-        rut_cli, id_mesa, cant, salida])
+    cursor.callproc('SP_AGREGAR_RESERVA_TOTEM', [rut_cli, id_mesa, cant, salida])
     return salida.getvalue()
 
 
 def hora(request):
-
     ahora = datetime.datetime.now()
     hora = ahora.hour
-
     return hora

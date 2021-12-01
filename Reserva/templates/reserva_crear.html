@@ -145,7 +145,7 @@
   $(document).ready(function () {
 
     // show when page load
-    toastr.success('Cliente creado');
+    toastr.success('Reserva creada');
 
   });
 </script>
@@ -156,7 +156,7 @@
   $(document).ready(function() {
     
     // show when page load
-    toastr.error('No se pudo crear el cliente');
+    toastr.error('No se pudo crear la reserva');
     
     });
     </script>
@@ -178,7 +178,7 @@
 
     var date = new Date();
     var currentMonth = date.getMonth();
-    var currentDate = date.getDate();
+    var currentDate = date.getDate()+1;
     var currentYear = date.getFullYear();
 
     //Date picker
