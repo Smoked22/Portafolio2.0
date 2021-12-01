@@ -113,7 +113,7 @@ def listado_mesas():
     out_cur = django_cursor.connection.cursor()
 
     # Llamada al cursor
-    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES_AHORA", [out_cur])
+    cursor.callproc("SP_LISTAR_MESAS_ALL", [out_cur])
 
     # llenamos la lista
     lista = []
@@ -394,7 +394,6 @@ def eliminar_reserva(id):
 
 
 def cliente_eliminar(request, id):
-
     data = {
 
     }
@@ -485,10 +484,48 @@ def reserva_listado(request):
 def horario_mesa(request, id):
     data = {
         'horarios':   listado_Horario(id),
-        'mesa': buscar_mesa(id)
+        'mesa':       buscar_mesa(id),
+        'reserva':    detalle_mesa(id)
     }
 
     return render(request, './mesa_horario.html', data)
+
+
+def reserva_finalizar(request, id,num):
+    data = { 
+        'mesas' : listado_mesas()
+    }
+    salida = finalizar_reserva(id,num)
+
+    if salida == 1:
+        data['mesas'] = listado_mesas()
+        return mesas_listar(request)
+    else:
+        data['mesas'] =  listado_mesas()
+        return mesas_listar(request)
+
+
+def finalizar_reserva(id,num):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_REMOVER_RESERVA', [id,num, salida])
+    return salida.getvalue()
+
+def detalle_mesa(id):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_DETALLE_MESA", [out_cur, id])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 
 def listado_Horario(id):

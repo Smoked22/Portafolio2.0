@@ -1063,9 +1063,15 @@ create or replace NONEDITIONABLE PROCEDURE Sp_agregar_reserva_totem
 (                                              v_cliente_c_rut  NUMBER,
                                                v_mesa_id_mesa   NVARCHAR2,
                                                v_cant_personas  INTEGER,
-                                               v_salida         OUT NUMBER)
+                                               v_salida         OUT NUMBER
+)
 IS
 BEGIN
+
+    UPDATE  mesa
+    SET     estareservada= '1'
+    WHERE   id_mesa= v_mesa_id_mesa;
+
     INSERT INTO reserva
                 (id_reserva,
                  fec_reserva_hecha,
@@ -1076,24 +1082,24 @@ BEGIN
                  mesa_id_mesa,
                  estado_reserva,
                  cant_personas)
-                 
+
     VALUES      (sec_reserva.NEXTVAL,
                  To_char(SYSDATE, 'YYYY-MM-DD'),
-                 To_char(SYSDATE, 'YYYY-MM-DD'),
-                 '00000000',
+                 To_char(SYSDATE, 'DD/MM/YYYY HH24:MI'),
+                 00000000,
                  v_cliente_c_rut,
                  'Totem',
                  v_mesa_id_mesa,
-                 'Reservada',
+                 'EN CURSO',
                  v_cant_personas );
 
     COMMIT;
-    v_salida := 1;
-    
-    
+      v_salida := 1;
+
+
 EXCEPTION   
-  WHEN OTHERS THEN
-             v_salida := 0;
+    WHEN OTHERS THEN
+     v_salida := 0;
 END;
 /
 --***************************************************************************************************
@@ -1136,5 +1142,54 @@ BEGIN
 END;
 /
 --***************************************************************************************************
---
+-- Listar todas las mesas
 --#55
+create or replace NONEDITIONABLE PROCEDURE Sp_listar_mesas_all(mesas OUT SYS_REFCURSOR)
+IS
+BEGIN
+    OPEN mesas FOR
+      SELECT *
+      FROM   mesa;
+END;
+--***************************************************************************************************
+-- Termina una reserva
+--#56
+
+create or replace NONEDITIONABLE PROCEDURE sp_remover_reserva(
+
+
+            v_id_reserva NVARCHAR2,
+            v_num_mesa NVARCHAR2,
+            reserv OUT NUMBER
+   
+            
+)
+IS
+    BEGIN                    
+       UPDATE mesa
+       SET    estareservada= '0'
+       WHERE  id_mesa = v_num_mesa;
+       
+       UPDATE reserva
+       SET    estado_reserva='FINALIZADA'
+       WHERE  v_id_reserva = id_reserva;
+       
+END;
+/
+--***************************************************************************************************
+-- Detalle Mesa
+--#57
+create or replace NONEDITIONABLE PROCEDURE sp_detalle_mesa(
+
+            reserv OUT sys_refcursor,
+            num_mesa NVARCHAR2
+)
+IS
+    BEGIN                    
+      OPEN reserv FOR
+      SELECT *
+      FROM   RESERVA
+      WHERE mesa_id_mesa = num_mesa
+      AND estado_reserva='EN CURSO';
+END;
+/
