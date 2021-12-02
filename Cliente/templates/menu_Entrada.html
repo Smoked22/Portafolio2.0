@@ -47,16 +47,14 @@
                         <thead>
                         <tr>
                           <th>Nombre</th>
-                          <th>Descripción</th>
                           <th>Precio</th>
                         </tr>
                         </thead>
                         <tbody>
                           {% for e in entradas %}
                         <tr>
-                            <td>{{e.1}}</td>
-                            <td>{{e.2}}</td>
-                            <td>{{e.3}}</td>
+                          <td>{{e.1}}<br><i>{{e.2}}</i></td>
+                          <td>{{e.3}}</td>
                         </tr>
                           {% endfor %}
                         </tbody>
@@ -70,6 +68,7 @@
            <!-- /.container-fluid -->
          </section>
        </div>
+       <button onclick="window.location.href='/Cliente/VerMenu'" class="btn btn-block bg-gradient-danger btn-lg">Volver a Menú</button>  
     </div>
 
   

@@ -13,6 +13,7 @@ urlpatterns = [
     path('CrearCliente/', ClienteCrear, name="clienteCrear"),
     path('Menu_Entrada/', MenuEntrada, name="menuEntrada"),
     path('Menu_Fondo/', MenuFondo, name="menuFondo"),
+    path('Menu_Ensalada/', MenuEnsalada, name="menuEnsalada"),
     path('Menu_Postre/', MenuPostre, name="menuPostre"),
     path('Menu_Beber/', MenuBeber, name="menuBebidas"),
 ]

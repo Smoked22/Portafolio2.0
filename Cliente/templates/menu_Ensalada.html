@@ -4,7 +4,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SIGLO XXI - Menú postres</title>
+  <title>SIGLO XXI - Menú Ensaladas</title>
   {% load static %}
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -35,7 +35,7 @@
     <!-- /.login-logo -->
     <div class="card card-primary">
       <div class="card-header">
-        <h2 class="m-0"><center>Menú postres</center></h2>
+        <h2 class="m-0"><center>Menú ensaladas</center></h2>
       </div>      
       <div>
         <section class="content">
@@ -51,10 +51,10 @@
                         </tr>
                         </thead>
                         <tbody>
-                          {% for p in postres %}
+                          {% for s in ensaladas %}
                         <tr>
-                          <td>{{p.1}}<br><i>{{p.2}}</i></td>
-                          <td>{{p.3}}</td>
+                            <td>{{s.1}}<br><i>{{s.2}}</i></td>
+                            <td>{{s.3}}</td>
                         </tr>
                           {% endfor %}
                         </tbody>

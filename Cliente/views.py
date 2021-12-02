@@ -48,6 +48,12 @@ def MenuFondo(request):
     }
     return render(request, './menu_Fondo.html',data)
 
+def MenuEnsalada(request):
+    data ={
+        'ensaladas' : listado_ensaladas()
+    }
+    return render(request, './menu_Ensalada.html',data)
+
 def MenuPostre(request):
     data ={
         'postres' : listado_postres()
@@ -217,6 +223,20 @@ def listado_fondos():
     out_cur = django_cursor.connection.cursor()
 
     cursor.callproc("SP_LISTAR_FONDO", [out_cur])
+
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_ensaladas():
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_ENSALADA", [out_cur])
 
     lista= []
     for fila in out_cur:
