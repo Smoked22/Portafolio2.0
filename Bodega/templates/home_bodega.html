@@ -65,6 +65,45 @@
             <a href="{% url 'listar_ingredientemod'%}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
           </div>
         </div>
+<!-- --------------------------------------------------------------------------------------------------------- -->
 
+        <div class="card-body" >
+        <div class="card">
+         
+          
+          <!-- /.card-header -->
+          <div class="card-body p-0">
+            <table class="table table-sm">
+              
+                  
+              <thead>
+                <tr>
+                  <th style="width: 10px"></th>
+                  <th>Ingrediente</th>
+                  <th>stock</th>
+                  <th style="width: 40px">info</th>
+                </tr>
+                </thead>
+              
+                  {% for r in stoki %}
+                
+              
+              <tbody>
+                <tr>
+                  <td>-</td>
+                  <td>{{ r.1 }}</td>
+                  <td> {{ r.3 }} </td>
+
+
+
+
+                  <td><span class="badge bg-danger">CUIDADO <br>STOCK EN ESCASEZ</span></td>
+                  
+                </tr>
+               
+                
+                {% endfor %}
+               
+              </div>
 {% endblock %}
 

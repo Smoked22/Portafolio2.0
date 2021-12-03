@@ -25,8 +25,8 @@ def ingredientes(request):
 
 def home(request):
     data = {
-        'categorias' :listar_categoria()
-         
+        'categorias' :listar_categoria(),
+        'stoki' :ver_stoc() 
     }
 
     return render(request, './home_bodega.html', data)
@@ -246,3 +246,17 @@ def Bodega_buscar(request):
         data['reservas'] = listado_Reservas()
 
     return render(request, './reserva_listado.html', data) 
+
+
+def ver_stoc():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_VER_STOCK", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
