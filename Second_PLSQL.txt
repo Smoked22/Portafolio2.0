@@ -274,13 +274,55 @@ END;
 --************************************************************************************
 --LISTAR MESAS DISPONIBLE
 --#016
-CREATE OR replace PROCEDURE Sp_listar_mesas_disponibles(mesas OUT SYS_REFCURSOR)
+create or replace NONEDITIONABLE PROCEDURE Sp_listar_mesas_disponibles(mesas OUT SYS_REFCURSOR)
 IS
 BEGIN
     OPEN mesas FOR
       SELECT *
       FROM   mesa
-      WHERE  estareservada = 0;
+      WHERE  estareservada = 0
+      AND id_mesa NOT IN
+                    (
+                        SELECT  mesa_id_mesa
+                        FROM    reserva
+                        WHERE      substr(reserva.fec_reserva,1,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),1,2)
+                        AND        substr(reserva.fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                        AND        substr(reserva.fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4)
+                        AND        estado_reserva = 'RESERVADA'
+                        AND
+                        (
+                                   substr(fec_reserva,12,2) = substr(to_char(SYSDATE, 'HH24:MI:SS'),1,2)
+                        OR         substr(fec_reserva,12,2) = (substr(to_char(SYSDATE, 'HH24:MI:SS'),1,2))+1
+                        OR         substr(fec_reserva,12,2) = (substr(to_char(SYSDATE, 'HH24:MI:SS'),1,2))+2
+                        ))     
+    ORDER BY TO_NUMBER(id_mesa) ASC;
+    
+    UPDATE  MESA
+    SET     ESTARESERVADA = '1'
+    WHERE   id_mesa IN
+                    (
+                    SELECT  mesa_id_mesa
+                    FROM    reserva
+                    WHERE      substr(reserva.fec_reserva,1,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),1,2)
+                    AND        substr(reserva.fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                    AND        substr(reserva.fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4)
+                    AND        substr(fec_reserva,12,2) = substr(to_char(SYSDATE, 'HH24:MI:SS'),1,2)
+                    AND        estado_reserva = 'RESERVADA'
+                    );
+                    
+    UPDATE  RESERVA
+    SET     ESTADO_RESERVA = 'EN CURSO'
+    WHERE   ID_RESERVA IN
+                    (
+                    SELECT  ID_RESERVA
+                    FROM    reserva
+                    WHERE      substr(reserva.fec_reserva,1,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),1,2)
+                    AND        substr(reserva.fec_reserva,4,2) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),4,2)
+                    AND        substr(reserva.fec_reserva,7,4) = substr(to_char(SYSDATE, 'DD/MM/YYYY'),7,4)
+                    AND        substr(fec_reserva,12,2) = substr(to_char(SYSDATE, 'HH24:MI:SS'),1,2)
+                    AND        estado_reserva = 'RESERVADA'
+                    );
+               
 END; 
 /
 --************************************************************************************
@@ -1193,3 +1235,31 @@ IS
       AND estado_reserva='EN CURSO';
 END;
 /
+--***************************************************************************************************
+--Horarios disponibles
+--#58
+create or replace NONEDITIONABLE PROCEDURE SP_horario_disp(
+                    horario_disp OUT SYS_REFCURSOR,
+                    v_fecha NVARCHAR2,
+                    v_mesa  NVARCHAR2
+)
+IS
+BEGIN
+        OPEN horario_disp FOR
+        SELECT H_HORA
+        FROM HORA
+        WHERE H_HORA NOT IN
+                    (SELECT    substr(fec_reserva,12,2)
+                    FROM       reserva
+                    WHERE      substr(reserva.fec_reserva,1,2) = substr(v_fecha,1,2)
+                    AND        substr(reserva.fec_reserva,4,2) = substr(v_fecha,4,2)
+                    AND        substr(reserva.fec_reserva,7,4) = substr(v_fecha,7,4)
+                    AND        mesa_id_mesa = v_mesa
+                    )
+        ORDER BY  TO_NUMBER(H_HORA) ASC;       
+END; 
+/
+--***************************************************************************************************
+--Listar mesas dispinibles
+--#58
+

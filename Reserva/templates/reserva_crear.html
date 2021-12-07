@@ -16,7 +16,8 @@
       <div class="form-group row">
         <label for="inputPassword3" class="col-sm-2 col-form-label">RUT Cliente</label>
         <div class="col-sm-10">
-          <input required name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
+          <input required name="cliente" class="form-control" id="exampleInputEmail1"
+            placeholder="Ingresa el RUT del cliente">
           <small id="passwordHelpInline" class="text-muted">
             Debe ser sin puntos ni digito verificador.
           </small>
@@ -26,11 +27,11 @@
         <label class="col-sm-2 col-form-label">Fecha reserva</label>
         <div class="col-sm-4">
           <div class="form-group">
-            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-              <input name="fecha_reserva" type="text" class="form-control datetimepicker-input"
-                data-target="#reservationdate" />
-              <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                <div class="input-group-text"><i class="fa fa-calendar"></i>
+            <div class="form-group">
+              <div class="input-group input-group date" id="datetimepicker1" data-target-input="nearest">
+                <input id="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                 </div>
               </div>
             </div>
@@ -43,18 +44,8 @@
         <label class="col-sm-2 col-form-label">Hora reserva</label>
         <div class="col-sm-3">
           <div class="form-group">
-            <select name="hora_reserva" class="custom-select rounded-0" id="exampleSelectBorder">
-              <option value="13:00"> 13:00 </option>
-              <option value="14:00"> 14:00 </option>
-              <option value="15:00"> 15:00 </option>
-              <option value="16:00"> 16:00 </option>
-              <option value="17:00"> 17:00 </option>
-              <option value="18:00"> 18:00 </option>
-              <option value="19:00"> 19:00 </option>
-              <option value="20:00"> 20:00 </option>
-              <option value="21:00"> 21:00 </option>
-              <option value="22:00"> 22:00 </option>
-              <option value="23:00"> 23:00 </option>
+            <select name="hora_reserva" class="custom-select rounded-0" id="hora_reserva">
+
             </select>
             <small id="passwordHelpInline" class="text-muted">
               Fecha en la que será reservada la mesa.
@@ -68,8 +59,8 @@
         <div class="col-sm-4">
 
           <div class="form-group">
-            <div class="input-group date" id="reservationdate" data-target-input="nearest">
-              <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
+            <div class="input-group date" id="mesa_con_id" data-target-input="nearest">
+              <select onchange="cambiarHorario()" name="id_mesa" class="custom-select rounded-0" id="id_mesa">
                 {% for m in mesas %}
                 <option value="{{m.0}}">{{m.0}}</option>
                 {% endfor %}
@@ -164,6 +155,23 @@
 {% endfor %}
 {% endif %}
 
+<script>
+  function cambiarHorario() {
+    let fechaId = document.getElementById("fecha_reserva").value;
+    let mesaId = document.getElementById("id_mesa").value;
+
+    let url = '/Reserva/subhorarios/?fecha_reserva=' + fechaId + '&id_mesa=' + mesaId;
+
+    fetch(url)
+      .then(function (result) {
+        return result.text();
+      })
+      .then(function (result) {
+        document.getElementById('hora_reserva').innerHTML = result;
+      });
+  }
+</script>
+
 <script src="{% static './plugins/toastr/toastr.min.js' %}"></script>
 <!-- jQuery -->
 <script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
@@ -178,15 +186,48 @@
 
     var date = new Date();
     var currentMonth = date.getMonth();
-    var currentDate = date.getDate()+1;
+    var currentDate = (date.getDate()+1);
     var currentYear = date.getFullYear();
 
     //Date picker
     $('#reservationdate').datetimepicker({
       minDate: new Date(currentYear, currentMonth, currentDate),
       format: 'DD/MM/YYYY',
-      date: new Date()
+      date: new Date(),
+
+    }).on('changeDate', function (e) {
+
+      alert("hola")
+
     });
+
+    $('#datetimepicker1').datetimepicker({
+      useCurrent: false,
+      minDate: new Date(currentYear, currentMonth, currentDate),
+      format: 'DD/MM/YYYY',
+      date: new Date()
+    })
+
+    //detect change
+    $("#datetimepicker1").on("change.datetimepicker", function (e) {
+      let fechaId = document.getElementById("fecha_reserva").value;
+      let mesaId = document.getElementById("id_mesa").value;
+
+      let url = '/Reserva/subhorarios/?fecha_reserva=' + fechaId + '&id_mesa=' + mesaId;
+
+      fetch(url)
+        .then(function (result) {
+          return result.text();
+        })
+        .then(function (result) {
+          document.getElementById('hora_reserva').innerHTML = result;
+        });
+    })
+
+
+
+
+
 
     var Toast = Swal.mixin({
       toast: true,
@@ -194,6 +235,9 @@
       showConfirmButton: false,
       timer: 3000
     });
+
+
+
 
 
     $('.toastrDefaultSuccess').click(function () {

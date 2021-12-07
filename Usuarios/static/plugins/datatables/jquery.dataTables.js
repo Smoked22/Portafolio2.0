@@ -11890,7 +11890,7 @@
 			 *      } );
 			 *    } );
 			 */
-			"sZeroRecords": "No matching records found"
+			"sZeroRecords": "No se ha podido encontrar"
 		},
 	
 	

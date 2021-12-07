@@ -94,7 +94,7 @@ def listado_mesas():
     out_cur = django_cursor.connection.cursor()
 
     # Llamada al cursor
-    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES_SIMPLE", [out_cur])
+    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES", [out_cur])
 
     # llenamos la lista
     lista = []
@@ -126,7 +126,8 @@ def reservar_totem(request, id, sec):
 
     data = {
         'rut': buscar_cliente(id),
-        'mesa': buscar_mesa(sec)
+        'mesa': buscar_mesa(sec),
+        'fecha': dameFecha()
     }
 
     if request.method == 'POST':
@@ -158,3 +159,8 @@ def hora(request):
     ahora = datetime.datetime.now()
     hora = ahora.hour
     return hora
+
+def dameFecha():
+    x = datetime.datetime.now()
+    fecha = (x.strftime("%x"))
+    return fecha

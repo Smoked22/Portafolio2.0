@@ -47,7 +47,7 @@
         <!-- /.card-header -->
         <div class="card-body">
           <table id="example1" class="table table-bordered table-striped">
-            <thead>
+            <thead class="bg-info">
               <tr>
                 <th>ID Reserva</th>
                 <th>Fecha ingreso</th>
@@ -137,11 +137,14 @@
       "responsive": true, "lengthChange": false, "autoWidth": false,
       "buttons": ["csv", "excel", "pdf"],
       "language": { 
-                   "emptyTable": "No hay datos para mostrar",
+                    "zeroRecords": "No hay resultados",
+                    "infoFiltered": "( Se han filtrado _MAX_ entradas )",
+                    "emptyTable": "No hay datos para mostrar",
                     "paginate": {
-				             "previous": "Anterior",
-                     "next": "Siguente"
+				              "previous": "Anterior",
+                      "next": "Siguente"
 				           },
+
       "search": "Buscador",
       "info": "Mostrando pagina _PAGE_ de _PAGES_",
       "infoEmpty": "No hay datos",

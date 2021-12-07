@@ -4,7 +4,7 @@
 
 {% block contenido %}
 <!-- Small Box (Stat card) -->
-<h5 class="mb-2 mt-4">Reservas</h5>
+<h3 class="mb-2 mt-4">Reservas</h3>
 <div class="row">
   <div class="col-lg-3 col-6">
     <!-- small card -->
@@ -14,7 +14,7 @@
         <p>Reserva</p>
       </div>
       <div class="icon">
-        <i class="fas fa-shopping-cart"></i>
+        <i class="fas fa-address-book"></i>
       </div>
       <a href="{% url 'reserva_crear' %}" class="small-box-footer">
         Crear <i class="fas fa-arrow-circle-right"></i>
@@ -27,11 +27,11 @@
     <!-- small card -->
     <div class="small-box bg-success">
       <div class="inner">
-        <h3>Listar<sup style="font-size: 20px"></sup></h3>
+        <h3>Editar<sup style="font-size: 20px"></sup></h3>
         <p>Reservas</p>
       </div>
       <div class="icon">
-        <i class="ion ion-stats-bars"></i>
+        <i class="fas fa-edit"></i>
       </div>
       <a href="{% url 'mesas_listar' %}" class="small-box-footer">
         Listar<i class="fas fa-arrow-circle-right"></i>
@@ -58,11 +58,11 @@
     <!-- small card -->
     <div class="small-box bg-success">
       <div class="inner">
-        <h3>Listar<sup style="font-size: 20px"></sup></h3>
+        <h3>Editar<sup style="font-size: 20px"></sup></h3>
         <p>Clientes</p>
       </div>
       <div class="icon">
-        <i class="ion ion-stats-bars"></i>
+        <i class="fas fa-user-edit"></i>
       </div>
       <a href="{% url 'cliente_listado' %}" class="small-box-footer">
         Listar<i class="fas fa-arrow-circle-right"></i>
@@ -86,8 +86,8 @@
   }
 </style>
 
-<h1>Mesas</h1>
-<h5></h5>
+<h3 class="mb-2 mt-4">Mesas</h3>
+
 
 
 <table class="table table-bordered">

@@ -38,7 +38,7 @@
   }
 
   .fondo {
-    background-color: rgba(255, 250, 250, 0.6);
+    background-color: rgba(250, 255, 250, 0.6);
     border-radius: 25px;
   }
 
@@ -47,7 +47,7 @@
   }
 
   .colorboton {
-    background-color: rgb(175, 176, 184);
+    background-color: rgb(41, 187, 41);
   }
 </style>
 
@@ -56,16 +56,16 @@
 
 <div class="padd">
   <div class="fondo texto">
-    <div class="card card-secondary fondo">
+    <div class="card card-success fondo">
       <div class="card-header">
-        <h3 class="card-title">Elige tu mesa para hacer la reserva</h3>
+        <h3 class="card-title">Elige la mesa que deseas reservar</h3>
       </div>
       <h3>&nbsp&nbsp</h3>
 
       <div class="row padd2">
         {% for m in mesas %}
         <div class="col-lg-2 col-6 filterDiv">
-          <div class="small-box colorboton filterDiv ">
+          <div class="small-box bg-success filterDiv ">
             <div class="inner">
               <h3>{{m.0}}</h3>
             </div>
