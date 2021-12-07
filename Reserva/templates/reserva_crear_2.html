@@ -1,0 +1,245 @@
+{% extends 'base_reserva.html' %}
+{% load static %}
+{% block contenido %}
+<!-- Horizontal Form -->
+
+<div class="card card-info">
+    <div class="card-header">
+        <h3 class="card-title">Crear reserva</h3>
+    </div>
+
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" action="" method="POST">
+        {% csrf_token %}
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Hora reserva</label>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <select name="hora_reserva" class="custom-select rounded-0" id="exampleSelectBorder">
+                            {% for h in horarios %}
+                            <option value="{{h.0}}:00">{{h.0}}:00</option>
+                            {% endfor %}
+                        </select>
+                        <small id="passwordHelpInline" class="text-muted">
+                            Fecha en la que será reservada la mesa.
+                        </small>
+                    </div>
+                </div>
+                <div class="col-sm-1"></div>
+                <label class="col-sm-1 col-form-label">Personas</label>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <select name="cantP" class="custom-select rounded-0" id="exampleSelectBorder">
+                            <option value="1"> 1 </option>
+                            <option value="2"> 2 </option>
+                            <option value="3"> 3 </option>
+                            <option value="4"> 4 </option>
+                            <option value="5"> 5 </option>
+                            <option value="6"> 6 </option>
+                            <option value="7"> 7 </option>
+                            <option value="8"> 8 </option>
+                            <option value="9"> 9 </option>
+                            <option value="10"> 10 </option>
+                            <option value="11"> 11 </option>
+                            <option value="12"> 12 </option>
+                            <option value="13"> 13 </option>
+                            <option value="14"> 14 </option>
+                            <option value="15"> 15 </option>
+                            <option value="16"> 16 </option>
+                        </select>
+                    </div>
+                    <small id="passwordHelpInline" class="text-muted">
+                        Cantidad de personas que asistirán.
+                    </small>
+                </div>
+
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-info">Ingresar</button>
+            <a href="{% url 'homeReserva' %}" class="btn btn-default float-right">Volver</a>
+        </div>
+        <!-- /.card-footer -->
+    </form>
+</div>
+<!-- /.card -->
+</div>
+
+{% if messages %}
+{% for message in messages %}
+{% if message.tags == 'success'%}
+<script>
+    $(document).ready(function () {
+
+        // show when page load
+        toastr.success('Reserva creada');
+
+    });
+</script>
+{% elif message.tags == 'info' %}
+<script type=text/javascript>toastr.{{ message.tags }}('{{ message }}') </script> {% elif message.tags == 'warning' %}
+    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}') </script> {% elif message.tags == 'error' %}
+    <script>
+    $(document).ready(function() {
+    
+    // show when page load
+    toastr.error('No se pudo crear la reserva');
+    
+    });
+    </script>
+{% endif %}
+{% endfor %}
+{% endif %}
+
+<script src="{% static './plugins/toastr/toastr.min.js' %}"></script>
+<!-- jQuery -->
+<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static './dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './dist/js/demo.js' %}"></script>
+<script>
+    $(function () {
+
+        var date = new Date();
+        var currentMonth = date.getMonth();
+        var currentDate = date.getDate();
+        var currentYear = date.getFullYear();
+
+        //Date picker
+        $('#reservationdate').datetimepicker({
+            minDate: new Date(currentYear, currentMonth, currentDate),
+            format: 'DD/MM/YYYY',
+            date: new Date()
+        });
+
+        var Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
+
+
+        $('.toastrDefaultSuccess').click(function () {
+            toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+        });
+        $('.toastrDefaultInfo').click(function () {
+            toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+        });
+        $('.toastrDefaultError').click(function () {
+            toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+        });
+        $('.toastrDefaultWarning').click(function () {
+            toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+        });
+
+        $('.toastsDefaultDefault').click(function () {
+            $(document).Toasts('create', {
+                title: 'Toast Title',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultTopLeft').click(function () {
+            $(document).Toasts('create', {
+                title: 'Toast Title',
+                position: 'topLeft',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultBottomRight').click(function () {
+            $(document).Toasts('create', {
+                title: 'Toast Title',
+                position: 'bottomRight',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultBottomLeft').click(function () {
+            $(document).Toasts('create', {
+                title: 'Toast Title',
+                position: 'bottomLeft',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultAutohide').click(function () {
+            $(document).Toasts('create', {
+                title: 'Toast Title',
+                autohide: true,
+                delay: 750,
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultNotFixed').click(function () {
+            $(document).Toasts('create', {
+                title: 'Toast Title',
+                fixed: false,
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultFull').click(function () {
+            $(document).Toasts('create', {
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+                title: 'Toast Title',
+                subtitle: 'Subtitle',
+                icon: 'fas fa-envelope fa-lg',
+            })
+        });
+        $('.toastsDefaultFullImage').click(function () {
+            $(document).Toasts('create', {
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+                title: 'Toast Title',
+                subtitle: 'Subtitle',
+                image: '../../dist/img/user3-128x128.jpg',
+                imageAlt: 'User Picture',
+            })
+        });
+        $('.toastsDefaultSuccess').click(function () {
+            $(document).Toasts('create', {
+                class: 'bg-success',
+                title: 'Toast Title',
+                subtitle: 'Subtitle',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultInfo').click(function () {
+            $(document).Toasts('create', {
+                class: 'bg-info',
+                title: 'Toast Title',
+                subtitle: 'Subtitle',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultWarning').click(function () {
+            $(document).Toasts('create', {
+                class: 'bg-warning',
+                title: 'Toast Title',
+                subtitle: 'Subtitle',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultDanger').click(function () {
+            $(document).Toasts('create', {
+                class: 'bg-danger',
+                title: 'Toast Title',
+                subtitle: 'Subtitle',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+        $('.toastsDefaultMaroon').click(function () {
+            $(document).Toasts('create', {
+                class: 'bg-maroon',
+                title: 'Toast Title',
+                subtitle: 'Subtitle',
+                body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+            })
+        });
+    });
+</script>
+
+
+{% endblock %}

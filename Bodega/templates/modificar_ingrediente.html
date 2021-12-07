@@ -15,98 +15,104 @@
   </div>
 
  -->
- 
- <div class="card card-info">
-    <div class="card-header">
-        <h3 class="card-title">Modificar ingrediente</h3>
+
+<div class="card card-info">
+  <div class="card-header">
+    <h3 class="card-title">Modificar ingrediente</h3>
+  </div>
+
+
+
+
+
+  <form action="" method="post">
+    {% csrf_token %}
+    <div class="card-body">
+      {% for r in x %}
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Ingrese la id</label>
+            <input value="{{r.0}}" class="form-control" name="id_productos" type="text" placeholder="id ingrediente"
+              required>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>ingrese un nuevo nombre</label>
+            <input value="{{r.1}}" class="form-control" name="nombre_ingrediente" type="text"
+              placeholder="nombre_ingrediente">
+          </div>
+        </div>
       </div>
-    
-        
-            
-    
+      <br>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Seleccione una nueva categoria</label>
+            <select name="categoria" placeholder="numerosjej" class="form-control">
+              <option value="">categorias</option>
+              {% for c in categorias %}
+              <option value="{{ c.2 }}">{{ c.2 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>actualice el stock</label>
+            <input value="{{r.3}}" class="form-control" name="stock" type="number" placeholder="stock">
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Seleccione unidad de medida</label>
+            <select name="un_medida" placeholder="numerosjej" class="form-control">
+              <option value="">Seleccione unidad de medida</option>
+              {% for k in categorias %}
+              <option value="{{ k.4 }}">{{ k.4 }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
 
-<form action="" method="post">
-  {% csrf_token %}
-  <div class="card-body" >
-    {% for r in x %}
-    <div class="row">
-    <div class="col-sm-6">
-    <div class="form-group">
-                <label>Ingrese la id</label>
-                <input value="{{r.0}}" class="form-control" name="id_productos" type="text"  placeholder="id ingrediente" required>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="form-group">
-                <label>ingrese un nuevo nombre</label>
-                <input value="{{r.1}}" class="form-control" name="nombre_ingrediente" type="text"  placeholder="nombre_ingrediente">
-              </div>
-            </div>
-          </div>
-          <br>
-          <div class="row">
-            <div class="col-sm-6">
-            <div class="form-group">            
-          <label>Seleccione una nueva categoria</label>
-                <select name="categoria" placeholder="numerosjej" class="form-control">
-                  <option value="">categorias</option> 
-                  {% for c in categorias %}
-                  <option value="{{ c.2 }}">{{ c.2 }}</option>
-                  {% endfor %}
-                </select>
-                </div>
-              </div>
-              <div class="col-sm-6">
-                <div class="form-group"> 
-                <label>actualice el stock</label>
-                <input value="{{r.3}}" class="form-control" name="stock" type="number" placeholder="stock">
-              </div>
-            </div>
-          </div>
-              <br>
-              <div class="row">
-                <div class="col-sm-6">
-                <div class="form-group"> 
-                <label>Seleccione unidad de medida</label>
-                <select name="un_medida" placeholder="numerosjej" class="form-control">
-                  <option value="">Seleccione unidad de medida</option> 
-                  {% for k in categorias %}
-                  <option value="{{ k.4 }}">{{ k.4 }}</option>
-                  {% endfor %}
-                </select>
-                </div>
-              </div>
-                
-                
-                <!-- <input class="form-control" type="text" placeholder="Default input"> -->
-                <!-- <br>
+
+        <!-- <input class="form-control" type="text" placeholder="Default input"> -->
+        <!-- <br>
                 <input class="form-control" type="number" id=numid name=numid placeholder="numerosjej" min="1" value="1" required> -->
-                <div class="col-sm-6">
-                  <div class="form-group"> 
-                <label>Seleccione nueva fecha de vencimiento </label>
-                <input type="date" name="fecha" class="form-control"
-                value="{{r.5}}"
-                min="2018-01-01" max="2030-12-31">
-              </div></div></div></div>
-                <br>
-                <div class="card-footer">
-                <div class="row">
-                  <div class="col-sm-6">
-                    <div class="form-group">
-                      <a href="{% url 'listar_ingredientemod'%}" class="btn btn-block btn-danger">Volver</a>
-              </div></div>
-              <div class="col-sm-6">
-                <div class="form-group">
-                
-                    <button type="submit" class="btn btn-block btn-warning" value="Guardar">Modificar ingrediente</button>
-                  </div></div></div></div>
-                
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label>Seleccione nueva fecha de vencimiento </label>
+            <input type="date" name="fecha" class="form-control" value="{{r.5}}" min="2018-01-01" max="2030-12-31">
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div class="card-footer">
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="form-group">
+            <a href="{% url 'listar_ingredientemod'%}" class="btn btn-block btn-danger">Volver</a>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="form-group">
+
+            <button type="submit" class="btn btn-block btn-warning" value="Guardar">Modificar ingrediente</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
-                
-                  {% endfor %}                           
-</form>
-{{mensaje}}
-    
-{% endblock %}
 
+
+    {% endfor %}
+  </form>
+  {{mensaje}}
+
+  {% endblock %}

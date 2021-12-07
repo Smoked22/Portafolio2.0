@@ -1,140 +1,366 @@
 {% extends 'base_generica_admin.html' %}
 {% load static %}
 {% block contenido %}
+<!-- Horizontal Form -->
 
-<div class="card card-primary">
+<div class="card card-info">
     <div class="card-header">
-      <h3 class="card-title">Crear Reserva</h3>
+      <h3 class="card-title">Crear reserva</h3>
     </div>
-
-    <form action="" method="POST">
-        {% csrf_token %}
+  
+    <!-- /.card-header -->
+    <!-- form start -->
+    <form class="form-horizontal" action="" method="POST">
+      {% csrf_token %}
       <div class="card-body">
-
-        <div class="form-group">
-            <label>Fecha Reserva</label>
-              <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                  <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
-                  <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label">RUT Cliente</label>
+          <div class="col-sm-10">
+            <input required name="cliente" class="form-control" id="exampleInputEmail1"
+              placeholder="Ingresa el RUT del cliente">
+            <small id="passwordHelpInline" class="text-muted">
+              Debe ser sin puntos ni digito verificador.
+            </small>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Fecha reserva</label>
+          <div class="col-sm-4">
+            <div class="form-group">
+              <div class="form-group">
+                <div class="input-group input-group date" id="datetimepicker1" data-target-input="nearest">
+                  <input id="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                  <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                   </div>
+                </div>
               </div>
+              <small id="passwordHelpInline" class="text-muted">
+                Fecha en la que será reservada la mesa.
+              </small>
+            </div>
+          </div>
+          <div class="col-sm-1"></div>
+          <label class="col-sm-2 col-form-label">Hora reserva</label>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <select name="hora_reserva" class="custom-select rounded-0" id="hora_reserva">
+  
+              </select>
+              <small id="passwordHelpInline" class="text-muted">
+                Fecha en la que será reservada la mesa.
+              </small>
+            </div>
+  
+          </div>
         </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">
-                Hora Reserva
-            </label>
-        <select name="hora_reserva" class="custom-select rounded-0" id="exampleSelectBorder">
-            <option value="13:00"> 13:00 </option>
-            <option value="14:00"> 14:00 </option>
-            <option value="15:00"> 15:00 </option>
-            <option value="16:00"> 16:00 </option>
-            <option value="17:00"> 17:00 </option>
-            <option value="18:00"> 18:00 </option>
-            <option value="19:00"> 19:00 </option>
-            <option value="20:00"> 20:00 </option>
-            <option value="21:00"> 21:00 </option>
-            <option value="22:00"> 22:00 </option>
-            <option value="23:00"> 23:00 </option>
-        </select>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Mesa</label>
+          <div class="col-sm-4">
+  
+            <div class="form-group">
+              <div class="input-group date" id="mesa_con_id" data-target-input="nearest">
+                <select onchange="cambiarHorario()" name="id_mesa" class="custom-select rounded-0" id="id_mesa">
+                  {% for m in mesas %}
+                  <option value="{{m.0}}">{{m.0}}</option>
+                  {% endfor %}
+                </select>
+  
+              </div>
+              <small id="passwordHelpInline" class="text-muted">
+                Mesa ha ser reservada.
+              </small>
+            </div>
+          </div>
+          <div class="col-sm-1"></div>
+          <label class="col-sm-2 col-form-label">Personas</label>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <select name="cantP" class="custom-select rounded-0" id="exampleSelectBorder">
+                <option value="1"> 1 </option>
+                <option value="2"> 2 </option>
+                <option value="3"> 3 </option>
+                <option value="4"> 4 </option>
+                <option value="5"> 5 </option>
+                <option value="6"> 6 </option>
+                <option value="7"> 7 </option>
+                <option value="8"> 8 </option>
+                <option value="9"> 9 </option>
+                <option value="10"> 10 </option>
+                <option value="11"> 11 </option>
+                <option value="12"> 12 </option>
+                <option value="13"> 13 </option>
+                <option value="14"> 14 </option>
+                <option value="15"> 15 </option>
+                <option value="16"> 16 </option>
+              </select>
+            </div>
+            <small id="passwordHelpInline" class="text-muted">
+              Cantidad de personas que asistirán.
+            </small>
+          </div>
+  
         </div>
-
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">Rut empleado</label>
-        <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
-            {% for e in empleados %}
-            <option value="{{e.0}}">{{e.0}}</option>
-            {% endfor %}
-        </select>
+        <div class="form-group row">
+          <label for="inputPassword3" class="col-sm-2 col-form-label">RUT Empleado</label>
+          <div class="col-sm-10">
+            <select name="empleado" class="custom-select rounded-0" id="exampleSelectBorder">
+              {% for e in empleados %}
+              <option value="{{e.0}}">{{e.0}} {{e.2}}</option>
+              {% endfor %}
+            </select>
+            <small id="passwordHelpInline" class="text-muted">
+              Debe ser sin puntos ni digito verificador.
+            </small>
+          </div>
         </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">Rut Cliente</label>
-            <input name="cliente" class="form-control" id="exampleInputEmail1" placeholder="Ingresa el RUT del cliente">
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">Mesa</label>
-        <select name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
-            {% for m in mesas %}
-            <option value="{{m.0}}">{{m.0}}</option>
-            {% endfor %}
-        </select>
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">
-            Estado Reserva
-            </label>
-        <select name="estado" class="custom-select rounded-0" id="exampleSelectBorder">
-            <option value="Reserva">Reserva </option>
-            <option value="Reserva">Ocupando</option> 
-            <option value="Reserva">Finalizado</option>  
-        </select>
-        </div>
-
-        <div class="form-group">
-            <label for="exampleInputEmail1">
-                Cantidad de personas
-            </label>
-        <select name="cantP" class="custom-select rounded-0" id="exampleSelectBorder">
-            <option value="1"> 1 </option>
-            <option value="2"> 2 </option>
-            <option value="3"> 3 </option>
-            <option value="4"> 4 </option>
-            <option value="5"> 5 </option>
-            <option value="6"> 6 </option>
-            <option value="7"> 7 </option>
-            <option value="8"> 8 </option>
-            <option value="9"> 9 </option>
-            <option value="10"> 10 </option>
-            <option value="11"> 11 </option>
-            <option value="12"> 12 </option>
-            <option value="13"> 13 </option>
-            <option value="14"> 14 </option>
-            <option value="15"> 15 </option>
-            <option value="16"> 16 </option>
-        </select>
-        </div>
-        
-        
-
-      <div class="card-footer">
-        <button type="submit" class="btn btn-primary">Guardar</button>
+  
+  
+  
       </div>
+      <!-- /.card-body -->
+      <div class="card-footer">
+        <button type="submit" class="btn btn-info">Ingresar</button>
+        <a href="{% url 'homeReserva' %}" class="btn btn-default float-right">Volver</a>
+      </div>
+      <!-- /.card-footer -->
     </form>
-    {{mensaje}}
-</div>
-
-<!-- jQuery -->
-<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
-<!-- Bootstrap 4 -->
-<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-<!-- AdminLTE App -->
-<script src="{% static './dist/js/adminlte.min.js' %}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{% static './dist/js/demo.js' %}"></script>
-<script>
-    $(function () {
-
-    var date = new Date();
-    var currentMonth = date.getMonth();
-    var currentDate = date.getDate();
-    var currentYear = date.getFullYear();
+  </div>
+  <!-- /.card -->
+  </div>
   
-    //Date picker
-    $('#reservationdate').datetimepicker({
-
-        minDate: new Date(currentYear, currentMonth, currentDate),
-        format: 'DD/MM/YYYY'
-        
+  {% if messages %}
+  {% for message in messages %}
+  {% if message.tags == 'success'%}
+  <script>
+    $(document).ready(function () {
+  
+      // show when page load
+      toastr.success('Reserva creada');
+  
     });
-    //Date and time picker
-    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-
+  </script>
+  {% elif message.tags == 'info' %}
+  <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}') </script> {% elif message.tags == 'warning' %}
+    <script type=text/javascript>toastr.{{ message.tags }}('{{ message }}') </script> {% elif message.tags == 'error' %}
+    <script>
+    $(document).ready(function() {
+      
+      // show when page load
+      toastr.error('No se pudo crear la reserva');
+      
+      });
+      </script>
+  {% endif %}
+  {% endfor %}
+  {% endif %}
   
-})
-</script>
-{% endblock %}
+  <script>
+    function cambiarHorario() {
+      let fechaId = document.getElementById("fecha_reserva").value;
+      let mesaId = document.getElementById("id_mesa").value;
+  
+      let url = '/Reserva/subhorarios/?fecha_reserva=' + fechaId + '&id_mesa=' + mesaId;
+  
+      fetch(url)
+        .then(function (result) {
+          return result.text();
+        })
+        .then(function (result) {
+          document.getElementById('hora_reserva').innerHTML = result;
+        });
+    }
+  </script>
+  
+  <script src="{% static './plugins/toastr/toastr.min.js' %}"></script>
+  <!-- jQuery -->
+  <script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static './dist/js/adminlte.min.js' %}"></script>
+  <!-- AdminLTE for demo purposes -->
+  <script src="{% static './dist/js/demo.js' %}"></script>
+  <script>
+    $(function () {
+  
+      var date = new Date();
+      var currentMonth = date.getMonth();
+      var currentDate = (date.getDate()+1);
+      var currentYear = date.getFullYear();
+  
+      //Date picker
+      $('#reservationdate').datetimepicker({
+        minDate: new Date(currentYear, currentMonth, currentDate),
+        format: 'DD/MM/YYYY',
+        date: new Date(),
+  
+      }).on('changeDate', function (e) {
+  
+        alert("hola")
+  
+      });
+  
+      $('#datetimepicker1').datetimepicker({
+        useCurrent: false,
+        minDate: new Date(currentYear, currentMonth, currentDate),
+        format: 'DD/MM/YYYY',
+        date: new Date()
+      })
+  
+      //detect change
+      $("#datetimepicker1").on("change.datetimepicker", function (e) {
+        let fechaId = document.getElementById("fecha_reserva").value;
+        let mesaId = document.getElementById("id_mesa").value;
+  
+        let url = '/Reserva/subhorarios/?fecha_reserva=' + fechaId + '&id_mesa=' + mesaId;
+  
+        fetch(url)
+          .then(function (result) {
+            return result.text();
+          })
+          .then(function (result) {
+            document.getElementById('hora_reserva').innerHTML = result;
+          });
+      })
+  
+  
+  
+  
+  
+  
+      var Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000
+      });
+  
+  
+  
+  
+  
+      $('.toastrDefaultSuccess').click(function () {
+        toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+      });
+      $('.toastrDefaultInfo').click(function () {
+        toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+      });
+      $('.toastrDefaultError').click(function () {
+        toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+      });
+      $('.toastrDefaultWarning').click(function () {
+        toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+      });
+  
+      $('.toastsDefaultDefault').click(function () {
+        $(document).Toasts('create', {
+          title: 'Toast Title',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultTopLeft').click(function () {
+        $(document).Toasts('create', {
+          title: 'Toast Title',
+          position: 'topLeft',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultBottomRight').click(function () {
+        $(document).Toasts('create', {
+          title: 'Toast Title',
+          position: 'bottomRight',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultBottomLeft').click(function () {
+        $(document).Toasts('create', {
+          title: 'Toast Title',
+          position: 'bottomLeft',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultAutohide').click(function () {
+        $(document).Toasts('create', {
+          title: 'Toast Title',
+          autohide: true,
+          delay: 750,
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultNotFixed').click(function () {
+        $(document).Toasts('create', {
+          title: 'Toast Title',
+          fixed: false,
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultFull').click(function () {
+        $(document).Toasts('create', {
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+          title: 'Toast Title',
+          subtitle: 'Subtitle',
+          icon: 'fas fa-envelope fa-lg',
+        })
+      });
+      $('.toastsDefaultFullImage').click(function () {
+        $(document).Toasts('create', {
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
+          title: 'Toast Title',
+          subtitle: 'Subtitle',
+          image: '../../dist/img/user3-128x128.jpg',
+          imageAlt: 'User Picture',
+        })
+      });
+      $('.toastsDefaultSuccess').click(function () {
+        $(document).Toasts('create', {
+          class: 'bg-success',
+          title: 'Toast Title',
+          subtitle: 'Subtitle',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultInfo').click(function () {
+        $(document).Toasts('create', {
+          class: 'bg-info',
+          title: 'Toast Title',
+          subtitle: 'Subtitle',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultWarning').click(function () {
+        $(document).Toasts('create', {
+          class: 'bg-warning',
+          title: 'Toast Title',
+          subtitle: 'Subtitle',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultDanger').click(function () {
+        $(document).Toasts('create', {
+          class: 'bg-danger',
+          title: 'Toast Title',
+          subtitle: 'Subtitle',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+      $('.toastsDefaultMaroon').click(function () {
+        $(document).Toasts('create', {
+          class: 'bg-maroon',
+          title: 'Toast Title',
+          subtitle: 'Subtitle',
+          body: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.'
+        })
+      });
+    });
+  </script>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  {% endblock %}
