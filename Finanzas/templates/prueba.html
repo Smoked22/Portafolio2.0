@@ -1,78 +1,199 @@
 {% extends 'base_finanzas.html' %}
+
 {% load static %}
-{% block css %}
-<!-- Importamos el css de Bootstrap-->
-<link rel="stylesheet" href="{% static '/lib/bootstrap/css/bootstrap.min.css'%}">
-<!-- Importamos el css del datepicker-->
-<link href="{% static '/lib/datepicker/css/bootstrap-datepicker.min.css'%}" rel="stylesheet">
-<!-- Importamos el css de Bootstrap-->
-<link rel="stylesheet" href="{% static '/lib/bootstrap/css/font-awesome.min.css'%}">
-{% endblock %}
 
-
-<!--CODIFO DE PRUEBA-->
-
-<!--FIN PRUEBA-->
 {% block contenido %}
-<!-- Importamos el Jquery y js de Bootstrap-->
-<script src="{% static '/lib/jquery.js'%}"></script>
-<script src="{% static '/lib/jquery.min.js'%}"></script>
-<script src="{% static '/js/main.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.js"></script>
 
-<!-- Codigo para el datepicker-->
-<form action="" method="post">
-    {% csrf_token %}
-    <br>
-
-    <!--codigo prueba-->
-    <br>
-    <div class="form-group">
-      <label>Date:</label>
-        <div class="input-group date" id="datepicker" data-target-input="nearest">
-            <input type="text" name="fecha" class="form-control datetimepicker-input" data-target="#datepicker" readonly/>
-            <div class="input-group-append" data-target="#datepicker" data-toggle="datetimepicker">
-                <div class="input-group-text">
-                  <i class="fa fa-calendar"></i>
-                </div>
-            </div>
+<div>
+  <div class="col-sm-6">
+    <h2 class="m-0">Inicio</h2>
+  </div>
+  <!-- /.col -->
+  <div class="row">
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-success">
+        <div class="inner">
+          <h3>Boletas</h3>
+          <br>
         </div>
+        <div class="icon">
+          <i class="ion ion-stats-bars"></i>
+        </div>
+        <a href="{% url 'boletas_finanzas'%}" class="small-box-footer">Ir <i class="fas fa-arrow-circle-right"></i></a>
     </div>
-    <!--Fin prueba-->
-    <br>
-    <div class="row form-group">
-      <label for="date" class="col-sm-1 col-form-label">Date malo</label>
-      <div class="col-sm-4">
-          <div class="input-group date" id="datepicker">
-              <input type="text" class="form-control">
-              <span class="input-group-append">
-                  <span class="input-group-text bg-white d-block">
-                      <i class="fa fa-calendar"></i>
-                  </span>
-              </span>
-          </div>
+      
+    </div>
+    <!-- ./col -->
+    
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-warning">
+        <div class="inner">
+          <h3>Proveedores</h3>
+          <br>
+        </div>
+        <div class="icon">
+          <i class="ion ion-bag"></i>
+        </div>
+        <a href="{% url 'proveedores_finanzas'%}" class="small-box-footer"> Ir <i class="fas fa-arrow-circle-right"></i></a>
       </div>
     </div>
-    <input class="btn btn-info " type="submit" value="Ingresar Boleta">
-</form>
+    <!-- ./col -->
 
-<script type="text/javascript">
-  $(function() {
-      $('#datepicker').datetimepicker({
-        format: "DD-MM-YYYY",
-        language: "es",
-        autoclose: true,
-        todayBtn: true
-    });
+    <!-- ./col -->
+    <div class="col-lg-4 col-6">
+      <!-- small box -->
+      <div class="small-box bg-danger">
+        <div class="inner">
+          <h3>Graficos</h3>
+          <br>
+        </div>
+        <div class="icon">
+          <i class="ion ion-pie-graph"></i>
+        </div>
+        <a href="{% url 'graficos_finanzas'%}" class="small-box-footer">Ir <i class="fas fa-arrow-circle-right"></i></a>
+      </div>
+    </div>
+    <!-- ./col -->
+    
+  </div>
+</div>
+
+<div class="card card-info">
+  <div class="card-header border-0">
+    <h3 class="card-title">Ventas de Hoy y de dias anteriores</h3>
+    <div class="card-tools">
+    </div>
+  </div>
+  {% for i in ventas_dias %}
+  <div class="card-body table-responsive p-0">
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body table-responsive p-0">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Dia</th>
+              <th>Venta Realizada</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>
+                Hoy
+              </td>
+              <td>${{i.0}}</td>
+            </tr>
+            <tr>
+              <td>
+                Ayer
+              </td>
+              <td>${{i.1}}</td>
+            </tr>
+            <tr>
+              <td>
+                AnteAyer
+              </td>
+              <td>${{i.2}}</td>
+            </tr>
+            <tr>
+              <td>
+                Trasantier
+              </td>
+              <td>${{i.3}}</td>
+            </tr>
+            <tr>
+              <td>
+                Hace 4 dias
+              </td>
+              <td>${{i.4}}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-header border-0">
+          <div class="d-flex justify-content-between">
+            <h3 class="card-title">Ventas de los Ultimos 5 dias</h3>
+            <hr>
+          </div>
+          <div>
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <!-- /.card -->
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+<script>
+  var ctx2 = document.getElementById('myChart');
+  var myChart = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+          labels: ['Hoy', 'Ayer', 'AnteAyer', 'Trasantier', 'Hace 4 dias'],
+          datasets: [{
+              label: 'Ventas 2021',
+              data: [{% for grafic in ventas_dias %} 
+                      {{grafic.0}}, {{grafic.1}}, {{grafic.2}}, {{grafic.3}}, {{grafic.4}}
+                      {% endfor %}],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: {
+                  beginAtZero: false,
+                  title: {
+                      color: 'black',
+                      display: true,
+                  },
+                  ticks: {
+                      callback: function(value, index, values){
+                          return '$ '+ value;
+                      }
+                  }
+              },
+              xAxes: {
+                  title: {
+                      color: 'black',
+                      display: true,
+                  }
+              },
+          },
+          plugins: {
+              legend: {
+                  display: false,
+                  text: 'Ventas Mensuales',
+              }
+          }
+      }
   });
-</script>
+  </script>
 
-
-{% endblock %}
-
-{% block js %}
-<!-- Importamos el js de Bootstrap-->
-<script src="{% static '/lib/bootstrap/js/bootstrap.min.js'%}"></script>
-<script src="{% static '/lib/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-<!-- Importamos DatePicker de Bootstrap-->
-<script src="{% static '/lib/datepicker/js/bootstrap-datepicker.js'%}"></script>
 {% endblock %}
