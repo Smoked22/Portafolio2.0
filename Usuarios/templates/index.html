@@ -49,9 +49,10 @@
     {% load crispy_forms_tags %}
     <!-- /.login-logo -->
     <div class="fondo">
-      <div class="card-body">
-        <p class="login-box-msg">Inicia Sesión</p>
-        <form method="POST" class="login" action="">
+      <form method="POST" class="login" action="">
+        <div class="card-body">
+          <p class="login-box-msg">Inicia Sesión</p>
+        
           {% csrf_token %}
           <div>
             <td  >{{ form.username| as_crispy_field }}</td>
@@ -67,13 +68,13 @@
               {% endfor %}
           </ul>
           {% endif %}
-        </form>
-      </div>
-      <div class="">
-        <button id="SingIn" class="btn btn-block btn-info">
-          Iniciar <i class="zmdi zmdi-mail-send"></i>
-        </button>
-      </div>
+        </div>
+        <div class="">
+          <button id="SingIn" class="btn btn-block btn-info">
+            Iniciar <i class="zmdi zmdi-mail-send"></i>
+          </button>
+        </div>
+      </form>
     </div>
     
   </div>

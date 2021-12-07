@@ -18,7 +18,7 @@
  
  <div class="card card-info">
     <div class="card-header">
-        <h3 class="card-title">Modificar producto</h3>
+        <h3 class="card-title">Modificar ingrediente</h3>
       </div>
     
         
@@ -32,7 +32,7 @@
     <div class="row">
     <div class="col-sm-6">
     <div class="form-group">
-                <label>id del produccto</label>
+                <label>Ingrese la id</label>
                 <input value="{{r.0}}" class="form-control" name="id_productos" type="text"  placeholder="id ingrediente" required>
               </div>
             </div>
@@ -58,7 +58,7 @@
               </div>
               <div class="col-sm-6">
                 <div class="form-group"> 
-                <label>actualice el stock del ingrediente</label>
+                <label>actualice el stock</label>
                 <input value="{{r.3}}" class="form-control" name="stock" type="number" placeholder="stock">
               </div>
             </div>
@@ -87,11 +87,22 @@
                 <input type="date" name="fecha" class="form-control"
                 value="{{r.5}}"
                 min="2018-01-01" max="2030-12-31">
-              </div></div></div>
+              </div></div></div></div>
                 <br>
                 <div class="card-footer">
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <a href="{% url 'listar_ingredientemod'%}" class="btn btn-block btn-danger">Volver</a>
+              </div></div>
+              <div class="col-sm-6">
+                <div class="form-group">
+                
                     <button type="submit" class="btn btn-block btn-warning" value="Guardar">Modificar ingrediente</button>
-                  </div>
+                  </div></div></div></div>
+                
+
+
                 
                   {% endfor %}                           
 </form>
