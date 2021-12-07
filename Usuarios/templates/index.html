@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIGLO XXI - Login</title>
@@ -46,6 +46,7 @@
         }
       </style>
     </div>
+    {% load crispy_forms_tags %}
     <!-- /.login-logo -->
     <div class="fondo">
       <form method="POST" class="login" action="">
@@ -54,13 +55,11 @@
         
           {% csrf_token %}
           <div>
-            <td class="pad">{{ form.username.label_tag }}</td>
-            <td  >{{ form.username }}</td>
+            <td  >{{ form.username| as_crispy_field }}</td>
           </div>
           <div>
-            <td>{{ form.password.label_tag }}</td>
             <br>
-            <td>{{ form.password }}</td>
+            <td>{{ form.password | as_crispy_field  }}</td>
           </div>
           {% if messages %}
           <ul class="messages">
