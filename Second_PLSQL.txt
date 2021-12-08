@@ -23,10 +23,15 @@ BEGIN
 END; 
 /
 --************************************************************************************
+--Creamos la secuencia antes 
+create SEQUENCE sec_boleta
+    START WITH 1
+    INCREMENT BY 1
+    MAXVALUE 9999
+    MINVALUE 1;
 --AGREGAR BOLETA
 --#003
-CREATE OR replace PROCEDURE Sp_agregar_boleta2(v_id_boleta NVARCHAR2,
-                                               v_fecha     NVARCHAR2,
+CREATE OR replace PROCEDURE Sp_agregar_boleta2(v_fecha     NVARCHAR2,
                                                v_hora      NVARCHAR2,
                                                v_monto     NVARCHAR2,
                                                v_tipo_pago NVARCHAR2,
@@ -41,7 +46,7 @@ BEGIN
                  monto,
                  tipo_pago,
                  orden_id_orden)
-    VALUES     (v_id_boleta,
+    VALUES     (sec_boleta.NEXTVAL,
                 v_fecha,
                 v_hora,
                 v_monto,
@@ -54,7 +59,7 @@ BEGIN
 EXCEPTION
   WHEN OTHERS THEN
              v_salida := 0;
-END; 
+END;
 /
 --************************************************************************************
 -- LISTAR PRODUCTOS PROVEEDORES
@@ -1260,6 +1265,35 @@ BEGIN
 END; 
 /
 --***************************************************************************************************
---
---#58
-
+--Ventas de los ultimos 5 dias
+--#59
+CREATE OR replace PROCEDURE sp_venta_semana(ventasemana OUT SYS_REFCURSOR)
+AS
+BEGIN
+    OPEN ventasemana FOR
+      SELECT hoy.presente AS Presente,
+             aye.ayer       AS Ayer,
+             ant.anteayer   AS Anteayer,
+             tdi.tresdias AS TresDias,
+             cdi.cuatrodias AS CuatroDias
+      FROM   (SELECT Coalesce(SUM(monto),0) AS Presente
+              FROM   boleta
+              WHERE  (TO_CHAR(SYSDATE,'DD') = SUBSTR(fecha,1,2))) hoy,
+               
+             (SELECT Coalesce(SUM(monto),0) AS Ayer
+              FROM   boleta
+              WHERE  (TO_CHAR(SYSDATE,'DD')-1 = SUBSTR(fecha,1,2))) aye,
+              
+             (SELECT Coalesce(SUM(monto),0) AS Anteayer
+              FROM   boleta
+              WHERE  (TO_CHAR(SYSDATE,'DD')-2 = SUBSTR(fecha,1,2))) ant,
+              
+             (SELECT Coalesce(SUM(monto),0) AS TresDias
+              FROM   boleta
+              WHERE  (TO_CHAR(SYSDATE,'DD')-3 = SUBSTR(fecha,1,2))) tdi,
+              
+             (SELECT Coalesce(SUM(monto),0) AS CuatroDias
+              FROM   boleta
+              WHERE  (TO_CHAR(SYSDATE,'DD')-4 = SUBSTR(fecha,1,2))) cdi;
+END;
+/ 
