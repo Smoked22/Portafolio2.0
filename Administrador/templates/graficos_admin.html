@@ -1,0 +1,219 @@
+{% extends 'base_generica_admin.html' %}
+
+{% load static %}
+
+{% block contenido %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.6.0/chart.js"></script>
+
+<div class="col-sm-6">
+  <h2 class="m-0">Graficos</h2>
+  <br>
+</div>
+<div class="card card-info">
+    <div class="card-header border-0">
+      <h3 class="card-title">Ventas de Hoy y de dias anteriores</h3>
+      <div class="card-tools">
+      </div>
+    </div>
+    {% for i in ventas_dias %}
+    <div class="card-body table-responsive p-0">
+    </div>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-body table-responsive p-0">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th>Dia</th>
+                <th>Venta Realizada</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>
+                  Hoy
+                </td>
+                <td>${{i.0}}</td>
+              </tr>
+              <tr>
+                <td>
+                  Ayer
+                </td>
+                <td>${{i.1}}</td>
+              </tr>
+              <tr>
+                <td>
+                  AnteAyer
+                </td>
+                <td>${{i.2}}</td>
+              </tr>
+              <tr>
+                <td>
+                  Trasantier
+                </td>
+                <td>${{i.3}}</td>
+              </tr>
+              <tr>
+                <td>
+                  Hace 4 dias
+                </td>
+                <td>${{i.4}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="card">
+          <div class="card-header border-0">
+            <div class="d-flex justify-content-between">
+              <h3 class="card-title">Ventas de los Ultimos 5 dias</h3>
+              <hr>
+            </div>
+            <div>
+              <canvas id="myChart2"></canvas>
+            </div>
+          </div>
+        </div>
+        <!-- /.card -->
+      </div>
+    </div>
+    {% endfor %}
+    <div class="card-header border-0">
+        <h3 class="card-title">Ventas del Restaurante el año 2021</h3>
+        <div class="card-tools">
+        </div>
+    </div>
+    <div class = "">
+        <div class ="card">
+            <br>
+            <canvas id="myChart"></canvas>
+        </div>
+        <hr>
+    </div>
+</div>
+
+    <script>
+        //Grafico 1
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                datasets: [{
+                    label: 'Ventas 2021',
+                    data: [{% for grafic in datos_grafico %} 
+                            {{grafic.0}}, {{grafic.1}}, {{grafic.2}}, {{grafic.3}}, {{grafic.4}}, {{grafic.5}}, {{grafic.6}}, {{grafic.7}}, {{grafic.8}},{{grafic.9}}, {{grafic.10}}, {{grafic.11}} 
+                            {% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: {
+                        beginAtZero: false,
+                        title: {
+                            color: 'black',
+                            display: true,
+                            text: 'Ventas mensuales($)'
+                        },
+                        ticks: {
+                            callback: function(value, index, values){
+                                return '$ '+ value;
+                            }
+                        }
+                    },
+                    xAxes: {
+                        title: {
+                            color: 'black',
+                            display: true,
+                            text: 'Meses del Año',
+                        }
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                        text: 'Ventas Mensuales',
+                    }
+                }
+            }
+        });
+        var ctx2 = document.getElementById('myChart2');
+        var myChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['Hoy', 'Ayer', 'AnteAyer', 'Trasantier', 'Hace 4 dias'],
+                datasets: [{
+                    label: 'Ventas 2021',
+                    data: [{% for grafic in ventas_dias %} 
+                            {{grafic.0}}, {{grafic.1}}, {{grafic.2}}, {{grafic.3}}, {{grafic.4}}
+                            {% endfor %}],
+                    backgroundColor: [
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: {
+                        beginAtZero: false,
+                        title: {
+                            color: 'black',
+                            display: true,
+                        },
+                        ticks: {
+                            callback: function(value, index, values){
+                                return '$ '+ value;
+                            }
+                        }
+                    },
+                    xAxes: {
+                        title: {
+                            color: 'black',
+                            display: true,
+                        }
+                    },
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                        text: 'Ventas Mensuales',
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}
