@@ -26,8 +26,6 @@ SECRET_KEY = 'django-insecure-qgvt(62$c^7fsf*7nyu3zx$e_+q&ua*zu%-t4)e9i_pq&^l-eh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-
 LOGIN_REDIRECT_URL = '/home/'
 
 LOGOUT_REDIRECT_URL = '/'
@@ -171,7 +169,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT ='/Portafolio2.0/static'
 
 
 # Default primary key field type
