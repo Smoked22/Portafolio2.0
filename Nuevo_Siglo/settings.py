@@ -26,13 +26,15 @@ SECRET_KEY = 'django-insecure-qgvt(62$c^7fsf*7nyu3zx$e_+q&ua*zu%-t4)e9i_pq&^l-eh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['Siglo21.pythonanywhere.com']
 
 LOGIN_REDIRECT_URL = '/home/'
 
 LOGOUT_REDIRECT_URL = '/'
 
 LOGIN_URL = '/'
+
+
 
 
 
