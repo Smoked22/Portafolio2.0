@@ -1,0 +1,128 @@
+{% extends 'base_generica_admin.html' %}
+{% load static %}
+{% block css %}
+<!-- Importamos el css de Bootstrap-->
+<link rel="stylesheet" href="{% static '/lib/bootstrap/css/bootstrap.min.css'%}">
+<!-- Importamos el css del datepicker-->
+<link href="{% static '/lib/datepicker/css/bootstrap-datepicker.min.css'%}" rel="stylesheet">
+<!-- Importamos el css de Bootstrap-->
+<link rel="stylesheet" href="{% static '/lib/bootstrap/css/font-awesome.min.css'%}">
+{% endblock %}
+
+{% block contenido %}
+{% load crispy_forms_tags %}
+<!-- Importamos el Jquery y js de Bootstrap-->
+<script src="{% static '/lib/jquery.js'%}"></script>
+<script src="{% static '/lib/jquery.min.js'%}"></script>
+<script src="{% static '/js/main.js'%}"></script>
+<div class="col-sm-6">
+    <h2 class="m-0">Ingresar Boleta</h2>
+    <br>
+</div>
+<div class="card">
+    <form action="" method="POST">
+        <div class="card-body">
+            <div class="form-group">
+                {% csrf_token %}
+                <!-- Sección de la Fecha y la hora -->
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Fecha</label>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <div class="input-group date" id="datepicker" data-target-input="nearest">
+                                <input type="text" name="fecha" class="form-control datetimepicker-input" data-target="#datepicker" required/>
+                                <div class="input-group-append" data-target="#datepicker" data-toggle="datetimepicker" aria-readonly="true">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-calendar"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <small id="passwordHelpInline" class="text-muted">
+                                Fecha en la que se generó la boleta.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1"></div>
+                    <label class="col-sm-3 col-form-label">Hora</label>
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input type="time" name="hora" class="form-control" required>
+                            <small id="passwordHelpInline" class="text-muted">
+                                Hora en la que se generó la boleta.
+                            </small>
+                        </div>
+                       
+                    </div>
+                </div>
+                
+                
+                <!-- Sección del tipo de pago y de la id orden-->
+                <div class="form-group row">
+                    <label for="" class="col-sm-2">Tipo de Pago</label>
+                    <div class="col-sm-3">
+                        <select name="tipo_pago" class="form-control">
+                            <option>Efectivo</option>
+                            <option>Transferencia</option> 
+                        </select>
+                        <small id="passwordHelpInline" class="text-muted">
+                            Método con el cual se realizó el pago
+                        </small>
+                    </div>
+
+                    <div class="col-sm-1"></div>
+                    <label for="" class="col-sm-3">Identificador de la orden</label>
+                    <div class="col-sm-3">
+                        <select name="id_orden" id="id_orden" class="form-control">
+                                {% for c in orden_disp %}
+                                <option value="{{ c.6 }}">{{ c.6 }}</option>
+                                {% endfor %}
+                        </select>
+                        <small id="passwordHelpInline" class="text-muted">
+                            Orden a la que está vinculada la boleta que se está ingresando
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <!-- Seccion monto a ingresar-->
+                    <label for="" class="col-sm-2">Monto</label>
+                    <div class="col-sm-10">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                            <input type="number" name="monto" class="form-control" required>
+                        </div>
+                        <small id="passwordHelpInline" class="text-muted">
+                            Monto total de la boleta que se esta ingresando
+                        </small>
+                    </div>
+
+                </div>
+                <hr>
+                <input class="btn btn-info " type="submit" value="Ingresar Boleta">
+                <a href="{% url 'boletas_finanzas'%}" class="btn btn-secondary float-right">Volver</a>
+            </div>
+        <div>
+    </form>
+    {{mensaje}}
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $('#datepicker').datetimepicker({
+          format: "DD-MM-YYYY",
+          language: "es",
+          autoclose: true,
+          todayBtn: true
+      });
+    });
+  </script>
+
+{% endblock %}
+
+{% block js %}
+<!-- Importamos el js de Bootstrap-->
+<script src="{% static '/lib/bootstrap/js/bootstrap.min.js'%}"></script>
+<script src="{% static '/lib/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- Importamos DatePicker de Bootstrap-->
+<script src="{% static '/lib/datepicker/js/bootstrap-datepicker.js'%}"></script>
+{% endblock %}
