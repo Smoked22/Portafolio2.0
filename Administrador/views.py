@@ -447,5 +447,150 @@ def eliminar_cliente(rut):
     return salida.getvalue()
 
 
+#####################Seccion Finanzas########################
+#Registro de boletas
+@login_required
+def registro_boletas(request):
+    data = {
+        'boletas': listado_boleta()
+    }
+    return render(request, './registro_boletas_admin.html', data)
+
+# Creamos una funciona para llamar al procedimiento almacenado
+def listado_boleta():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_BOLETAS", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+#Ingresar bolera
+@login_required
+def ingresar_boleta_admin(request):
+    data = {
+        'orden_disp':listar_orden_disp()
+    }
+
+    if request.method == 'POST':
+        fecha = request.POST.get('fecha')
+        fechaprueba = request.POST.get('anio2')
+        print(fechaprueba)
+        print(fecha)
+        hora = request.POST.get('hora')
+        monto = request.POST.get('monto')
+        tipo_pago = request.POST.get('tipo_pago')
+        id_orden = request.POST.get('id_orden')
+
+        # problema con el procedimiento almacenado, al momento de enviar los datos se queda cargando la pagina y ahi queda :C
+        # se cancela, si esta funcionando la wea, anoche tenai sueño el django y no queria funcionar
+        salida = ingresar_boleta(
+             fecha, hora, monto, tipo_pago, id_orden)
+        if salida == 1:
+            data['mensaje'] = 'agregado correctamente'
+            return redirect(home_admin)
+        else:
+            data['mensaje'] = 'no se ha agregado'
+    return render(request, './Ingresar_boleta_admin.html', data)
+
+def ingresar_boleta( fecha, hora, monto, tipo_pago, id_orden):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_AGREGAR_BOLETA2', [
+                     fecha, hora, monto, tipo_pago, id_orden, salida])
+    return salida.getvalue()
 
 
+#Creamos procedimiento almacenado para listar la ordenes disponibles
+
+def listar_orden_disp():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_ORDENES_LIBRES", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+#Proveedores
+def lista_proveedor_admin(request):
+    data = {
+        'proveedores': listado_proveedor()
+    }
+    return render(request,'./proveedores_admin.html', data)
+
+def listado_proveedor():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_PROVEEDORES", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+
+    return lista
+
+@login_required
+def productos_proveedor_admin(request,id):
+    data = {
+        'producto': lista_productos(id)
+    }
+    return render(request,'./productos_proveedores_admin.html', data)
+
+def lista_productos(rut):
+    django_cursor = connection.cursor()
+
+    cursor = django_cursor.connection.cursor()
+
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_PRODUCTOS_PROVEEDORES", [out_cur, rut])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+#Graficos
+@login_required
+def graficos_admin(request):
+    data = {
+        'datos_grafico': datos_grafico,
+        'ventas_dias': ventas_semana
+    }
+    return render(request,'./graficos_admin.html',data)
+
+def datos_grafico():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_MONTO_MENSUAL", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def ventas_semana():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_VENTA_SEMANA", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+######################################################################
