@@ -225,7 +225,7 @@ def datos_grafico():
 # codigo prueba
 
 def prueba(request):
-    if request.method == 'POST':
-        fecha = request.POST.get('fecha')
-        print(fecha)
-    return render(request,'./prueba.html')
+    data = {
+        'boletas': listado_boleta()
+    }
+    return render(request,'./prueba.html', data)
