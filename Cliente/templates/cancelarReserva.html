@@ -43,13 +43,30 @@
       <div class="card-body">
 
         <div class="form-group">
-            <label>Fecha y hora de reserva</label>
-              <div class="input-group date" id="reservationdatetime" data-target-input="nearest">
-                  <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdatetime"/>
-                  <div class="input-group-append" data-target="#reservationdatetime" data-toggle="datetimepicker">
-                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                  </div>
-              </div>
+          <label>Fecha de reserva</label>
+            <div class="input-group date" id="reservationdate" data-target-input="nearest">
+                <input name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
+                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label>Hora reserva</label>
+          <select name="hora_reserva" class="custom-select rounded-0" id="exampleSelectBorder">
+            <option value="13:00"> 13:00 </option>
+            <option value="14:00"> 14:00 </option>
+            <option value="15:00"> 15:00 </option>
+            <option value="16:00"> 16:00 </option>
+            <option value="17:00"> 17:00 </option>
+            <option value="18:00"> 18:00 </option>
+            <option value="19:00"> 19:00 </option>
+            <option value="20:00"> 20:00 </option>
+            <option value="21:00"> 21:00 </option>
+            <option value="22:00"> 22:00 </option>
+            <option value="23:00"> 23:00 </option>
+          </select>
         </div>
 
         <div class="form-group">
@@ -62,7 +79,7 @@
       </div>
     </form>
     {{mensaje}}
-</div>
+  </div>
 <button onclick="window.location.href='/Cliente'" class="btn btn-block bg-gradient-danger btn-lg">Volver a Home cliente</button>
 <!-- /.login-box -->
 
@@ -131,41 +148,27 @@
 <!-- Page specific script -->
 <script>
   $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
 
-    //Initialize Select2 Elements
-    $('.select2bs4').select2({
-      theme: 'bootstrap4'
-    })
-
-    //Datemask dd/mm/yyyy
-    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
-    //Datemask2 mm/dd/yyyy
-    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
-    //Money Euro
-    $('[data-mask]').inputmask()
+    var date = new Date();
+    var currentMonth = date.getMonth();
+    var currentDate = date.getDate();
+    var currentYear = date.getFullYear();
 
     //Date picker
     $('#reservationdate').datetimepicker({
-        format: 'L'
+      minDate: new Date(currentYear, currentMonth, currentDate),
+      format: 'DD/MM/YYYY',
+      date: new Date()
     });
 
-    //Date and time picker
-    $('#reservationdatetime').datetimepicker({ icons: { time: 'far fa-clock' } });
-
-    //Date range picker
-    $('#reservation').daterangepicker()
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({
-      timePicker: true,
-      timePickerIncrement: 30,
-      locale: {
-        format: 'MM/DD/YYYY hh:mm A'
-      }
-    })
-  })
-  // DropzoneJS Demo Code End
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  });
+// DropzoneJS Demo Code End
 </script>
 </body>
 {% load static %}

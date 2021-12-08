@@ -19,9 +19,12 @@ def CancelarReserva(request):
 
     if request.method== 'POST':
         fecha_reserva = request.POST.get('fecha_reserva')
+        hora_reserva = request.POST.get('hora_reserva')
+        espacio = ' '
+        fecha_hora = str(fecha_reserva)+espacio+str(hora_reserva)
         rut_cli = request.POST.get('cliente')
 
-        salida = eliminar_reserva(fecha_reserva, rut_cli)
+        salida = eliminar_reserva(fecha_hora, rut_cli)
 
         if salida == 1:
             data['mensaje'] = 'Reserva eliminada correctamente'
