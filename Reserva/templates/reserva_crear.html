@@ -29,7 +29,7 @@
           <div class="form-group">
             <div class="form-group">
               <div class="input-group input-group date" id="datetimepicker1" data-target-input="nearest">
-                <input id="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
+                <input id="fecha_reserva" name="fecha_reserva" type="text" class="form-control datetimepicker-input" data-target="#datetimepicker1" />
                 <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                 </div>
@@ -161,6 +161,7 @@
     let mesaId = document.getElementById("id_mesa").value;
 
     let url = '/Reserva/subhorarios/?fecha_reserva=' + fechaId + '&id_mesa=' + mesaId;
+    alert(url)
 
     fetch(url)
       .then(function (result) {
@@ -197,7 +198,7 @@
 
     }).on('changeDate', function (e) {
 
-      alert("hola")
+  
 
     });
 
@@ -214,6 +215,7 @@
       let mesaId = document.getElementById("id_mesa").value;
 
       let url = '/Reserva/subhorarios/?fecha_reserva=' + fechaId + '&id_mesa=' + mesaId;
+   
 
       fetch(url)
         .then(function (result) {
@@ -224,21 +226,12 @@
         });
     })
 
-
-
-
-
-
     var Toast = Swal.mixin({
       toast: true,
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000
     });
-
-
-
-
 
     $('.toastrDefaultSuccess').click(function () {
       toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')

@@ -32,8 +32,6 @@ def home_admin(request):
 
 
 def informe_reservas(request):
-
-
     return render(request, './Reserva_Grafico.html')
 
 
