@@ -77,16 +77,9 @@
         <div class="form-group row">
           <label class="col-sm-3 col-form-label padd3">Fecha reserva</label>
           <div class="col-sm-5">
-
             <div class="form-group">
-              <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                <input readonly name="fecha_reserva" type="text" class="form-control datetimepicker-input "
-                  data-target="#reservationdate" />
-                <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                  <div class="input-group-text"><i class="fa fa-calendar"></i>
-                  </div>
-                </div>
-
+              <div class="">
+                <input readonly name="fecha_reserva" type="text" class="form-control"  value="{{fecha}}">
               </div>
               <small id="passwordHelpInline" class="text-muted">
                 Fecha en la que será reservada la mesa.
@@ -99,13 +92,9 @@
         <div class="form-group row">
           <label class="col-sm-3 col-form-label padd3">Mesa</label>
           <div class="col-sm-5">
-
             <div class="form-group">
-              <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                <select readonly name="id_mesa" class="custom-select rounded-0" id="exampleSelectBorder">
-                  <option value="{{mesa.0.0}}">{{mesa.0.0}}</option>
-                </select>
-
+              <div class="">
+                <input readonly name="id_mesa" type="text" class="form-control"  value="{{mesa.0.0}}"></input>
               </div>
               <small id="passwordHelpInline" class="text-muted">
                 Mesa que será reservada.
@@ -134,8 +123,6 @@
               <option value="12"> 12 </option>
               <option value="13"> 13 </option>
               <option value="14"> 14 </option>
-              <option value="15"> 15 </option>
-              <option value="16"> 16 </option>
             </select>
           </div>
         </div>
@@ -143,7 +130,7 @@
       <!-- /.card-body -->
       <div class="card-footer">
         <button type="submit" class="btn btn-info">Ingresar</button>
-        <a href="{% url 'homeReserva' %}" class="btn btn-default float-right">Volver</a>
+        <a class="btn btn-default float-right" href="{% url 'home_totem' %}"> Volver </a>
       </div>
       <!-- /.card-footer -->
     </form>

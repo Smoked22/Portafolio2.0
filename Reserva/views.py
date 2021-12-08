@@ -295,9 +295,9 @@ def reserva_crear(request):
         fecha_hora = str(fecha_reserva)+espacio+str(hora_reserva)
         rut_emp = request.POST.get('empleado')
         rut_cli = request.POST.get('cliente')
-        origen = 'Presencial'
+        origen = 'PRESENCIAL'
         id_mesa = request.POST.get('id_mesa')
-        estado = 'Reservada'
+        estado = 'RESERVADA'
         cant = request.POST.get('cantP')
 
         salida = crear_reserva(fecha_hora, rut_emp, rut_cli,
@@ -625,3 +625,30 @@ def grafico_reserva_base():
     for fila in out_cur:
         lista.append(fila)
     return lista
+
+
+def Horario(fecha_reserva, id_mesa):
+    django_cursor = connection.cursor()
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+    cursor.callproc("SP_HORARIO_DISP", [out_cur,fecha_reserva, id_mesa])
+
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def sub_horarios(request):
+
+    fecha_reserva  = request.GET.get('fecha_reserva')
+    id_mesa  = request.GET.get('id_mesa')
+
+    data = {
+        'horarios':Horario(fecha_reserva,id_mesa)
+    }
+
+    return render(request, 'combobox_horario.html', data)
+

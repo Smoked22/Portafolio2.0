@@ -18,6 +18,7 @@ urlpatterns = [
    path('home/informe_reservas', informe_reservas, name="informe_reservas"),
    path('home/listar_reservas', listar_reservas_admin, name="listar_reservas_admin"),
    path('home/crear_reservas', crear_reservas_admin, name="crear_reservas_admin"),
+   path('home/listado_reserva_detalle', listar_reservas_detalle_admin, name="listar_reservas_detalle_admin"),
 
    #CLIENTE
    path('home/Crear_Cliente/', cliente_crear, name="cliente_crear_admin"),

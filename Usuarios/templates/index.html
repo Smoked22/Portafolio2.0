@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIGLO XXI - Login</title>
@@ -46,20 +46,20 @@
         }
       </style>
     </div>
+    {% load crispy_forms_tags %}
     <!-- /.login-logo -->
     <div class="fondo">
-      <div class="card-body">
-        <p class="login-box-msg">Inicia Sesión</p>
-        <form method="POST" class="login" action="">
+      <form method="POST" class="login" action="">
+        <div class="card-body">
+          <p class="login-box-msg">Inicia Sesión</p>
+        
           {% csrf_token %}
           <div>
-            <td class="pad">{{ form.username.label_tag }}</td>
-            <td  >{{ form.username }}</td>
+            <td  >{{ form.username| as_crispy_field }}</td>
           </div>
           <div>
-            <td>{{ form.password.label_tag }}</td>
             <br>
-            <td>{{ form.password }}</td>
+            <td>{{ form.password | as_crispy_field  }}</td>
           </div>
           {% if messages %}
           <ul class="messages">
@@ -68,13 +68,13 @@
               {% endfor %}
           </ul>
           {% endif %}
-        </form>
-      </div>
-      <div class="">
-        <button id="SingIn" class="btn btn-block btn-info">
-          Iniciar <i class="zmdi zmdi-mail-send"></i>
-        </button>
-      </div>
+        </div>
+        <div class="">
+          <button id="SingIn" class="btn btn-block btn-info">
+            Iniciar <i class="zmdi zmdi-mail-send"></i>
+          </button>
+        </div>
+      </form>
     </div>
     
   </div>

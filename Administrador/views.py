@@ -241,6 +241,14 @@ def listar_reservas_admin(request):
 
     return render(request, './listar_reservas_admin.html', data)
 
+    # Vista listado reserva detalle
+def listar_reservas_detalle_admin(request):
+    data = {
+        'reservas': listado_Reservas_admin(),
+    }
+
+    return render(request, './listado_reserva_detalle_admin.html', data)
+
 #crear reserva 
 def enviar_reserva_admin(fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant):
     django_cursor = connection.cursor()
@@ -265,18 +273,18 @@ def crear_reservas_admin(request):
         fecha_hora = str(fecha_reserva)+espacio+str(hora_reserva)
         rut_emp = request.POST.get('empleado')
         rut_cli = request.POST.get('cliente')
-        origen = 'Presencial'
+        origen = 'PRESENCIAL'
         id_mesa = request.POST.get('id_mesa')
-        estado = request.POST.get('estado')
+        estado = 'RESERVADA'
         cant = request.POST.get('cantP')
 
         salida = enviar_reserva_admin(fecha_hora, rut_emp, rut_cli,
                                origen, id_mesa, estado, cant)
 
         if salida == 1:
-            data['mensaje'] = 'agregador correctamente'
+            messages.success(request, "Reserva Creada")
         else:
-            data['mensaje'] = 'no se pudo guardar'
+            messages.error(request, "No se pued crear la reserva")
 
     return render(request, './crear_reservas_admin.html', data)
 

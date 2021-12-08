@@ -7,6 +7,8 @@ urlpatterns = [
 
     path('pruebas/', pruebas, name="pruebas"),
 
+    path('subhorarios/', sub_horarios, name="sub_horarios"),
+
     path('home/Listado_Reservas/', reserva_listado, name="reserva_listado"),
     path('home/Crear_Reserva/', reserva_crear, name="reserva_crear"),
     path('home/Mesas_Listado/', mesas_listar, name="mesas_listar"),

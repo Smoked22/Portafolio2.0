@@ -125,7 +125,7 @@
           {% if user.is_authenticated %}
           <!--<li class="text-condensedLight noLink" ><small>User Name</small></li>-->
           <li>
-            <a href="" class=" zmdi zmdi-close btn-menu">{{ user.username }}</a>
+            <a href="" class=" zmdi zmdi-close btn-menu">&nbsp&nbsp&nbsp&nbsp{{ user.username }}</a>
             <br>
           </li>
           {% endif%}
@@ -152,15 +152,31 @@
             <li class="nav-header">Secciones</li>
 
             <li class="nav-item">
+              <a href="{% url 'homeReserva'%}" class="nav-link">
+                <i class="nav-icon fas fa-home"></i>
+
+                <p>
+                  Inicio
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'mesas_listar'%}" class="nav-link">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                  Ver mesas
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
               <a href="{% url 'reserva_crear'%}" class="nav-link">
                 <i class="nav-icon fas fa-table"></i>
+
                 <p>
                   Crear Reserva
                 </p>
               </a>
             </li>
-
-
             <li class="nav-item">
               <a href="{% url 'reserva_listado'%}" class="nav-link">
                 <i class="nav-icon fas fa-list"></i>
@@ -169,18 +185,9 @@
                 </p>
               </a>
             </li>
-
-            <li class="nav-item">
-              <a href="{% url 'mesas_listar'%}" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                  Ver mesas
-                </p>
-              </a>
-            </li>
             <li class="nav-item">
               <a href="{% url 'cliente_crear'%}" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
+                <i class="nav-icon fas fa-user-plus"></i>
                 <p>
                   Crear Cliente
                 </p>

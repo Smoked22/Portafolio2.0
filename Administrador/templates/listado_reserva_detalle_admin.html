@@ -1,43 +1,11 @@
-{% extends 'base_reserva.html' %}
+{% extends 'base_generica_admin.html' %}
 {% load static %}
 {% block contenido %}
 
 
 <div>
  <!-- Main content -->
-    <div class="card card-info">
-    <div class="card-header">
-      <h3 class="card-title">Buscar reserva cliente</h3>
-    </div>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <!-- SELECT2 EXAMPLE -->
-            <div class="card-body">
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                      <select name="rutcli" class="form-control select2" style="width: 100%;">
-                        {% for r in base %}
-                        <option value="{{r.0}}">{{r.0}}</option>           
-                        {% endfor %}   
-                      </select>
-                    </div>
-                        <small id="passwordHelpInline" class="text-muted">
-                          Ingresar RUT del cliente.
-                        </small>
-                  </div>         
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-info">Buscar</button> 
-                  </div>
-                </div>     
-              </div>
-            </div>
-    </form>
-  </div>
- 
+    
 
 
       <div class="card card-info">

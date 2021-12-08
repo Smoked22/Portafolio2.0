@@ -9,13 +9,29 @@ import cx_Oracle
 
 # creamos una funcion para renderizar la pagina home de finanzas
 
-
 @login_required
 def home_finanzas(request):
-    return render(request, './home_finanzas.html')
+    data = {
+        'ventas_dias': ventas_semana(),
+    }
+    print(ventas_semana())
+    return render(request, './home_finanzas.html', data)
+
+# Creamos un procedimiento almacenado para mostrar las ventas de los dias anteriores
+
+def ventas_semana():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_VENTA_SEMANA", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 # Creamos una funcion para renderizar "registro_boletas.html"
-
 
 @login_required
 def boletas(request):
@@ -25,7 +41,6 @@ def boletas(request):
     return render(request, './registro_boletas.html', data)
 
 # Creamos una funciona para llamar al procedimiento almacenado
-
 
 def listado_boleta():
     django_cursor = connection.cursor()
@@ -191,7 +206,8 @@ def listado_guia_despacho():
 @login_required
 def grafico(request):
     data = {
-        'datos_grafico': datos_grafico
+        'datos_grafico': datos_grafico,
+        'ventas_dias': ventas_semana
     }
     return render(request,'./graficos.html',data)
 
@@ -209,7 +225,7 @@ def datos_grafico():
 # codigo prueba
 
 def prueba(request):
-    if request.method == 'POST':
-        fecha = request.POST.get('fecha')
-        print(fecha)
-    return render(request,'./prueba.html')
+    data = {
+        'boletas': listado_boleta()
+    }
+    return render(request,'./prueba.html', data)
