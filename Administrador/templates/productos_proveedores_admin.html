@@ -1,0 +1,31 @@
+{% extends 'base_generica_admin.html' %}
+
+{% load static %}
+
+{% block contenido %}
+
+<div class="col-sm-6">
+    <h2 class="m-0">Productos de Proveedores {{p.0}}</h2>
+</div>
+<div class="card-body">
+    <table id="example1" class="table table-bordered table-striped">
+            <tr>
+                <th>Nombre Producto</th>
+                <th>Tamaño</th>
+                <th>Descripción</th>
+            </tr>
+            {% for p in producto %}
+                <tr>
+                    <td>{{ p.2}}</td>
+                    <td>{{ p.1}}</td>
+                    <td>{{ p.3}}</td>
+                </tr>
+            {% endfor %}
+    </table>
+    <hr>
+    <a href="{% url 'lista_proveedor_admin'%}" class="btn btn-secondary float-right">Volver</a>
+</div>
+
+
+
+{% endblock %}
