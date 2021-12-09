@@ -25,4 +25,12 @@ urlpatterns = [
    path('home/Listado_Cliente/', cliente_listado, name="cliente_listado_admin"),
    path('home/Cliente_modificar/<id>', cliente_modificar, name="cliente_modificar_admin"),
    path('home/Cliente_Eliminar/<id>', cliente_eliminar, name="cliente_eliminar_admin"),
+
+   #Finanzas
+   path('registro_boletas/', registro_boletas, name="registro_boleta_admin"),
+   path('ingresar_boleta/', ingresar_boleta_admin, name="ingresar_boleta_admin"),
+   path('proveedores/', lista_proveedor_admin, name="lista_proveedor_admin"),
+   path('productos_proveedores/<id>', productos_proveedor_admin, name="productos_proveedor_admin"),
+   path('graficos', graficos_admin, name="graficos_admin"),
+   
 ]

@@ -190,7 +190,7 @@
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'listar_reservas_detalle_admin'%}" class="nav-link">
-                    <i class="nav-icon fas fa-users"></i>
+                    <i class="nav-icon fas fa-list"></i>
                     <p>Reportes reserva</p>
                   </a>
                 </li>
@@ -249,34 +249,34 @@
               <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-dollar-sign"></i>
                 <p>
-
                   Área Finanzas
                   <i class="fas fa-angle-left right"></i>
                 </p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>
-                      Ejemplo
-                      <i class="fas fa-angle-left right"></i>
-                    </p>
+                  <a href="{% url 'registro_boleta_admin'%}" class="nav-link">
+                    <i class="nav-icon fas fa-clipboard-list"></i>
+                    <p>Registro boletas</p>
                   </a>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="pages/examples/login.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Ejemplo</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="pages/examples/register.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Ejemplo</p>
-                      </a>
-                    </li>
-                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'ingresar_boleta_admin'%}" class="nav-link">
+                    <i class="nav-icon fas fa-notes-medical"></i>
+                    <p>Ingresar Boleta</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'lista_proveedor_admin'%}" class="nav-link">
+                    <i class="nav-icon fas fa-shipping-fast"></i>
+                    <p>Proveedores</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="{% url 'graficos_admin'%}" class="nav-link">
+                    <i class="nav-icon fas fa-chart-bar"></i>
+                    <p>Graficos</p>
+                  </a>
                 </li>
               </ul>
             </li>

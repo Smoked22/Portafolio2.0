@@ -290,6 +290,7 @@ def reserva_crear(request):
 
     if request.method == 'POST':
         fecha_reserva = request.POST.get('fecha_reserva')
+        print(fecha_reserva)
         hora_reserva = request.POST.get('hora_reserva')
         espacio = ' '
         fecha_hora = str(fecha_reserva)+espacio+str(hora_reserva)
