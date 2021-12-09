@@ -26,6 +26,8 @@ def CancelarReserva(request):
 
         salida = eliminar_reserva(fecha_hora, rut_cli)
 
+        print(fecha_hora, rut_cli)
+
         if salida == 1:
             data['mensaje'] = 'Reserva eliminada correctamente'
         else:
@@ -118,12 +120,12 @@ def ReservarMesa(request):
 
     return render(request, './reservarMesa.html', data)
 
-def eliminar_reserva(fecha_reserva, rut_cli):
+def eliminar_reserva(fecha_hora, rut_cli):
     django_cursor = connection.cursor()
     #Cursor que llama
     cursor = django_cursor.connection.cursor()
     salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_ELIMINAR_RESERVA_CLIENTE', [fecha_reserva, rut_cli, salida])
+    cursor.callproc('SP_ELIMINAR_RESERVA_CLIENTE', [fecha_hora, rut_cli, salida])
     return salida.getvalue()
 
 def crear_reserva( fecha_reserva, rut_emp, rut_cli, origen, id_mesa, estado, cant):
