@@ -161,6 +161,8 @@ def modificar_ingrediente_rellenar(request, id):
     data= {
 
     'categorias' : listar_categoria(), 
+    'cate':listado_categoriass2(),
+    'categoriass' : listado_categoriass(),
     'x' : buscar_ingrediente(id)        
     }
     
@@ -178,6 +180,30 @@ def modificar_ingrediente_rellenar(request, id):
         else:
             data['mensaje'] = 'no se ha Modificado'
     return render(request, './modificar_ingrediente.html', data)
+
+def listado_categoriass():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_CATEGORIASS", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def listado_categoriass2():
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+
+    cursor.callproc("SP_LISTAR_CATEGORIASS2", [out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
 
 # METODO PARA LISTAR LOS INGREDIENTES
 def listado_ingredienter():

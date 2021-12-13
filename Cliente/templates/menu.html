@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SIGLO XXI - Menú</title>
   {% load static %}
   <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{% static '/plugins/fontawesome-free/css/all.min.css'%}">
   <!-- icheck bootstrap -->
@@ -15,59 +17,222 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static '/css/adminlte.min.css'%}">
 </head>
+
 <body class="hold-transition login-page">
-    <style>
-      body {
-        background-image: url("{% static '/assets/img/fondoIndex.jpg'%}");
-      }
-    </style> 
-  <div class="login-box">
-    
+  <style>
+    body {
+      background-image: url("{% static '/assets/img/fondoIndex.jpg'%}");
+    }
+
+    .pad1 {
+      float: left;
+    }
+
+    .pad2 {
+      float: right;
+    }
+  </style>
+  <div class="wrapper">
+
+
     <div class="login-logo">
-      <img src="{% static '/assets/img/indexlogo.png'%}"/>
+      <img src="{% static '/assets/img/indexlogo.png'%}" />
       <style>
         img {
-          width: 50%;
+          width: 20%;
         }
-        </style>
+      </style>
     </div>
     <!-- /.login-logo -->
-    <div class="card">
+    <div class="card card-primary">
       <div class="card-header">
-        <h1 class="m-0"><center>Menú</center></h1>
-        
-        <br> 
-  
-        <button onclick="window.location.href='/Cliente/Menu_Entrada'" class="btn btn-primary btn-block">Entrada</button><br>
-  
-        <button onclick="window.location.href='/Cliente/Menu_Fondo'" class="btn btn-primary btn-block">Plato de fondo</button><br>
-
-        <button onclick="window.location.href='/Cliente/Menu_Ensalada'" class="btn btn-primary btn-block">Ensalada</button><br>
-
-        <button onclick="window.location.href='/Cliente/Menu_Postre'" class="btn btn-primary btn-block">Postre</button><br>
-
-        <button onclick="window.location.href='/Cliente/Menu_Beber'" class="btn btn-primary btn-block">Para beber</button><br>
-
-        
-  
+        <h2 class="m-0">
+          <center>Menú entradas</center>
+        </h2>
       </div>
-      <!-- /.login-card-body -->
-      <button onclick="window.location.href='/Cliente/EnMesa'" class="btn btn-block bg-gradient-danger btn-lg">Volver a Home</button>  
+      <div>
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div class="table-responsive">
+                  <table class="table m-0 shop-items">
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Descripción</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for e in entradas %}
+                      <tr class="shop-item">
+                        <td class="shop-item-title" name="{{e.1}}">{{e.1}}</td>
+                        <td>{{e.2}}</td>
+                        <td class="shop-item-price">${{e.3}}</td>
+                        <td>
+                          <button class="btn btn-primary btn-sm shop-item-button" type="button">Añadir al carro</button>
+                        </td>
+                        <td class="shop-item-image" style="display:none;" value="{{e.0}}">{{e.0}} </td>
+
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <!-- /.table-responsive -->
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+      </div>
+      <button onclick="window.location.href='/Cliente/VerMenu'" class="btn btn-block bg-gradient-danger btn-lg">Volver a
+        Menú</button>
     </div>
-    
-  </div> 
+    <form class="form-horizontal" action="" method="POST">
+    {% csrf_token %}
+    <div class="card card-primary">
+      <div class="card-header">
+        <h2 class="m-0">
+          <center>Carro</center>
+        </h2>
+      </div>
+      <section class="container content-section">
+        <h5> &nbsp</h5>
+        <div class="cart-items">
+        </div>
+        <div class="card-footer">
+          <div class="cart-total">
+            <strong class="cart-total-title">Total</strong>
+            <span class="cart-total-price">$0</span>
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary btn-purchase" type="submit">Comprar</button>
+        </div>
+      </section>
+    </div>
+  </form>
+{{mensaje}}
 
-  
-</div>
-  
-<!-- /.login-box -->
 
-<!-- jQuery -->
-<script src="{% static '/plugins/jquery/jquery.min.js'%}"></script>
-<!-- Bootstrap 4 -->
-<script src="{% static '/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-<!-- AdminLTE App -->
-<script src="{% static '/dist/js/adminlte.min.js'%}"></script>
+  </div>
+  
+
+  <!-- /.login-box -->
+
+  <!-- jQuery -->
+  <script src="{% static '/plugins/jquery/jquery.min.js'%}"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{% static '/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <!-- AdminLTE App -->
+  <script src="{% static '/dist/js/adminlte.min.js'%}"></script>
 </body>
 {% load static %}
-</html>
+
+<script>
+  if (document.readyState == 'loading') {
+    document.addEventListener('DOMContentLoaded', ready)
+  } else {
+    ready()
+  }
+
+  function ready() {
+    var removeCartItemButtons = document.getElementsByClassName('btn-danger')
+    for (var i = 0; i < removeCartItemButtons.length; i++) {
+      var button = removeCartItemButtons[i]
+      button.addEventListener('click', removeCartItem)
+    }
+
+    var quantityInputs = document.getElementsByClassName('cart-quantity-input')
+    for (var i = 0; i < quantityInputs.length; i++) {
+      var input = quantityInputs[i]
+      input.addEventListener('change', quantityChanged)
+    }
+
+    var addToCartButtons = document.getElementsByClassName('shop-item-button')
+    for (var i = 0; i < addToCartButtons.length; i++) {
+      var button = addToCartButtons[i]
+      button.addEventListener('click', addToCartClicked)
+    }
+
+    document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
+  }
+
+  
+
+  function removeCartItem(event) {
+    var buttonClicked = event.target
+    buttonClicked.parentElement.parentElement.remove()
+    updateCartTotal()
+  }
+
+  function quantityChanged(event) {
+    var input = event.target
+    if (isNaN(input.value) || input.value <= 0) {
+      input.value = 1
+    }
+    updateCartTotal()
+  }
+
+  function addToCartClicked(event) {
+    var button = event.target
+    var shopItem = button.parentElement.parentElement
+    var title = shopItem.getElementsByClassName('shop-item-title')[0].innerText
+    var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText
+    var id = shopItem.getElementsByClassName("shop-item-image")
+    var imageSrc = id.innerText
+
+    addItemToCart(title, price, imageSrc)
+    updateCartTotal()
+  }
+
+
+  function addItemToCart(title, price, imageSrc) {
+    var cartRow = document.createElement('div')
+    cartRow.classList.add('cart-row')
+    var cartItems = document.getElementsByClassName('cart-items')[0]
+    var cartItemNames = cartItems.getElementsByClassName('cart-item-title')
+    for (var i = 0; i < cartItemNames.length; i++) {
+      if (cartItemNames[i].innerText == title) {
+        alert('Ya ha agregado este producto')
+        return
+      }
+    }
+
+    var cartRowContents = `
+        <div class="cart-item cart-column">
+            <input readonly name="nom" class="cart-item-title bg-info col-form-label col-sm-4" value="${title}"> </input>
+        </div>
+        <h5><span hidden name="precio" class="cart-price cart-column  bg-success  col-sm-6">${price}</span></h5>
+        <div class="cart-quantity cart-column">
+            <input name="cant" class="cart-quantity-input" type="number" value="1">
+            <button class="btn btn-danger btn-sm" type="button">Quitar</button>
+        </div>
+        `
+        
+    cartRow.innerHTML = cartRowContents
+    cartItems.append(cartRow)
+    cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeCartItem)
+    cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged)
+  }
+
+  function updateCartTotal() {
+    var cartItemContainer = document.getElementsByClassName('cart-items')[0]
+    var cartRows = cartItemContainer.getElementsByClassName('cart-row')
+    var total = 0
+    for (var i = 0; i < cartRows.length; i++) {
+      var cartRow = cartRows[i]
+      var priceElement = cartRow.getElementsByClassName('cart-price')[0]
+      var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
+      var price = parseFloat(priceElement.innerText.replace('$', ''))
+      var quantity = quantityElement.value
+      total = total + (price * quantity)
+    }
+    total = Math.round(total * 100) / 100
+    document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
+  }
+</script>
+

@@ -159,9 +159,8 @@
   function cambiarHorario() {
     let fechaId = document.getElementById("fecha_reserva").value;
     let mesaId = document.getElementById("id_mesa").value;
-
     let url = '/Reserva/subhorarios/?fecha_reserva=' + fechaId + '&id_mesa=' + mesaId;
-    alert(url)
+  
 
     fetch(url)
       .then(function (result) {
@@ -190,17 +189,6 @@
     var currentDate = (date.getDate()+1);
     var currentYear = date.getFullYear();
 
-    //Date picker
-    $('#reservationdate').datetimepicker({
-      minDate: new Date(currentYear, currentMonth, currentDate),
-      format: 'DD/MM/YYYY',
-      date: new Date(),
-
-    }).on('changeDate', function (e) {
-
-  
-
-    });
 
     $('#datetimepicker1').datetimepicker({
       useCurrent: false,

@@ -35,11 +35,65 @@ def CancelarReserva(request):
 
     return render(request, './cancelarReserva.html', data)
 
-def VerMenu(request):
+def VerMenu(request,num):
     data ={
-        'cartas' : listado_cartas()
+        'cartas' : listado_cartas(),
+        'entradas' : listado_entradas(),
+        'fondos' : listado_fondos(),
+        'ensaladas' : listado_ensaladas(),
+        'postres' : listado_postres(),
+        'bebidas' : listado_bebidas()
     }
+
+    if request.method== 'POST':
+        cant = request.POST.get('cant')
+        nom = request.POST.get('nom')
+        if nom is not None or (nom == 0):
+            str= buscar_id(nom)
+            id_carta = "".join(''.join(elems) for elems in str)
+            print(id_carta)
+        else:
+            id_carta='0'
+        
+
+        salida =crear_orden_detallada(num,cant,id_carta)
+        
+        print(cant,id_carta,num)
+
+
+        if salida == 1:
+            data['mensaje'] = 'Pedido Correctamente'
+        else:
+            data['mensaje'] = 'Pedido Incorrectamente'
+
     return render(request, './menu.html',data)
+
+def crear_orden_detallada( num,cant,id_carta):
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_CREAR_ORDEN_DETALLADA',[num,cant,id_carta,salida ])
+    return salida.getvalue()
+
+def buscar_id(nom):
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    #Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+    #Llamada al cursor 
+    cursor.callproc("SP_BUSCAR_ID_CON_NOM", [nom,out_cur])
+    #llenamos la lista
+    lista= []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+
+
+    
 
 def MenuEntrada(request):
     data ={

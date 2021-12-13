@@ -52,8 +52,8 @@
             <label>Seleccione una nueva categoria</label>
             <select name="categoria" placeholder="numerosjej" class="form-control">
               <option value="">categorias</option>
-              {% for c in categorias %}
-              <option value="{{ c.2 }}">{{ c.2 }}</option>
+              {% for c in cate%}
+              <option value="{{ c.0 }}">{{ c.0 }}</option>
               {% endfor %}
             </select>
           </div>
@@ -72,8 +72,8 @@
             <label>Seleccione unidad de medida</label>
             <select name="un_medida" placeholder="numerosjej" class="form-control">
               <option value="">Seleccione unidad de medida</option>
-              {% for k in categorias %}
-              <option value="{{ k.4 }}">{{ k.4 }}</option>
+              {% for k in categoriass %}
+              <option value="{{ k.0 }}">{{ k.0 }}</option>
               {% endfor %}
             </select>
           </div>
