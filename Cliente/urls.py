@@ -16,4 +16,9 @@ urlpatterns = [
     path('Menu_Ensalada/', MenuEnsalada, name="menuEnsalada"),
     path('Menu_Postre/', MenuPostre, name="menuPostre"),
     path('Menu_Beber/', MenuBeber, name="menuBebidas"),
+
+    #Nueva sección
+    path('MesaCliente/', MesaCliente, name="MesaCliente"),
+    path('MesaCliente/Mesa/<id>/', InicioMesa, name="InicioMesa"),
+    path('MesaCliente/Mesa/<id>/Home', HomeMesa, name="HomeMesa"),
 ]

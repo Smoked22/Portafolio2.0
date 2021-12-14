@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIGLO XXI - Menú</title>
+    {% load static %}
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static '/plugins/fontawesome-free/css/all.min.css'%}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{% static '/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static '/css/adminlte.min.css'%}">
+</head>
+
+<body class="hold-transition login-page">
+    <style>
+        body {
+            background-image: url("{% static '/assets/img/fondoIndex.jpg'%}");
+        }
+
+        .pad1 {
+            float: left;
+        }
+
+        .pad2 {
+            float: right;
+        }
+    </style>
+    <div class="wrapper">
+
+
+        <div class="login-logo">
+            <img src="{% static '/assets/img/indexlogo.png'%}" />
+            <style>
+                img {
+                    width: 20%;
+                }
+            </style>
+        </div>
+        <!-- /.login-logo -->
+        <div class="container">
+            <div class="row">
+                <div class="card card-primary .col-md-4">
+                    <div class="col-md-14">
+                        <div class="card card-info shadow-none">
+                            <div class="card-header">
+                                <h3 class="card-title">Entrada</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <!-- /.card-tools -->
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <section class="content">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <table class="table m-0 ">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nombre</th>
+                                                                <th>Precio</th>
+                                                                <th>Descripción</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="shop-items">
+                                                            {% for e in entradas %}
+                                                            <tr class="shop-item">
+                                                                <td class="shop-item-title">{{e.1}}</td>
+                                                                <td>{{e.2}}</td>
+                                                                <td class="shop-item-price">${{e.3}}</td>
+                                                                <td class="shop-item-details">
+                                                                    <button
+                                                                        class="btn btn-primary btn-sm shop-item-button"
+                                                                        type="button">Añadir al carro
+                                                                    </button>
+                                                                </td>
+                                                                <td class="shop-item-image" style="display:none;">
+                                                                    {{e.0}}
+                                                                </td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <div class="col-md-14">
+                        <div class="card card-info shadow-none">
+                            <div class="card-header">
+                                <h3 class="card-title">Fondo</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <!-- /.card-tools -->
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <section class="content">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <table class="table m-0 shop-items">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nombre</th>
+                                                                <th>Descripción</th>
+                                                                <th>Precio</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for f in fondos %}
+                                                            <tr>
+                                                            <tr class="shop-item">
+                                                                <td class="shop-item-title" name="{{f.1}}">{{f.1}}</td>
+                                                                <td>{{f.2}}</td>
+                                                                <td class="shop-item-price">${{f.3}}</td>
+                                                                <td>
+                                                                    <button class="btn btn-info btn-sm shop-item-button"
+                                                                        type="button">Añadir al carro</button>
+                                                                </td>
+                                                                <td class="shop-item-image" style="display:none;"
+                                                                    value="{{f.0}}">
+                                                                    {{f.0}} </td>
+                                                            </tr>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- /.table-responsive -->
+                                                <!-- /.col -->
+                                            </div>
+                                            <!-- /.row -->
+                                        </div>
+                                    </div>
+                                    <!-- /.container-fluid -->
+                                </section>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <div class="col-md-14">
+                        <div class="card card-info shadow-none">
+                            <div class="card-header">
+                                <h3 class="card-title">Bebidas</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-plus"></i>
+                                    </button>
+                                </div>
+                                <!-- /.card-tools -->
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <section class="content">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="table-responsive">
+                                                    <table class="table m-0 shop-items">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Nombre</th>
+                                                                <th>Descripción</th>
+                                                                <th>Precio</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for b in bebidas %}
+                                                            <tr>
+                                                            <tr class="shop-item">
+                                                                <td class="shop-item-title" name="{{b.1}}">{{b.1}}</td>
+                                                                <td>{{b.2}}</td>
+                                                                <td class="shop-item-price">${{b.3}}</td>
+                                                                <td>
+                                                                    <button class="btn btn-info btn-sm shop-item-button"
+                                                                        type="button">Añadir al carro</button>
+                                                                </td>
+                                                                <td class="shop-item-image" style="display:none;"
+                                                                    value="{{b.0}}">
+                                                                    {{b.0}} </td>
+                                                            </tr>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <!-- /.table-responsive -->
+                                                <!-- /.col -->
+                                            </div>
+                                            <!-- /.row -->
+                                        </div>
+                                        <!-- /.container-fluid -->
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+
+
+                </div>
+                <div>
+                    <h1> &nbsp &nbsp</h1>
+
+                </div>
+            
+                <form class="form-horizontal " action="" method="POST">
+                    {% csrf_token %}
+                    <div class="card card-success col-xs-6">
+                        <div class="card-header">
+                            <h3 class="card-title">Carro</h3>
+
+                            <!-- /.card-tools -->
+                        </div>
+                        <section class="container content-section">
+                            <h5> &nbsp</h5>
+                            <div class="cart-items">
+
+                            </div>
+                        </section>
+                        <div class="card-footer">
+                            <div class="cart-total">
+                                <strong class="cart-total-title">Total</strong>
+                                <span class="cart-total-price">$0</span>
+                                <input type="hidden" name="datos" class="datos"></input>
+                                <input  type="hidden" name="cant" class="cant"></input>
+                            </div>
+                            <button class="btn btn-primary btn-purchase" type="submit">Comprar</button>
+                        </div>
+                        <div class="card-footer">
+                            
+                        </div>
+                    </div>
+                </form>
+                {{mensaje}}
+            </div>
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script src="{% static '/plugins/jquery/jquery.min.js'%}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static '/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static '/dist/js/adminlte.min.js'%}"></script>
+</body>
+{% load static %}
+<script>
+    if (document.readyState == 'loading') {
+        document.addEventListener('DOMContentLoaded', ready)
+    } else {
+        ready()
+    }
+
+    function ready() {
+        var removeCartItemButtons = document.getElementsByClassName('btn-danger')
+        for (var i = 0; i < removeCartItemButtons.length; i++) {
+            var button = removeCartItemButtons[i]
+            button.addEventListener('click', removeCartItem)
+        }
+
+        var quantityInputs = document.getElementsByClassName('cart-quantity-input')
+        for (var i = 0; i < quantityInputs.length; i++) {
+            var input = quantityInputs[i]
+            input.addEventListener('change', quantityChanged)
+        }
+
+        var addToCartButtons = document.getElementsByClassName('shop-item-button')
+        for (var i = 0; i < addToCartButtons.length; i++) {
+            var button = addToCartButtons[i]
+            button.addEventListener('click', addToCartClicked)
+        }
+
+        document.getElementsByClassName('btn-purchase')[0].addEventListener('click', purchaseClicked)
+    }
+
+   
+
+    function removeCartItem(event) {
+        var buttonClicked = event.target
+        buttonClicked.parentElement.parentElement.remove()
+        updateCartTotal()
+        updateLista()
+        updateCant()
+    }
+
+    function quantityChanged(event) {
+        var input = event.target
+        if (isNaN(input.value) || input.value <= 0) {
+            input.value = 1
+        }
+        updateCartTotal()
+        updateLista()
+        updateCant()
+    }
+
+    function addToCartClicked(event) {
+        var button = event.target
+        var shopItem = button.parentElement.parentElement
+        var title = shopItem.getElementsByClassName('shop-item-title')[0].innerText
+        var price = shopItem.getElementsByClassName('shop-item-price')[0].innerText
+        var imageSrc = shopItem.getElementsByClassName('shop-item-image')[0].src
+        addItemToCart(title, price, imageSrc)
+        updateCartTotal()
+        updateLista()
+        updateCant()
+    }
+
+    function addItemToCart(title, price, imageSrc) {
+        var cartRow = document.createElement('div')
+        cartRow.classList.add('cart-row')
+        var cartItems = document.getElementsByClassName('cart-items')[0]
+        var cartItemNames = cartItems.getElementsByClassName('cart-item-title')
+        for (var i = 0; i < cartItemNames.length; i++) {
+            if (cartItemNames[i].innerText == title) {
+                alert('Ya lo has agregado!')
+                return
+            }
+        }
+        var cartRowContents = `
+        <div class="cart-item cart-column">
+            <span class="cart-item-title">${title}</span>
+        </div>
+        <span class="cart-price cart-column">${price}</span>
+        <div class="cart-quantity cart-column">
+            <input class="cart-quantity-input" type="number" value="1">
+            <button class="btn btn-danger btn-sm" type="button">Quitar</button>
+        </div>`
+        cartRow.innerHTML = cartRowContents
+        cartItems.append(cartRow)
+        cartRow.getElementsByClassName('btn-danger')[0].addEventListener('click', removeCartItem)
+        cartRow.getElementsByClassName('cart-quantity-input')[0].addEventListener('change', quantityChanged)
+    }
+
+
+
+    function updateCartTotal() {
+        var cartItemContainer = document.getElementsByClassName('cart-items')[0]
+        var cartRows = cartItemContainer.getElementsByClassName('cart-row')
+        var total = 0
+        for (var i = 0; i < cartRows.length; i++) {
+            var cartRow = cartRows[i]
+            var priceElement = cartRow.getElementsByClassName('cart-price')[0]
+            var quantityElement = cartRow.getElementsByClassName('cart-quantity-input')[0]
+            var price = parseFloat(priceElement.innerText.replace('$', ''))
+            var quantity = quantityElement.value
+            total = total + (price * quantity)
+        }
+        total = Math.round(total * 100) / 100
+        document.getElementsByClassName('cart-total-price')[0].innerText = '$' + total
+    }
+
+    function updateLista() {
+        var arr = []
+        var cartItemContainer = document.getElementsByClassName('cart-items')[0]
+        var cartRows = cartItemContainer.getElementsByClassName('cart-row')
+        var total = 0
+        for (var i = 0; i < cartRows.length; i++) {
+            var cartRow = cartRows[i]
+            var nombre = cartRow.getElementsByClassName('cart-item-title')[0].innerText
+            arr.push(nombre)
+        }
+        document.getElementsByClassName('datos')[0].value = arr
+    }
+
+    function updateCant() {
+        var arr = []
+        var cartItemContainer = document.getElementsByClassName('cart-items')[0]
+        var cartRows = cartItemContainer.getElementsByClassName('cart-row')
+        var total = 0
+        for (var i = 0; i < cartRows.length; i++) {
+            var cartRow = cartRows[i]
+            var nombre = cartRow.getElementsByClassName('cart-quantity-input')[0].value
+            arr.push(nombre)
+        }
+        document.getElementsByClassName('cant')[0].value = arr
+    }
+
+</script>
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js'%}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- ChartJS -->
+<script src="{% static 'plugins/chart.js/Chart.min.js'%}"></script>
+<!-- Sparkline -->
+<script src="{% static 'plugins/sparklines/sparkline.js'%}"></script>
+<!-- JQVMap -->
+<script src="{% static 'plugins/jqvmap/jquery.vmap.min.js'%}"></script>
+<script src="{% static 'plugins/jqvmap/maps/jquery.vmap.usa.js'%}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static 'plugins/jquery-knob/jquery.knob.min.js'%}"></script>
+<!-- daterangepicker -->
+<script src="{% static 'plugins/moment/moment.min.js'%}"></script>
+<script src="{% static 'plugins/daterangepicker/daterangepicker.js'%}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static 'plugins/summernote/summernote-bs4.min.js'%}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'%}"></script>
+<!-- AdminLTE App -->
+<script src="{% static '/js/adminlte.js'%}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static '/js/demo.js'%}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{% static '/js/pages/dashboard.js'%}"></script>

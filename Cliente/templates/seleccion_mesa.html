@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SIGLO XXI - Reservar Mesa</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static '../plugins/ekko-lightbox/ekko-lightbox.css' %}">
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static '/plugins/fontawesome-free/css/all.min.css'%}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'%}">
+  <!-- iCheck -->
+  <link rel="stylesheet" href="{% static '/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="{% static '/plugins/jqvmap/jqvmap.min.css'%}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static '/css/adminlte.min.css'%}">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="{% static '/plugins/overlayScrollbars/css/OverlayScrollbars.min.css'%}">
+  <!-- summernote -->
+  <link rel="stylesheet" href="{% static '/plugins/summernote/summernote-bs4.min.css'%}">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{% static './plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{% static './plugins/select2/css/select2.min.css'%}">
+  <link rel="stylesheet" href="{% static './plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css'%}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static './css/adminlte.min.css'%}">
+</head>
+
+
+<style>
+  .filterDiv {
+    display: none;
+  }
+
+  .show {
+    display: block;
+  }
+
+  .container {
+    margin-top: 20px;
+    overflow: hidden;
+  }
+
+  .padd {
+    padding-top: 50px;
+    padding-right: 30px;
+    padding-bottom: 50px;
+    padding-left: 80px;
+  }
+
+  .padd2 {
+    padding-right: 25px;
+    padding-left: 25px;
+  }
+
+  .padd3 {
+    padding-right: 20px;
+  }
+
+  body {
+    background-image: url("{% static '/assets/img/fondoIndex.jpg'%}");
+  }
+
+  .fondo {
+    background-color: rgba(250, 255, 250, 0.6);
+    border-radius: 25px;
+  }
+
+  .texto {
+    text-align: center;
+  }
+
+  .colorboton {
+    background-color: rgb(41, 187, 41);
+  }
+</style>
+
+
+
+
+<div class="padd">
+  <div class="fondo texto">
+    <div class="card card-info fondo">
+      <div class="card-header">
+        <h3 class="card-title">Seleccionar Mesa</h3>
+      </div>
+      <h3>&nbsp&nbsp</h3>
+
+      <div class="row padd2">
+        {% for m in mesas %}
+        <div class="col-lg-2 col-6 filterDiv">
+          <div class="small-box bg-info filterDiv ">
+            <div class="inner">
+              <h3>{{m.0}}</h3>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"> </i>
+            </div>
+            <a href="{% url 'InicioMesa' m.0 %}" class="small-box-footer">
+              <i class="fas fa-arrow-circle-righ "> Toque aquí</i>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <h3>&nbsp&nbsp</h3>
+    </div>
+  </div>
+
+  <script>
+    filterSelection("all")
+
+    function filterSelection(c) {
+      var x, i;
+      x = document.getElementsByClassName("filterDiv");
+      if (c == "all") c = "";
+      for (i = 0; i < x.length; i++) {
+        w3RemoveClass(x[i], "show");
+        if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
+      }
+    }
+
+    function w3AddClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        if (arr1.indexOf(arr2[i]) == -1) {
+          element.className += " " + arr2[i];
+        }
+      }
+    }
+
+    function w3RemoveClass(element, name) {
+      var i, arr1, arr2;
+      arr1 = element.className.split(" ");
+      arr2 = name.split(" ");
+      for (i = 0; i < arr2.length; i++) {
+        while (arr1.indexOf(arr2[i]) > -1) {
+          arr1.splice(arr1.indexOf(arr2[i]), 1);
+        }
+      }
+      element.className = arr1.join(" ");
+    }
+
+    // Add active class to the current button (highlight it)
+    var btnContainer = document.getElementById("myBtnContainer");
+    var btns = btnContainer.getElementsByClassName("btn");
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function () {
+        var current = document.getElementsByClassName("active");
+        current[0].className = current[0].className.replace(" active", "");
+        this.className += " active";
+      });
+
+      window.onload = function reset() {
+        var elements = document.getElementsByName('1x');
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].classList.toggle('bg-danger');
+        }
+
+
+      }
+
+    }
+  </script>
+
+<!-- jQuery -->
+<script src="{% static './plugins/jquery/jquery.min.js'%}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static './plugins/jquery-ui/jquery-ui.min.js'%}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+<!-- ChartJS -->
+<script src="{% static './plugins/chart.js/Chart.min.js'%}"></script>
+<!-- Sparkline -->
+<script src="{% static './plugins/sparklines/sparkline.js'%}"></script>
+<!-- JQVMap -->
+<script src="{% static './plugins/jqvmap/jquery.vmap.min.js'%}"></script>
+<script src="{% static './plugins/jqvmap/maps/jquery.vmap.usa.js'%}"></script>
+<!-- jQuery Knob Chart -->
+<script src="{% static './plugins/jquery-knob/jquery.knob.min.js'%}"></script>
+<!-- daterangepicker -->
+<script src="{% static './plugins/moment/moment.min.js'%}"></script>
+<script src="{% static './plugins/daterangepicker/daterangepicker.js'%}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static './plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js'%}"></script>
+<!-- Summernote -->
+<script src="{% static './plugins/summernote/summernote-bs4.min.js'%}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static './plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js'%}"></script>
+<!-- AdminLTE App -->
+<script src="{% static './js/adminlte.js'%}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './js/demo.js'%}"></script>
+<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+<script src="{% static './js/pages/dashboard.js'%}"></script>
+
+<!-- jQuery -->
+<script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+<!-- Bootstrap 4 -->
+<script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Select2 -->
+<script src="{% static './plugins/select2/js/select2.full.min.js' %}"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="{% static './plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js' %}"></script>
+<!-- InputMask -->
+<script src="{% static './plugins/moment/moment.min.js' %}"></script>
+<script src="{% static './plugins/inputmask/jquery.inputmask.min.js' %}"></script>
+<!-- date-range-picker -->
+<script src="{% static './plugins/daterangepicker/daterangepicker.js' %}"></script>
+<!-- bootstrap color picker -->
+<script src="{% static './plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js' %}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static './plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+<!-- Bootstrap Switch -->
+<script src="{% static './plugins/bootstrap-switch/js/bootstrap-switch.min.js' %}"></script>
+<!-- BS-Stepper -->
+<script src="{% static './plugins/bs-stepper/js/bs-stepper.min.js' %}"></script>
+<!-- dropzonejs -->
+<script src="{% static './plugins/dropzone/min/dropzone.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static './dist/js/adminlte.min.js' %}"></script>
+<!-- AdminLTE for demo purposes -->
+<script src="{% static './dist/js/demo.js' %}"></script>
+<!-- Page specific script -->
+<script>
+  $(function () {
+
+    var date = new Date();
+    var currentMonth = date.getMonth();
+    var currentDate = (date.getDate()+1);
+    var currentYear = date.getFullYear();
+
+    //Date picker
+    $('#reservationdate').datetimepicker({
+      minDate: new Date(currentYear, currentMonth, currentDate),
+      format: 'DD/MM/YYYY',
+      date: new Date()
+    });
+
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  });
+// DropzoneJS Demo Code End
+</script>
+</body>
+{% load static %}
+</html>

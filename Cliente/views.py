@@ -56,25 +56,15 @@ def VerMenu(request,num):
             id_carta='0'
         
 
-        salida =crear_orden_detallada(num,cant,id_carta)
         
         print(cant,id_carta,num)
 
 
-        if salida == 1:
-            data['mensaje'] = 'Pedido Correctamente'
-        else:
-            data['mensaje'] = 'Pedido Incorrectamente'
+
 
     return render(request, './menu.html',data)
 
-def crear_orden_detallada( num,cant,id_carta):
-    django_cursor = connection.cursor()
-    #Cursor que llama
-    cursor = django_cursor.connection.cursor()
-    salida = cursor.var(cx_Oracle.NUMBER)
-    cursor.callproc('SP_CREAR_ORDEN_DETALLADA',[num,cant,id_carta,salida ])
-    return salida.getvalue()
+
 
 def buscar_id(nom):
     django_cursor = connection.cursor()
@@ -362,4 +352,107 @@ def CrearCliente(rut, dv, nom, telefono, correo):
     salida = cursor.var(cx_Oracle.NUMBER)
     cursor.callproc('SP_AGREGAR_CLIENTE', [rut, dv, nom, telefono, correo, salida])
     return salida.getvalue()
+
+
+#Nueva sección
+def MesaCliente(request):
+
+    data = {
+        'mesas' : listado_mesas()
+
+    }
+
+    return render(request, './seleccion_mesa.html', data)
+
+def listado_mesas():
+    django_cursor = connection.cursor()
+
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    out_cur = django_cursor.connection.cursor()
+
+    # Llamada al cursor
+    cursor.callproc("SP_LISTAR_MESAS_DISPONIBLES", [out_cur])
+
+    # llenamos la lista
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+
+def InicioMesa(request, id):
+
+    data = {
+        'mesa' : id
+    }
+
+    return render(request, './mesa_inicio.html', data)
+
+def HomeMesa(request, id):
+    data = {
+        'mesa' : id,
+        'entradas': listado_entradas(),
+        'cartas' : listado_cartas(),
+        'fondos' : listado_fondos(),
+        'ensaladas' : listado_ensaladas(),
+        'postres' : listado_postres(),
+        'bebidas' : listado_bebidas()
+    }
+    if request.method == 'POST':
+        frederic  = request.POST.get('datos')
+        cantidad  = request.POST.get('cant')
+        listderic = Convert(frederic)
+        listdecant = Convert(cantidad)
+        id_orden = crear_orden_detallada(id)
+
+        for i in range(len(listderic)):
+            
+            id_carta = buscar_id_por_nom(listderic[i])
+            cant = listdecant[i]
+            salida = crear_detalle_orden(cant,id_orden,id_carta)
+
+        salida = crear_orden_detallada(id)
+
+    return render(request, './mesa_menu.html', data)
+
+# Python code to convert string to list
+def Convert(string):
+    li = list(string.split(","))
+    return li
+    
+   
+
+
+def crear_orden_detallada(id):
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_CREAR_ORDEN_DETALLADA',[id,salida ])
+    return salida.getvalue()
+
+def crear_detalle_orden(cant,id_orden,id_carta):
+    django_cursor = connection.cursor()
+    #Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    salida = cursor.var(cx_Oracle.NUMBER)
+    cursor.callproc('SP_CREAR_DETALLE_ORDEN',[cant,id_orden,id_carta,salida ])
+    return salida.getvalue()
+
+def buscar_id_por_nom(nom):
+    django_cursor = connection.cursor()
+
+    # Cursor que llama
+    cursor = django_cursor.connection.cursor()
+    # Cursor que recibe
+    salida = cursor.var(cx_Oracle.NCHAR)
+
+    # Llamada al cursor
+    cursor.callproc("SP_BUSCAR_CARTA_POR_NOM", [nom,salida])
+
+    # llenamos la lista
+    return salida.getvalue()
+
 
