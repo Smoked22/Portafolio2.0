@@ -1,5 +1,5 @@
 from django.db import connection
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 import cx_Oracle
 
 # Create your views here.
@@ -455,4 +455,44 @@ def buscar_id_por_nom(nom):
     # llenamos la lista
     return salida.getvalue()
 
+def pagodeventa(request,id):
+    data ={
+        'mesa':id,
+        'listado_orden':buscar_orden_por_mesa(id),
+        'total_orden':total_orden_por_mesa(id)
+    }
+    return render(request,'./pedido.html', data)
 
+def buscar_orden_por_mesa(id):
+
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    cursor.callproc("SP_LISTADO_ORDEN_DE_MESA", [id,out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def total_orden_por_mesa(id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    out_cur = django_cursor.connection.cursor()
+    cursor.callproc("SP_TOTAL_ORDEN_DE_MESA", [id,out_cur])
+
+    lista = []
+    for fila in out_cur:
+        lista.append(fila)
+    return lista
+
+def finventa(request,id):
+    data = {
+        'ventafin':finalizar_orden(id)
+    }
+    return render(request,'./fin_venta.html')
+
+def finalizar_orden(id):
+    django_cursor = connection.cursor()
+    cursor = django_cursor.connection.cursor()
+    cursor.callproc('SP_ORDEN_FINALIZADA', [id])
