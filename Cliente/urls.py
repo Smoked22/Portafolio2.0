@@ -21,4 +21,6 @@ urlpatterns = [
     path('MesaCliente/', MesaCliente, name="MesaCliente"),
     path('MesaCliente/Mesa/<id>/', InicioMesa, name="InicioMesa"),
     path('MesaCliente/Mesa/<id>/Home', HomeMesa, name="HomeMesa"),
+    path('PagoVenta/<id>', pagodeventa, name="pagarventa"),
+    path('VentaFinalizada/<id>', finventa, name="findeventa"),
 ]
