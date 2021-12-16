@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SIGLO XXI | Inicio</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static './plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static './css/adminlte.min.css' %}">
+
+    <script src="https://www.paypal.com/sdk/js?client-id=AWuR66DN4NfEmC4ZZMTb-vu099_e_6Xt33_5Fs_bJlZVjENIocougyKYmUs1Wph1IQI5MHXgm3wdlkv4"></script>
+</head>
+<body class="hold-transition lockscreen">
+    <style>
+        img {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 35%;
+        }
+
+        body {
+            background-image: url("{% static '/assets/img/fondoIndex.jpg'%}");
+        }
+
+        .fondo {
+
+            background-color: rgb(233, 233, 233, .8);
+            border-radius: 25px;
+
+        }
+
+        .pad{
+            padding-left: 60px;
+            padding-right: 60px;
+        }
+
+        table{
+            table-layout: fixed;
+            width: 250px;
+        }
+        th, td {
+            border: 1px solid black;
+            width: 5cm;
+            word-wrap: break-word;
+            font-size: medium;
+            color: black;
+        }
+
+    </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<!--script>
+    $(document).ready(function()
+    {
+        var orden;
+        var totalorden=0;
+        $('td:nth-child(2)').each(function()
+        {
+            orden=$(this).html();
+            totalorden+=parseInt(orden);
+            $('#ordent').text(totalorden-orden);
+        });
+    });
+</script-->
+    <!-- Automatic element centering -->
+    <div class="lockscreen-wrapper fondo">
+        <h3>&nbsp&nbsp</h3>
+
+        <div class="lockscreen-logo">
+            <img src="{% static './assets/img/logototem.png' %}">
+            <h5>Restaurante</h5>
+            <h4>Platos Solicitados:</h4>
+            <table>
+                <tr>
+                    <th>Fecha Envio</th>
+                    <th>Total de la Guia</th>
+                </tr>
+                <tbody>
+                    {% for o in listado_orden %}
+                    <tr>
+                        <td>{{ o.10}}</td>
+                        <td>{{ o.12}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tr>
+                    <td style="text-align: center;">Total de la Orden</td>
+                    {% for o in total_orden %}
+                    <div id="valor">
+                        <td id="ordent">{{o.0}}</td>
+                    </div>
+                    {% endfor %}
+                </tr>
+            </table>
+            <div class="card-footer">
+                <div id="paypal">
+                </div>
+              </div>
+            <h3>&nbsp&nbsp</h3>
+        </div>
+    </div>
+
+    <script>
+        function total(){
+            numero = document.getElementById("ordent").innerText
+            valor = Math.round(numero/846,43).toFixed(2)
+            alert(valor)
+          return valor
+        }
+        paypal.Buttons({
+          createOrder: function(data, actions){
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: total()
+                }
+              }]
+            });
+          },
+          onApprove: function(data, actions){
+            return window.location.href="{% url 'findeventa' mesa %}"
+          }
+        }).render('#paypal');
+    </script>
+
+    <!-- jQuery -->
+    <script src="{% static './plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static './plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+</body>
+</html>
