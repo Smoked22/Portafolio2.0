@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="{% static '/plugins/icheck-bootstrap/icheck-bootstrap.min.css'%}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{% static '/css/adminlte.min.css'%}">
+
 </head>
 
 <body class="hold-transition login-page">
@@ -232,7 +233,7 @@
                     {% csrf_token %}
                     <div class="card card-success col-xs-6">
                         <div class="card-header">
-                            <h3 class="card-title">Carro</h3>
+                            <h3 class="card-title">Carro de la mesa {{mesa}}</h3>
 
                             <!-- /.card-tools -->
                         </div>
@@ -245,14 +246,14 @@
                         <div class="card-footer">
                             <div class="cart-total">
                                 <strong class="cart-total-title">Total</strong>
-                                <span class="cart-total-price">$0</span>
+                                <span class="cart-total-price" id="total">$0</span>
                                 <input type="hidden" name="datos" class="datos"></input>
                                 <input  type="hidden" name="cant" class="cant"></input>
                             </div>
                             <button class="btn btn-primary btn-purchase" type="submit">Comprar</button>
+                            <a href="{% url 'pagarventa' mesa %}" class="btn btn-secondary float-right">Pagar</a>
                         </div>
-                        <div class="card-footer">
-                            
+                        <div class="card-footer"> 
                         </div>
                     </div>
                 </form>
