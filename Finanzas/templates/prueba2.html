@@ -135,35 +135,35 @@
           <div class="cart-total">
             <strong class="cart-total-title">Total</strong>
             <span class="cart-total-price">$0</span>
-            <input type="number" id="total">
+            <input type="number" id="total" name="total">
           </div>
         </div>
         <div class="card-footer">
-          <div id="paypal">
-          </div>
+          <a href="{% url 'prueba2' id:total %}" class="btn btn-secondary float-right">Pagar</a>
         </div>
       </section>
     </div>
   </form>
 {{mensaje}}
 
+
   </div>
   <script>
-    function total(){
-      return document.getElementById("total").value
-    }
+    total = document.getElementById("total").value;
     paypal.Buttons({
       createOrder: function(data, actions){
         return actions.order.create({
           purchase_units: [{
             amount: {
-              value: total()
+              value: total
             }
           }]
         });
       },
       onApprove: function(data, actions){
-        return window.location.href="{% url 'findeventa' %}"
+        return actions.order.capture().then(function(details){
+          alert('Transaccion completada by ' + details.paypal.name.given_name);
+        });
       }
     }).render('#paypal');
   </script>
@@ -177,3 +177,4 @@
   <script src="{% static '/dist/js/adminlte.min.js'%}"></script>
 </body>
 {% load static %}
+
