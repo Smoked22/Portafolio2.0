@@ -229,3 +229,8 @@ def prueba(request):
         'boletas': listado_boleta()
     }
     return render(request,'./prueba.html', data)
+
+def prueba2(request):
+    data = {
+    }
+    return render(request,'./prueba2.html', data)
